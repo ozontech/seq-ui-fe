@@ -25,6 +25,7 @@
     "reka-ui": "^2.5.0",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.12",
+    "vaul-vue": "^0.4.1",
     "vue": "^3.5.18",
     "vue-router": "^4.5.1"
   },
