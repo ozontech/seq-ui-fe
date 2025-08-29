@@ -10,12 +10,12 @@ const props = {
   colspan: prop<number>().optional(1)
 }
 
-const delegatedProps = reactiveOmit(props, "class")
-
 export const TableEmpty = defineComponent({
   name: 'TableEmpty',
   props,
   setup(props, { slots }) {
+    const delegatedProps = reactiveOmit(props, "class")
+
     return () => (
       <TableRow>
         <TableCell

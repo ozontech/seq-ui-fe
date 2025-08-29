@@ -4,6 +4,7 @@ import { prop } from "@/lib/prop"
 
 const props = {
   class: prop<HTMLAttributes["class"]>().optional(),
+  colspan: prop<number>().optional(1),
 }
 
 export const TableCell = defineComponent({
@@ -13,6 +14,7 @@ export const TableCell = defineComponent({
     return () => (
       <td
         data-slot="table-cell"
+        colspan={props.colspan}
         class={
           cn(
             'p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',

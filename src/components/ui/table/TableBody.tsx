@@ -15,7 +15,7 @@ export const TableBody = defineComponent({
         data-slot="table-body"
         class={cn('[&_tr:last-child]:border-0', props.class)}
       >
-        <slot />
+        {slots.default?.()}
       </tbody>
     )
   }
