@@ -32,8 +32,7 @@ export const Button = defineComponent({
         as={props.as}
         asChild={props.asChild}
         class={cn(buttonVariants({ variant: props.variant, size: props.size }), props.class)}
-        {...{onclick: props.whenClick}}
-
+        {...{ onclick: props.whenClick }}
       >
         {slots.default?.()}
       </Primitive>

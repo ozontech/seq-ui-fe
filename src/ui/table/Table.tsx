@@ -3,16 +3,24 @@ import { cn } from "@/lib/utils"
 import { prop } from "@/lib/prop"
 
 const props = {
-  class: prop<HTMLAttributes["class"]>().optional()
+  style: prop<HTMLAttributes['style']>().optional(),
+  class: prop<HTMLAttributes["class"]>().optional(),
+  withScroll: prop<boolean>().optional(false),
 }
 
 export const Table = defineComponent({
-  name: 'Table',
+  name: 'BaseTable',
   props,
   setup(props, { slots }) {
     return () => (
-      <div data-slot="table-container" class="relative w-full overflow-auto">
-        <table data-slot="table" class={cn('w-full caption-bottom text-sm', props.class)}>
+      <div
+        data-slot="table-container"
+        class={['relative w-full', { ['overflow-auto']: props.withScroll }]}>
+        <table
+          data-slot="table"
+          class={cn('w-full caption-bottom text-sm', props.class)}
+          {...{ style: props.style }}
+        >
           {slots.default?.()}
         </table>
       </div>
