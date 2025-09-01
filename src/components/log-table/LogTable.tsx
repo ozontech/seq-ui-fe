@@ -1,9 +1,9 @@
 import { defineComponent, ref } from "vue";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/table";
 import { FlexRender, getCoreRowModel, getExpandedRowModel, useVueTable, type ColumnDef, type ExpandedState } from "@tanstack/vue-table";
 import type { Log } from "@/types/log";
 import { prop } from "@/lib/prop";
-import { valueUpdater } from "../ui/table/utils";
+import { valueUpdater } from "@/ui/table/utils";
 
 const props = {
   data: prop<Log[]>().optional([])

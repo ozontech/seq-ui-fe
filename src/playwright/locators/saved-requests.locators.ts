@@ -1,0 +1,5 @@
+export const REQUEST_ITEM = 'request-item'
+export const FAVORITE_SEARCH = 'favorite-search'
+export const REQUEST_ITEM_NAME = 'request-item-name'
+export const REQUEST_ITEM_TEXT = 'request-item-text'
+export const REQUEST_ITEM_TIME = 'request-item-time'
