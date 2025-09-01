@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils"
 import { prop } from "@/lib/prop"
 
 const props = {
+  style: prop<HTMLAttributes['style']>().optional(),
   class: prop<HTMLAttributes["class"]>().optional(),
   colspan: prop<number>().optional(1),
 }
@@ -21,6 +22,7 @@ export const TableCell = defineComponent({
             props.class,
           )
         }
+        {...{ style: props.style }}
       >
         {slots.default?.()}
       </td>

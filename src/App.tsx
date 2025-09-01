@@ -5,7 +5,7 @@ export const App = defineComponent({
   setup() {
     return () => (
       <div>
-        <RouterView/>
+        <RouterView />
       </div>
     )
   }
