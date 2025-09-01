@@ -1,0 +1,1 @@
+export const SCROLL_UP_BUTTON = 'scroll-up-button'

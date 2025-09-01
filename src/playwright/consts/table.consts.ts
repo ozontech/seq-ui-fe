@@ -1,0 +1,5 @@
+export const PAGINATION_NEXT_PAGE = 'next'
+export const PAGINATION_PREV_PAGE = 'prev'
+export const DATATABLE_TAB = 'Таблица логов'
+export const DASHBOARDS_TAB = 'Дашборды'
+export const SERVICE_ERRORS_TAB = 'Ошибки сервиса (Beta)'

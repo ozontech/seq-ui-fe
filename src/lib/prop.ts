@@ -32,7 +32,6 @@ type InferPropTypes<T, Keys extends keyof T> = {
 
 export type ExtractPropsFromObject<T extends PropsDefinition> = Simplify<InferPropTypes<T, RequiredPropKeys<T>> & Partial<InferPropTypes<T, OptionalPropKeys<T>>>>
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type ExtractPropsFromComponent<T extends (new () => ComponentPublicInstance)> = Mutable<Omit<InstanceType<T>['$props'], keyof VNodeProps | keyof AllowedComponentProps>>
 
 export type ExtractProps<T extends (new () => ComponentPublicInstance) | PropsDefinition> =
