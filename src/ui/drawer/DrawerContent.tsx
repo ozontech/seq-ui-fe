@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { DialogContentProps, FocusOutsideEvent, PointerDownOutsideEvent } from "reka-ui"
 import { defineComponent, type HTMLAttributes } from "vue"
 import { DrawerContent as DC, DrawerPortal } from "vaul-vue"
