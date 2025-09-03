@@ -1,22 +1,23 @@
 import { defineComponent, type HTMLAttributes } from "vue"
-import { useVModel } from "@vueuse/core"
 import { cn } from "@/lib/utils"
 import { prop } from "@/lib/prop"
 
 const props = {
   value: prop<string>().required(),
-  whenChange: prop<(value: string) => void>().required(),
+  whenChange: prop<(value: string, event: Event) => void>().required(),
   class: prop<HTMLAttributes["class"]>().optional(),
+  placeholder: prop<string>().optional(),
 }
 
 export const Input = defineComponent({
-  name: 'Input',
+  name: 'BaseInput',
   props,
   setup(props) {
     return () => (
       <input
         value={props.value}
-        onInput={(e) => props.whenChange((e.target as HTMLInputElement).value)}
+        placeholder={props.placeholder}
+        onInput={(e) => props.whenChange((e.target as HTMLInputElement).value, e)}
         data-slot='input'
         class={cn(
           'file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
