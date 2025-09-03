@@ -3,7 +3,9 @@ import { cn } from "@/lib/utils"
 import { prop } from "@/lib/prop"
 
 const props = {
-  class: prop<HTMLAttributes["class"]>().optional()
+  style: prop<HTMLAttributes['style']>().optional(),
+  class: prop<HTMLAttributes["class"]>().optional(),
+  whenClick: prop<(event: MouseEvent) => void>().optional(),
 }
 
 export const TableHead = defineComponent({
@@ -14,6 +16,7 @@ export const TableHead = defineComponent({
       <th
         data-slot="table-head"
         class={cn('text-muted-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]', props.class)}
+        {...{ onclick: props.whenClick, style: props.style }}
       >
         {slots.default?.()}
       </th>

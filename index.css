@@ -120,3 +120,21 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  tr[data-nonhoverable]:hover {
+    background-color: var(--background) !important;
+  }
+
+  .resizer {
+    @apply absolute top-0 bottom-0 right-0 grid justify-end w-2 select-none touch-none after:w-[1px] after:mx-[0] after:my-[8px] after:bg-border after:rounded-xs after:duration-[0.2s] after:ease-in after:content-[""];
+  }
+
+  .resizer.hoverable:hover {
+    @apply cursor-col-resize after:w-[3px] after:bg-primary
+  }
+
+  .resizer.hoverable.isResizing {
+    @apply after:w-[3px] after:bg-primary
+  }
+}

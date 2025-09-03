@@ -17,7 +17,7 @@ const props = {
   name: prop<CheckboxRootProps['name']>().optional(),
   required: prop<CheckboxRootProps['required']>().optional(),
   class: prop<HTMLAttributes["class"]>().optional(),
-  whenChange: prop<(value: CheckboxValue) => void>().required(),
+  whenChange: prop<(value: CheckboxValue) => void>().optional(),
 }
 
 export const Checkbox = defineComponent({
