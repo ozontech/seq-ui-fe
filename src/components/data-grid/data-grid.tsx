@@ -13,13 +13,15 @@ import type {
   RowData,
   SortingState,
   Updater,
+  VisibilityState,
+  Table as TanstackTable
 } from "@tanstack/vue-table";
-import { defineComponent, nextTick, onMounted, ref, watch } from "vue";
+import { defineComponent, nextTick, onMounted, ref, watch, type VNode } from "vue";
 import { useDataGridHeader } from "./data-grid-header";
 import { useDataGridBody } from "./data-grid-body";
 import { getExpandedColumnSizingState } from "./utils";
 import { valueUpdater } from "@/ui/table/utils";
-import { Table } from "@/ui/table";
+import { Table } from "@/ui";
 
 export const useDataGrid = <T extends RowData>() => {
   const DataGridHeader = useDataGridHeader<T>()
@@ -32,6 +34,9 @@ export const useDataGrid = <T extends RowData>() => {
       columns: prop<ColumnDef<T>[]>().required(),
       initialState: prop<InitialTableState>().optional(),
       headerClass: prop<string>().optional(),
+      isLoading: prop<boolean>().optional(),
+      loadMore: prop<() => void>().optional(),
+      renderExpanded: prop<(item: T, tableApi: TanstackTable<T>) => VNode>().optional(),
       whenSortingChange: prop<(state: SortingState, changeSorting: (state: SortingState) => void) => void>().optional(),
     },
     setup(props, { expose }) {
@@ -39,6 +44,7 @@ export const useDataGrid = <T extends RowData>() => {
       const initialized = ref(false)
 
       const columnSizing = ref<ColumnSizingState>(props.initialState?.columnSizing ?? {})
+      const columnVisibility = ref<VisibilityState>(props.initialState?.columnVisibility ?? {})
       const sorting = ref<SortingState>(props.initialState?.sorting ?? [])
       const expanded = ref<ExpandedState>(props.initialState?.expanded ?? {})
 
@@ -55,10 +61,12 @@ export const useDataGrid = <T extends RowData>() => {
         getSortedRowModel: getSortedRowModel(),
         getExpandedRowModel: getExpandedRowModel(),
         onColumnSizingChange: updaterOrValue => valueUpdater(updaterOrValue, columnSizing),
+        onColumnVisibilityChange: updaterOrValue => valueUpdater(updaterOrValue, columnVisibility),
         onSortingChange: whenSortingChange,
         onExpandedChange: updaterOrValue => valueUpdater(updaterOrValue, expanded),
         state: {
           get columnSizing() { return columnSizing.value },
+          get columnVisibility() { return columnVisibility.value },
           get sorting() { return sorting.value },
           get expanded() { return expanded.value },
         }
@@ -100,8 +108,16 @@ export const useDataGrid = <T extends RowData>() => {
       return () => (
         <div class="w-full" ref={wrapperRef}>
           <Table class="table-fixed">
-            <DataGridHeader tableApi={tableApi} headerClass={props.headerClass} />
-            <DataGridBody tableApi={tableApi} />
+            <DataGridHeader
+              tableApi={tableApi}
+              headerClass={props.headerClass}
+            />
+            <DataGridBody
+              tableApi={tableApi}
+              isLoading={props.isLoading}
+              loadMore={props.loadMore}
+              renderExpanded={props.renderExpanded}
+            />
           </Table>
         </div>
       )

@@ -1,5 +1,5 @@
 import { prop } from "@/lib/prop";
-import { TableHead, TableHeader, TableRow } from "@/ui/table";
+import { TableHead, TableHeader, TableRow } from "@/ui";
 import { _getVisibleLeafColumns, FlexRender } from "@tanstack/vue-table";
 import type { Column, Header, RowData, Table } from "@tanstack/vue-table";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-vue-next";
