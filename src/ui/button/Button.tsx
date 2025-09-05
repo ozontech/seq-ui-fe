@@ -14,6 +14,7 @@ interface Props extends PrimitiveProps {
 }
 
 const props = {
+  disabled: prop<boolean>().optional(),
   variant: prop<Props['variant']>().optional(),
   size: prop<Props['size']>().optional(),
   class: prop<Props['class']>().optional(),
@@ -32,6 +33,8 @@ export const Button = defineComponent({
         as={props.as}
         asChild={props.asChild}
         class={cn(buttonVariants({ variant: props.variant, size: props.size }), props.class)}
+        //@ts-expect-error interface doesn't have this field
+        disabled={props.disabled}
         {...{ onclick: props.whenClick }}
       >
         {slots.default?.()}

@@ -5,6 +5,7 @@ import { prop } from "@/lib/prop";
 
 import { useDataGrid, useDataGridColumnSettings } from "../data-grid";
 import { format } from "date-fns-tz";
+import { useTokensStore } from "@/stores/tokens";
 
 const DataGrid = useDataGrid<Log>()
 const DataGridColumnSettings = useDataGridColumnSettings<Log>()
@@ -12,22 +13,21 @@ const DataGridColumnSettings = useDataGridColumnSettings<Log>()
 const props = {
   data: prop<Log[]>().optional([]),
   columns: prop<ColumnDef<Log>[]>().optional(),
+  keywords: prop<string[]>().optional(),
   renderCell: prop<(key: string, item: Log) => VNode>().optional(),
   renderExpanded: prop<(item: Log, tableApi: Table<Log>) => VNode>().optional(),
 }
-
-const allColumns = [
-  'channel',
-  'source',
-  'service',
-  'level',
-  'id'
-]
 
 export const LogTable = defineComponent({
   name: 'LogTable',
   props,
   setup(props) {
+    const tokensStore = useTokensStore()
+
+    const keywords = computed(() => {
+      return props.keywords ?? tokensStore.keywords.map(keyword => keyword.name ?? '')
+    })
+
     const columns: ColumnDef<Log>[] = [
       {
         accessorKey: 'timestamp',
@@ -76,7 +76,7 @@ export const LogTable = defineComponent({
           )
         },
       },
-      ...allColumns.map((column): ColumnDef<Log> => ({
+      ...keywords.value.map((column): ColumnDef<Log> => ({
         accessorKey: column,
         header: () => <div class='text-left'>{column}</div>,
         enableSorting: false,
@@ -120,7 +120,7 @@ export const LogTable = defineComponent({
 
     const initialState = computed(() => {
       const defaultColumns = ['timestamp', 'message', 'actions'].map(column => [column, true])
-      const restColumns = allColumns.map(column => [column, false])
+      const restColumns = keywords.value.map(column => [column, false])
 
       return {
         columnVisibility: Object.fromEntries([...defaultColumns, ...restColumns]),
