@@ -1,0 +1,100 @@
+@top Query {
+  expr?
+}
+
+@precedence { 
+	eq @left
+	in @left
+	not @left
+	and @left
+	or @left
+}
+
+
+@skip { Space } 
+
+Value {
+	QuotedValue | UnquotedValue
+}
+
+GroupingValues {
+  LeftParen (Value ("," Value)* ","?)? RightParen
+}
+
+UnaryExpression {
+	(!not Not expr) |
+	(Exists UnquotedValue) |
+	(Exists QuotedValue) 
+}
+
+BinaryExpression {
+	(Key !eq Eq QuotedValue) |
+	(Key !eq Eq UnquotedValue) |	
+	(Key !eq Eq !in In GroupingValues) |
+	(expr !and And expr) | 
+	(expr !or Or expr) |
+	(expr DirtyOperator) 
+}
+
+ParenExpression {
+	(LeftParen expr RightParen)
+}
+
+expr[@isGroup=Expression] {
+	ParenExpression |
+	BinaryExpression |	
+	UnaryExpression |
+	QuotedValue  
+}
+
+@tokens {
+	Space { @whitespace+ }
+	LeftParen { "(" }
+	RightParen { ")" }
+
+	Eq {':'}
+
+	Or { $[oO] $[rR]  }
+	And { $[aA] $[nN] $[dD] }
+	Not { $[nN] $[oO] $[tT] }
+	In { $[iI] $[nN] }
+
+	Exists { "_exists_:" }
+
+	Key {
+		(@asciiLetter | @digit | "-" | "@" | "_" )+
+	}
+
+	DirtyOperator {
+		(@asciiLetter | @digit | "-" | "@" | "_" )+
+	}
+
+	UnquotedValue {
+		(@asciiLetter | @digit | "*" | "-" | '_' | "@")+
+	}	
+
+	QuotedValue { 
+		'"' (![\\\n"] | "\\" _)* '"'? |
+		"'" (![\\\n'] | "\\" _)* "'"? |
+		"`" (![\\\n`] | "\\" _)* "`"?
+	}
+
+	@precedence {		
+		Not, 		
+		Exists,	
+		Key
+	}
+
+	@precedence {
+		Or,
+		And, 
+		DirtyOperator
+	}
+
+	@precedence {	
+		In,
+		UnquotedValue
+	}
+}
+
+@external propSource languageHighLight from "./highlight"

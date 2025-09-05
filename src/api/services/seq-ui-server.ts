@@ -6,26 +6,27 @@ import type { DashboardInfo, DashboardSaved } from '@/types/dashboards'
 import { normalizeEvent } from '@/normalizers/events'
 import type { NoDataAg } from '@/composables/aggregations'
 import { normalizeAggregation, type NormalizedAggregationType } from '@/normalizers/aggregations'
+import { getKeywords } from '@/helpers/generate-data'
 
 export type FetchMessagesNormalizedData = Awaited<ReturnType<InstanceType<typeof SeqUiServerService>['fetchMessages']>>
 
 export type ResponseType<T> = {
-	data?: T
-	error: Error | string | null
+  data?: T
+  error: Error | string | null
 }
 
 export class SeqUiServerService extends Api {
   async fetchMessages(body: unknown) {
     return {
-			total: 1,
-			histogram: [],
-			events: [],
-			partialResponse: undefined,
-			error: {
+      total: 1,
+      histogram: [],
+      events: [],
+      partialResponse: undefined,
+      error: {
         code: 'code',
         message: 'message',
       },
-		}
+    }
   }
 
   async getLimits() {
@@ -61,10 +62,10 @@ export class SeqUiServerService extends Api {
   }
 
   async fetchKeywords() {
-    return []
+    return getKeywords()
   }
 
-  async getDashboardById(uuid: string): Promise<DashboardSaved>  {
+  async getDashboardById(uuid: string): Promise<DashboardSaved> {
     return {} as DashboardSaved
   }
 
@@ -88,91 +89,91 @@ export class SeqUiServerService extends Api {
     return []
   }
 
-  async searchDashboards(query: unknown): Promise<DashboardInfo[]>  {
+  async searchDashboards(query: unknown): Promise<DashboardInfo[]> {
     return []
   }
 
   async fetchMessageById(id: string) {
-		const { data } = await this.seqapiV1GetEvent(id)
-		return normalizeEvent(data?.event || {})
+    const { data } = await this.seqapiV1GetEvent(id)
+    return normalizeEvent(data?.event || {})
   }
 
-	async fetchHistogram({ query = '', from, to, interval }: {
-		from?: string
-		to?: string
-		query?: string
-		interval: string
-	}) {
-		const { data } = await this.seqapiV1GetHistogram({
-			query,
-			from,
-			to,
-			interval,
-		})
-		return data.histogram?.buckets || []
-	}
+  async fetchHistogram({ query = '', from, to, interval }: {
+    from?: string
+    to?: string
+    query?: string
+    interval: string
+  }) {
+    const { data } = await this.seqapiV1GetHistogram({
+      query,
+      from,
+      to,
+      interval,
+    })
+    return data.histogram?.buckets || []
+  }
 
-	async fetchAggregation({ ...args }: {
-		query: string
-		from: string
-		to: string
-		index?: number
-		aggregations?: SeqapiV1AggregationQueryDto[]
-	}) {
-		let result: ResponseType<NormalizedAggregationType> | null = null
-		try {
-			const { data } = await this.seqapiV1GetAggregation({
-				...args,
-			})
+  async fetchAggregation({ ...args }: {
+    query: string
+    from: string
+    to: string
+    index?: number
+    aggregations?: SeqapiV1AggregationQueryDto[]
+  }) {
+    let result: ResponseType<NormalizedAggregationType> | null = null
+    try {
+      const { data } = await this.seqapiV1GetAggregation({
+        ...args,
+      })
 
-			result = {
-				data: normalizeAggregation(data.aggregations?.[0]?.buckets),
-				error: null,
-			}
-		} catch (error) {
-			console.error(error)
+      result = {
+        data: normalizeAggregation(data.aggregations?.[0]?.buckets),
+        error: null,
+      }
+    } catch (error) {
+      console.error(error)
 
-			if (axios.isAxiosError(error)) {
-				result = { error: error.response?.data.message || error.message }
-			}
-		}
-		return result
-	}
+      if (axios.isAxiosError(error)) {
+        result = { error: error.response?.data.message || error.message }
+      }
+    }
+    return result
+  }
 
-	async fetchAggregationsChunk({ aggs, ...rest }: {
-		aggs: NoDataAg[]
-		query: string
-		from: string
-		to: string
-	}) {
-		let result: ResponseType<NormalizedAggregationType[]> | null = null
+  async fetchAggregationsChunk({ aggs, ...rest }: {
+    aggs: NoDataAg[]
+    query: string
+    from: string
+    to: string
+  }) {
+    let result: ResponseType<NormalizedAggregationType[]> | null = null
 
-		const body = {
-			...rest,
-			aggregations: aggs.map(({ field, quantiles, fn, groupBy }) => ({
-				field,
-				filter: '',
-				quantiles: fn === SeqapiV1AggregationFuncDto.AfQuantile ? quantiles : undefined,
-				agg_func: fn,
-				group_by: groupBy,
-			})),
-		}
+    const body = {
+      ...rest,
+      aggregations: aggs.map(({ field, quantiles, fn, groupBy }) => ({
+        field,
+        filter: '',
+        quantiles: fn === SeqapiV1AggregationFuncDto.AfQuantile ? quantiles : undefined,
+        agg_func: fn,
+        group_by: groupBy,
+      })),
+    }
 
-		try {
-			const { data } = await this.seqapiV1GetAggregation(body)
+    try {
+      const { data } = await this.seqapiV1GetAggregation(body)
 
-			result = {
-				data: data.aggregations?.map(({ buckets }) => normalizeAggregation(buckets)) || [],
-				error: null,
-			}
-		} catch (error) {
-			console.error(error)
+      result = {
+        data: data.aggregations?.map(({ buckets }) => normalizeAggregation(buckets)) || [],
+        error: null,
+      }
+    } catch (error) {
+      console.error(error)
 
-			if (axios.isAxiosError(error)) {
-				result = { error: error.response?.data.message || error.message }
-			}
-		}
+      if (axios.isAxiosError(error)) {
+        result = { error: error.response?.data.message || error.message }
+      }
+    }
 
-		return result
-	}
+    return result
+  }
 }

@@ -6,7 +6,7 @@ const props = {
   defaultOpen: prop<boolean>().optional(),
   open: prop<boolean>().optional(),
   modal: prop<boolean>().optional(),
-  whenOpen: prop<(open: boolean) => void>().optional(),
+  whenOpenChange: prop<(open: boolean) => void>().optional(),
 }
 
 export const Popover = defineComponent({
@@ -16,8 +16,10 @@ export const Popover = defineComponent({
     return () => (
       <PopoverRoot
         data-slot="popover"
-        onUpdate:open={props.whenOpen}
-        {...props}
+        open={props.open}
+        defaultOpen={props.defaultOpen}
+        modal={props.modal}
+        onUpdate:open={props.whenOpenChange}
       >
         {slots.default?.()}
       </PopoverRoot>
