@@ -1,3 +1,5 @@
+import type { SeqapiV1FieldDto } from "@/api/generated/seq-ui-server";
+
 const getRandomInt = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -35,4 +37,14 @@ export const generateTableData = (length: number) => {
     source: sourceNames[getRandomInt(0, 4)],
     service: serviceNames[getRandomInt(0, 4)],
   }))
+}
+
+export const getKeywords = (): SeqapiV1FieldDto[] => {
+  return [
+    'channel',
+    'source',
+    'service',
+    'level',
+    'id'
+  ].map(name => ({ name, type: 'keyword' }))
 }
