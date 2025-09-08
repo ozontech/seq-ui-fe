@@ -1,6 +1,0 @@
-export const HISTOGRAM_CONTAINER = 'histogram-container'
-export const HISTOGRAM_SELECT_PERIOD = '[class^=nsewdrag]'
-export const HISTOGRAM_DRAG_RIGHT = '[class^=edrag]'
-export const HISTOGRAM_DRAG_LEFT = '[class^=wdrag]'
-export const HISTOGRAM_DRAG = '[class^=ewdrag]'
-export const HISTOGRAM_TIME_MARK = '[class^=xtick]'

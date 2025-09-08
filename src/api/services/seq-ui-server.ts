@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from 'axios'
-import type { FavoriteQuery } from '@/types/profile'
-import { Api, SeqapiV1AggregationFuncDto, type SeqapiV1AggregationQueryDto } from '../generated/seq-ui-server'
-import type { DashboardInfo, DashboardSaved } from '@/types/dashboards'
+import { Api, SeqapiV1AggregationFuncDto, SeqapiV1OrderDto, type SeqapiV1AggregationQueryDto } from '../generated/seq-ui-server'
 import { normalizeEvent } from '@/normalizers/events'
 import type { NoDataAg } from '@/composables/aggregations'
 import { normalizeAggregation, type NormalizedAggregationType } from '@/normalizers/aggregations'
-import { generateTableData, getKeywords } from '@/helpers/generate-data'
+import { getKeywords } from '@/helpers/generate-data'
+import type { Order } from '@/types/messages'
 
 export type FetchMessagesNormalizedData = Awaited<ReturnType<InstanceType<typeof SeqUiServerService>['fetchMessages']>>
 
@@ -16,18 +15,37 @@ export type ResponseType<T> = {
 }
 
 export class SeqUiServerService extends Api {
-  async fetchMessages(body: unknown) {
-    return {
-      total: 1,
-      histogram: [],
-      events: generateTableData(50),
-      partialResponse: undefined,
-      error: {
-        code: 'code',
-        message: 'message',
-      },
-    }
-  }
+	async fetchMessages({ offset = 0, query = '', limit = 100, from, to, interval = '', order }: {
+		limit?: number
+		offset?: number
+		query?: string
+		from?: string
+		to?: string
+		interval?: string
+		order?: Order
+	}) {
+		const orderEnumed = order === 'asc' ? SeqapiV1OrderDto.OASC : order === 'desc' ? SeqapiV1OrderDto.ODESC : undefined
+
+		const { data: { total, events, histogram, partialResponse, error } } = await this.seqapiV1Search({
+			query,
+			from,
+			to,
+			limit,
+			offset,
+			order: orderEnumed,
+			histogram: {
+				interval,
+			},
+		})
+
+		return {
+			total,
+			histogram: histogram?.buckets || [],
+			events: events?.map(normalizeEvent) || [],
+			partialResponse,
+			error,
+		}
+	}
 
   async getLimits() {
     return {
@@ -45,52 +63,12 @@ export class SeqUiServerService extends Api {
     return []
   }
 
-  async getFavoriteQueries(): Promise<FavoriteQuery[]> {
-    return []
-  }
-
-  async saveFavoriteQuery(query: unknown) {
-    return 'id'
-  }
-
-  async deleteFavoriteQuery(id: string) {
-    return true
-  }
-
   async streamExport(body: unknown): Promise<Response> {
     return {} as Response
   }
 
   async fetchKeywords() {
     return getKeywords()
-  }
-
-  async getDashboardById(uuid: string): Promise<DashboardSaved> {
-    return {} as DashboardSaved
-  }
-
-  async saveDashboard(uuid: string, dashboard: unknown) {
-    return []
-  }
-
-  async createDashboard(body: unknown) {
-    return ''
-  }
-
-  async deleteDashboard(uuid: string) {
-    return ''
-  }
-
-  async getMyDashboards(query: unknown): Promise<DashboardInfo[]> {
-    return []
-  }
-
-  async getAllDashboards(query: unknown): Promise<DashboardInfo[]> {
-    return []
-  }
-
-  async searchDashboards(query: unknown): Promise<DashboardInfo[]> {
-    return []
   }
 
   async fetchMessageById(id: string) {

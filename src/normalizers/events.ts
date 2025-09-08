@@ -1,6 +1,3 @@
-import { format } from 'date-fns-tz'
-
-import { utcToZonedTime } from '@/helpers/date-fns-tz'
 import { SeqapiV1ErrorCodeDto } from '@/api/generated/seq-ui-server'
 import type { SeqapiV1EventDto } from '@/api/generated/seq-ui-server'
 import type { FetchMessagesNormalizedData } from '@/api/services/seq-ui-server'
@@ -38,12 +35,12 @@ export const normalizeEvent = (event: Event) => ({
 	data: normalizeJson(event.data),
 })
 
-export const normalizeMessage = (event: Event, timezone: string): Message => {
+export const normalizeMessage = (event: Event): Message => {
 	const timestamp = (event.time || event.data?.time)!
 
 	let zonedTime
 	try {
-		zonedTime = new Date(timestamp + (timestamp.endsWith('Z') ? '' : 'Z'))
+		zonedTime = timestamp.endsWith('Z') ? '' : 'Z'
 	} catch {
 		const error = `Некорректный timestamp ${timestamp} у документа ${event.id}`
 		console.error(error)
@@ -51,9 +48,9 @@ export const normalizeMessage = (event: Event, timezone: string): Message => {
 	}
 	return {
 		...event.data,
-		_id: event.id,
-		timestamp: format(utcToZonedTime(zonedTime, timezone), 'yyyy-MM-dd HH:mm:ss.SSS', { timeZone: timezone }),
-		rawTime: zonedTime,
+    message: event.data?.message || '',
+		_id: event.id || '',
+		timestamp: zonedTime,
 	}
 }
 

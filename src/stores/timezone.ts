@@ -1,8 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-import { useDashboardsStore } from './dashboards'
-
 import { timezoneNameToObject, timezonesToOptions } from '@/helpers/timezones'
 
 const defaultTimezone = () => timezoneNameToObject(Intl?.DateTimeFormat?.().resolvedOptions().timeZone || 'Europe/Moscow')
@@ -25,12 +23,9 @@ export const useTimezoneStore = defineStore('timezone', () => {
 	const timezonesOptions = ref(fetchTimezoneLists())
 
 	const saveTimezone = (name: string) => {
-		const store = useDashboardsStore()
 		const tz = timezoneNameToObject(name)
 		timezone.value = tz
-		store.blocks.getBlocks().map((block) => {
-			block.messages.changeTimezone(name)
-		})
+    // todo: maybe mutate histogram here ?
 		localStorage.setItem(LS_TIMEZONE_KEY, timezone.value.name)
 	}
 

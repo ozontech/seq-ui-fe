@@ -4,22 +4,10 @@ import type { IntervalType } from './input'
 export type Order = 'asc' | 'desc'
 
 export type Message = {
-	k8s_namespace?: string
-	k8s_pod?: string
-	source?: string
-	message?: string
-	zone?: string
-	service?: string
-	k8s_container?: string
-	_id?: string
-	timestamp: string
-	rawTime: Date
-	level?: number
-	caller?: string
-	action?: string
-	trace_id?: string
-	span_id?: string
-}
+  _id: string
+  timestamp: string
+  message: string
+} & Record<string, unknown>
 
 export type MessageKeys = keyof Omit<Message, 'rawTime'>
 

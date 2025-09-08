@@ -7,4 +7,5 @@ export type Duration = {
   months?: number
   years?: number
   date?: Date
+  forever?: boolean
 }

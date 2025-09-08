@@ -1,6 +1,6 @@
 import { computed, defineComponent, onMounted, ref, type VNode } from "vue";
 import type { ColumnDef, SortingState, Table } from "@tanstack/vue-table";
-import type { Log } from "@/types/log";
+import type { Message as Log } from "@/types/messages";
 import { prop } from "@/lib/prop";
 import { format } from "date-fns-tz";
 
@@ -10,7 +10,7 @@ const DataGrid = useDataGrid<Log>()
 const DataGridColumnSettings = useDataGridColumnSettings<Log>()
 
 const props = {
-  data: prop<Log[]>().optional([]),
+  data: prop<Log[]>().required(),
   keywords: prop<string[]>().required(),
   columns: prop<ColumnDef<Log>[]>().optional(),
   loadMore: prop<() => Promise<void>>().optional(),
