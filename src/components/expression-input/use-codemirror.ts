@@ -19,7 +19,7 @@ export const useCodemirror = (editorRef: Ref<HTMLDivElement | null>, options: {
   placeholder: string
   keywords: Ref<LoggingLanguageKeyword[]>
   whenChange: (value: string) => void
-  whenEnter: () => void
+  whenEnter: (value: string) => void
   whenBlur?: () => void
   whenFocus?: () => void
   whenEscape?: () => void
@@ -60,7 +60,7 @@ export const useCodemirror = (editorRef: Ref<HTMLDivElement | null>, options: {
             key: 'Enter',
             run: (view: EditorView): boolean => {
               if (acceptAndRestartCompletion(view)) return true
-              options.whenEnter()
+              options.whenEnter(view.state.doc.toString())
               return true
             },
           },

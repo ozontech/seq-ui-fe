@@ -14,7 +14,7 @@ const props = {
   loading: prop<boolean>().optional(false),
   placeholder: prop<string>().optional(''),
   whenChange: prop<(value: string) => void>().required(),
-  whenEnter: prop<() => void>().required(),
+  whenEnter: prop<(value: string) => void>().required(),
   whenBlur: prop<() => void>().optional(() => undefined),
   whenFocus: prop<() => void>().optional(() => undefined),
   whenEscape: prop<() => void>().optional(() => undefined),
