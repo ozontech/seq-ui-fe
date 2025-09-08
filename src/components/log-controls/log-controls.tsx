@@ -13,7 +13,7 @@ const props = {
   expression: prop<string>().required(),
   whenExpressionChange: prop<(expression: string) => void>().required(),
   whenIntervalChange: prop<(from: Duration, to: Duration) => void>().required(),
-  whenSubmit: prop<() => void>().required(),
+  whenSubmit: prop<(value: string) => void>().required(),
 }
 
 export const LogControls = defineComponent({
