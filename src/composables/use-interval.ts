@@ -2,38 +2,51 @@ import type { Duration } from "@/types/duration";
 import { useRouteQuery } from '@vueuse/router'
 import { defaultFrom } from "@/constants/search";
 import { sub } from "date-fns";
+import { isDate } from "lodash";
+import { durationToSeconds } from "@/helpers/duration";
+import { secondsToDuration } from "@/helpers/duration-locale";
+import { watch } from "vue";
 
-const valueToQuery = (arg?: Duration | Date) => {
+const valueToQuery = (arg?: Duration) => {
   if (!arg) {
     return undefined
   }
 
-  return JSON.stringify(arg)
+  const date = isDate(arg) ? arg : arg.date
+
+  if (date) {
+    return date.toISOString()
+  }
+
+  return durationToSeconds(arg as Duration).toString()
 }
 
-const queryToValue = (arg: string): Duration => {
-  try {
-    return JSON.parse(arg)
-  } catch {
-    return { date: new Date(arg) }
+const queryToValue = (arg: string | undefined): Duration => {
+  if (!arg) {
+    return {}
   }
+  if (typeof Number(arg) === 'number') {
+    return secondsToDuration(Number(arg))
+  }
+  const date = new Date(arg)
+  return { date }
 }
 
 export const useInterval = (
-  initialFrom: Duration | Date = defaultFrom(),
-  initialTo: Duration | Date = {},
+  initialFrom: Duration = defaultFrom(),
+  initialTo: Duration = {},
 ) => {
-  const from = useRouteQuery('from', valueToQuery(initialFrom), {
+  const from = useRouteQuery<string | undefined, Duration>('from', valueToQuery(initialFrom), {
     transform: {
-      get: (value: string): Duration => queryToValue(value),
-      set: (value: Duration) => JSON.stringify(value),
+      get: queryToValue,
+      set: valueToQuery,
     }
   })
 
-  const to = useRouteQuery('to', valueToQuery(initialTo), {
+  const to = useRouteQuery<string | undefined, Duration>('to', valueToQuery(initialTo), {
     transform: {
-      get: (value: string): Duration => queryToValue(value),
-      set: (value: Duration) => JSON.stringify(value),
+      get: queryToValue,
+      set: valueToQuery,
     }
   })
 
@@ -41,6 +54,9 @@ export const useInterval = (
     from.value = newFrom ?? defaultFrom()
     to.value = newTo ?? {}
   }
+
+  watch(from, (value) => console.log(value), { immediate: true })
+  watch(to, (value) => console.log(value), { immediate: true })
 
   const toDates = () => {
     const _from = from.value

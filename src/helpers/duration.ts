@@ -83,9 +83,9 @@ export const secondsToSingleUnitDuration = (seconds: number): Duration => {
     return {}
   }
 
-  if (seconds === Infinity) {
-    return { forever: true }
-  }
+	if (seconds === Infinity) {
+		return { forever: 1 }
+	}
 
   if (seconds % SECONDS_IN_WEEK === 0) {
     units = 'weeks'
