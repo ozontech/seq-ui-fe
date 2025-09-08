@@ -1,10 +1,8 @@
-import { computed, defineComponent, type VNode } from "vue";
+import { computed, defineComponent, onMounted, ref, type VNode } from "vue";
 import type { ColumnDef, SortingState, Table } from "@tanstack/vue-table";
 import type { Log } from "@/types/log";
 import { prop } from "@/lib/prop";
 import { format } from "date-fns-tz";
-import { useTokensStore } from "@/stores/tokens";
-import { storeToRefs } from "pinia";
 
 import { useDataGrid, useDataGridColumnSettings } from "../data-grid";
 
@@ -13,22 +11,26 @@ const DataGridColumnSettings = useDataGridColumnSettings<Log>()
 
 const props = {
   data: prop<Log[]>().optional([]),
+  keywords: prop<string[]>().required(),
   columns: prop<ColumnDef<Log>[]>().optional(),
-  keywords: prop<string[]>().optional(),
+  loadMore: prop<() => Promise<void>>().optional(),
+  isLoading: prop<boolean>().optional(false),
   renderCell: prop<(key: string, item: Log) => VNode>().optional(),
   renderExpanded: prop<(item: Log, tableApi: Table<Log>) => VNode>().optional(),
+}
+
+const FIXED_WIDTH = {
+  TIME: 200,
+  ACTIONS: 36,
+  OFFSET: 200,
 }
 
 export const LogTable = defineComponent({
   name: 'LogTable',
   props,
   setup(props) {
-    const tokensStore = useTokensStore()
-    const { keywords } = storeToRefs(tokensStore)
-
-    const additionalColumns = computed(() => {
-      return props.keywords ?? keywords.value.map(keyword => keyword.name ?? '')
-    })
+    const wrapperRef = ref<HTMLDivElement>()
+    const messageWidth = ref(300)
 
     const columns = computed((): ColumnDef<Log>[] => [
       {
@@ -38,7 +40,8 @@ export const LogTable = defineComponent({
         enableSorting: true,
         enableResizing: false,
         enableHiding: false,
-        size: 200,
+        size: FIXED_WIDTH.TIME,
+        maxSize: FIXED_WIDTH.TIME,
         cell: ({ column, row }) => {
           const view = props.renderCell?.(column.id, row.original)
           if (view) {
@@ -64,6 +67,7 @@ export const LogTable = defineComponent({
         enableResizing: true,
         enableHiding: false,
         minSize: 300,
+        size: messageWidth.value,
         maxSize: 1000,
         cell: ({ column, row }) => {
           const view = props.renderCell?.(column.id, row.original)
@@ -78,7 +82,7 @@ export const LogTable = defineComponent({
           )
         },
       },
-      ...additionalColumns.value.map((column): ColumnDef<Log> => ({
+      ...props.keywords.map((column): ColumnDef<Log> => ({
         accessorKey: column,
         header: () => <div class='text-left'>{column}</div>,
         enableSorting: false,
@@ -101,7 +105,9 @@ export const LogTable = defineComponent({
         enableSorting: false,
         enableResizing: false,
         enableHiding: false,
-        size: 34,
+        minSize: FIXED_WIDTH.ACTIONS,
+        size: FIXED_WIDTH.ACTIONS,
+        maxSize: FIXED_WIDTH.ACTIONS,
         cell: ({ column, row }) => {
           const view = props.renderCell?.(column.id, row.original)
           if (view) {
@@ -122,7 +128,7 @@ export const LogTable = defineComponent({
 
     const initialState = computed(() => {
       const defaultColumns = ['timestamp', 'message', 'actions'].map(column => [column, true])
-      const restColumns = additionalColumns.value.map(column => [column, false])
+      const restColumns = props.keywords.map(column => [column, false])
 
       return {
         columnVisibility: Object.fromEntries([...defaultColumns, ...restColumns]),
@@ -148,17 +154,24 @@ export const LogTable = defineComponent({
       )
     }
 
+    onMounted(() => {
+      if (wrapperRef.value) {
+        messageWidth.value = wrapperRef.value?.offsetWidth - FIXED_WIDTH.ACTIONS - FIXED_WIDTH.TIME - FIXED_WIDTH.OFFSET
+      }
+    })
+
     return () => (
-      <DataGrid
-        headerClass="sticky top-0 z-2"
-        columns={props.columns ?? columns.value}
-        data={props.data}
-        initialState={initialState.value}
-        isLoading={false}
-        loadMore={() => { console.log('load more') }}
-        renderExpanded={renderExpanded}
-        whenSortingChange={whenSortingChange}
-      />
+      <div ref={wrapperRef}>
+        <DataGrid
+          columns={props.columns ?? columns.value}
+          data={props.data}
+          initialState={initialState.value}
+          isLoading={props.isLoading}
+          loadMore={props.loadMore}
+          renderExpanded={renderExpanded}
+          whenSortingChange={whenSortingChange}
+        />
+      </div>
     )
   }
 })

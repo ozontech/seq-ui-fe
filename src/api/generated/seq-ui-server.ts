@@ -84,8 +84,8 @@ export interface ErrorgroupsV1BucketDto {
 }
 
 export interface ErrorgroupsV1DistributionDto {
-  percent: number;
-  value: string;
+  percent?: number;
+  value?: string;
 }
 
 export interface ErrorgroupsV1DistributionsDto {
@@ -104,6 +104,7 @@ export interface ErrorgroupsV1GetDetailsRequestDto {
   group_hash?: string;
   release?: string;
   service?: string;
+  source?: string;
 }
 
 export interface ErrorgroupsV1GetDetailsResponseDto {
@@ -116,8 +117,10 @@ export interface ErrorgroupsV1GetDetailsResponseDto {
   group_hash?: string;
   /** @format date-time */
   last_seen_at?: string;
+  log_tags?: Record<string, string>;
   message?: string;
   seen_total?: number;
+  source?: string;
 }
 
 export interface ErrorgroupsV1GetGroupsRequestDto {
@@ -133,6 +136,7 @@ export interface ErrorgroupsV1GetGroupsRequestDto {
   order?: ErrorgroupsV1OrderDto;
   release?: string;
   service?: string;
+  source?: string;
   with_total?: boolean;
 }
 
@@ -153,6 +157,7 @@ export interface ErrorgroupsV1GetHistRequestDto {
   group_hash?: string;
   release?: string;
   service?: string;
+  source?: string;
 }
 
 export interface ErrorgroupsV1GetHistResponseDto {
@@ -161,8 +166,6 @@ export interface ErrorgroupsV1GetHistResponseDto {
 
 export interface ErrorgroupsV1GetReleasesRequestDto {
   env?: string;
-  /** @format uint64 */
-  group_hash?: string;
   service?: string;
 }
 
@@ -190,12 +193,17 @@ export interface ErrorgroupsV1GroupDto {
   last_seen_at?: string;
   message?: string;
   seen_total?: number;
+  source?: string;
 }
 
 export enum ErrorgroupsV1OrderDto {
   OrderFrequent = "frequent",
   OrderLatest = "latest",
   OrderOldest = "oldest",
+}
+
+export interface HttpAsyncSearchRequestHistogramDto {
+  interval?: string;
 }
 
 export interface MassexportV1CancelRequestDto {
@@ -280,6 +288,59 @@ export interface SeqapiV1AggregationQueryDto {
   quantiles?: number[];
 }
 
+export interface SeqapiV1AggregationSeriesDto {
+  metric?: Record<string, string>;
+  values?: SeqapiV1AggregationTsBucketDto[];
+}
+
+export interface SeqapiV1AggregationTsDto {
+  data?: {
+    result?: SeqapiV1AggregationSeriesDto[];
+  };
+}
+
+export interface SeqapiV1AggregationTsBucketDto {
+  timestamp?: number;
+  value?: number;
+}
+
+export interface SeqapiV1AggregationTsQueryDto {
+  /** @default "count" */
+  agg_func?: SeqapiV1AggregationFuncDto;
+  field?: string;
+  group_by?: string;
+  /**
+   * @format duration
+   * @example "1m"
+   */
+  interval?: string;
+  quantiles?: number[];
+}
+
+export enum SeqapiV1AsyncSearchStatusDto {
+  AsyncSearchStatusInProgress = "in_progress",
+  AsyncSearchStatusDone = "done",
+  AsyncSearchStatusCanceled = "canceled",
+  AsyncSearchStatusError = "error",
+}
+
+export interface SeqapiV1AsyncSearchesListItemDto {
+  /** @format date-time */
+  canceled_at?: string;
+  /** @format int64 */
+  disk_usage?: string;
+  /** @format date-time */
+  expires_at?: string;
+  owner_name?: string;
+  progress?: number;
+  request?: SeqapiV1StartAsyncSearchRequestDto;
+  /** @format uuid */
+  search_id?: string;
+  /** @format date-time */
+  started_at?: string;
+  status?: SeqapiV1AsyncSearchStatusDto;
+}
+
 export interface SeqapiV1ErrorDto {
   /** @default "ERROR_CODE_NO" */
   code?: SeqapiV1ErrorCodeDto;
@@ -323,6 +384,32 @@ export interface SeqapiV1ExportRequestDto {
 /** Export response in one of the following formats:<br> - JSONL: {"id":"some-id","data":{"field1":"value1","field2":"value2"},"time":"2024-12-31T10:20:30.0004Z"}<br> - CSV: value1,value2,value3 */
 export type SeqapiV1ExportResponseDto = object;
 
+export interface SeqapiV1FetchAsyncSearchResultRequestDto {
+  /** @format int32 */
+  limit?: number;
+  /** @format int32 */
+  offset?: number;
+  /** @default "desc" */
+  order?: SeqapiV1OrderDto;
+  /** @format uuid */
+  search_id?: string;
+}
+
+export interface SeqapiV1FetchAsyncSearchResultResponseDto {
+  /** @format date-time */
+  canceled_at?: string;
+  /** @format int64 */
+  disk_usage?: string;
+  /** @format date-time */
+  expires_at?: string;
+  progress?: number;
+  request?: SeqapiV1StartAsyncSearchRequestDto;
+  response?: SeqapiV1SearchResponseDto;
+  /** @format date-time */
+  started_at?: string;
+  status?: SeqapiV1AsyncSearchStatusDto;
+}
+
 export interface SeqapiV1FieldDto {
   name?: string;
   /** @default "unknown" */
@@ -344,6 +431,33 @@ export interface SeqapiV1GetAggregationResponseDto {
   aggregations?: SeqapiV1AggregationDto[];
   error?: SeqapiV1ErrorDto;
   partialResponse?: boolean;
+}
+
+export interface SeqapiV1GetAggregationTsRequestDto {
+  aggregations?: SeqapiV1AggregationTsQueryDto[];
+  /** @format date-time */
+  from?: string;
+  query?: string;
+  /** @format date-time */
+  to?: string;
+}
+
+export interface SeqapiV1GetAggregationTsResponseDto {
+  aggregations?: SeqapiV1AggregationTsDto[];
+  error?: string;
+}
+
+export interface SeqapiV1GetAsyncSearchesListRequestDto {
+  /** @format int32 */
+  limit?: number;
+  /** @format int32 */
+  offset?: number;
+  owner_name?: string;
+  status?: SeqapiV1AsyncSearchStatusDto;
+}
+
+export interface SeqapiV1GetAsyncSearchesListResponseDto {
+  searches?: SeqapiV1AsyncSearchesListItemDto[];
 }
 
 export interface SeqapiV1GetEventResponseDto {
@@ -429,6 +543,27 @@ export interface SeqapiV1SearchResponseDto {
   partialResponse?: boolean;
   /** @format int64 */
   total?: string;
+}
+
+export interface SeqapiV1StartAsyncSearchRequestDto {
+  aggregations?: SeqapiV1AggregationQueryDto[];
+  /** @format date-time */
+  from?: string;
+  histogram?: HttpAsyncSearchRequestHistogramDto;
+  query?: string;
+  /**
+   * @format duration
+   * @example "1h"
+   */
+  retention?: string;
+  /** @format date-time */
+  to?: string;
+  with_docs?: boolean;
+}
+
+export interface SeqapiV1StartAsyncSearchResponseDto {
+  /** @format uuid */
+  search_id?: string;
 }
 
 export interface SeqapiV1StatusResponseDto {
@@ -589,7 +724,7 @@ export class HttpClient {
 /**
  * @title SeqUI Server
  * @version 1.0
- * @baseUrl //seq-ui-server-prod.logging.o-obs.c.o3.ru:80
+ * @baseUrl //seq-ui-server-test-load-prod-benchmark.logging.o-stg-obs.c.o3.ru:80
  * @contact
  */
 export class Api {
@@ -909,6 +1044,108 @@ export class Api {
       body: body,
       type: ContentType.Json,
       format: "json",
+      ...params,
+    });
+  }
+
+  /**
+   * No description
+   *
+   * @tags seqapi_v1
+   * @name SeqapiV1GetAggregationTs
+   * @request POST:/seqapi/v1/aggregation_ts
+   */
+  seqapiV1GetAggregationTs(body: SeqapiV1GetAggregationTsRequestDto, params: RequestParams = {}) {
+    return this.http.request<SeqapiV1GetAggregationTsResponseDto, UnexpectedErrorDto>({
+      path: `/seqapi/v1/aggregation_ts`,
+      method: "POST",
+      body: body,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  }
+
+  /**
+   * No description
+   *
+   * @tags seqapi_v1
+   * @name SeqapiV1FetchAsyncSearchResult
+   * @request POST:/seqapi/v1/async_search/fetch
+   */
+  seqapiV1FetchAsyncSearchResult(body: SeqapiV1FetchAsyncSearchResultRequestDto, params: RequestParams = {}) {
+    return this.http.request<SeqapiV1FetchAsyncSearchResultResponseDto, UnexpectedErrorDto>({
+      path: `/seqapi/v1/async_search/fetch`,
+      method: "POST",
+      body: body,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  }
+
+  /**
+   * No description
+   *
+   * @tags seqapi_v1
+   * @name SeqapiV1GetAsyncSearchesList
+   * @request POST:/seqapi/v1/async_search/list
+   */
+  seqapiV1GetAsyncSearchesList(body: SeqapiV1GetAsyncSearchesListRequestDto, params: RequestParams = {}) {
+    return this.http.request<SeqapiV1GetAsyncSearchesListResponseDto, UnexpectedErrorDto>({
+      path: `/seqapi/v1/async_search/list`,
+      method: "POST",
+      body: body,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  }
+
+  /**
+   * No description
+   *
+   * @tags seqapi_v1
+   * @name SeqapiV1StartAsyncSearch
+   * @request POST:/seqapi/v1/async_search/start
+   */
+  seqapiV1StartAsyncSearch(body: SeqapiV1StartAsyncSearchRequestDto, params: RequestParams = {}) {
+    return this.http.request<SeqapiV1StartAsyncSearchResponseDto, UnexpectedErrorDto>({
+      path: `/seqapi/v1/async_search/start`,
+      method: "POST",
+      body: body,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  }
+
+  /**
+   * No description
+   *
+   * @tags seqapi_v1
+   * @name SeqapiV1DeleteAsyncSearch
+   * @request DELETE:/seqapi/v1/async_search/{id}
+   */
+  seqapiV1DeleteAsyncSearch(id: string, params: RequestParams = {}) {
+    return this.http.request<void, UnexpectedErrorDto>({
+      path: `/seqapi/v1/async_search/${id}`,
+      method: "DELETE",
+      ...params,
+    });
+  }
+
+  /**
+   * No description
+   *
+   * @tags seqapi_v1
+   * @name SeqapiV1CancelAsyncSearch
+   * @request POST:/seqapi/v1/async_search/{id}/cancel
+   */
+  seqapiV1CancelAsyncSearch(id: string, params: RequestParams = {}) {
+    return this.http.request<void, UnexpectedErrorDto>({
+      path: `/seqapi/v1/async_search/${id}/cancel`,
+      method: "POST",
       ...params,
     });
   }

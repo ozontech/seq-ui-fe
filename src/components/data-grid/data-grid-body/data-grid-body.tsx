@@ -1,8 +1,10 @@
 import { prop } from "@/lib/prop";
 import { Skeleton, TableBody, TableCell, TableRow } from "@/ui";
 import { FlexRender } from "@tanstack/vue-table";
-import type { Row, RowData, Table } from "@tanstack/vue-table";
+import type { Cell, Row, RowData, Table } from "@tanstack/vue-table";
 import { defineComponent, onBeforeUnmount, ref, type VNode, watch } from "vue";
+import { addPx } from "../utils";
+import { cn } from "@/lib/utils";
 
 export const useDataGridBody = <T extends RowData>() => {
   const DataGridBody = defineComponent({
@@ -60,36 +62,74 @@ export const useDataGridBody = <T extends RowData>() => {
         </TableRow>
       )
 
-      const renderRow = (row: Row<T>) => (
-        <>
-          <TableRow
-            key={row.id}
-            data-state={row.getIsSelected() ? 'selected' : undefined}
-            whenClick={() => row.toggleExpanded()}
+      const renderCell = (cell: Cell<T, unknown> | null) => {
+        if (!cell) {
+          return (
+            <TableCell
+              key={'placeholder'}
+              class="bg-background border-b-1 border-b-border border-b-solid"
+            />
+          )
+        }
+
+        const position = cell.column.getIsPinned()
+        const hasCenterColumns = props.tableApi.getCenterVisibleLeafColumns().length > 0
+
+        const lastLeft = hasCenterColumns && position === 'left' && cell.column.getIsLastColumn(position)
+        const firstRight = hasCenterColumns && position === 'right' && cell.column.getIsFirstColumn(position)
+
+        return (
+          <TableCell
+            key={cell.id}
+            class={cn(
+              'bg-background border-b-1 border-b-border border-b-solid text-ellipsis overflow-hidden',
+              position && 'pinned-cell sticky z-1',
+              lastLeft && 'last-left',
+              firstRight && 'first-right',
+            )}
+            style={{
+              width: addPx(cell.column.getSize()),
+              left: position === 'left' ? addPx(cell.column.getStart(position)) : undefined,
+              right: position === 'right' ? addPx(cell.column.getAfter(position)) : undefined,
+            }}
           >
-            {row.getVisibleCells().map((cell) => (
-              <TableCell
-                key={cell.id}
-                style={{ width: `${cell.column.getSize()}px` }}
-              >
-                <FlexRender
-                  render={cell.column.columnDef.cell}
-                  props={cell.getContext()}
-                />
-              </TableCell>
-            ))}
-          </TableRow>
-          {row.getIsExpanded() && props.renderExpanded && (
-            <TableRow data-nonhoverable="true">
-              <TableCell
-                colspan={props.tableApi.getVisibleFlatColumns().length}
-              >
-                {props.renderExpanded(row.original, props.tableApi)}
-              </TableCell>
+            <FlexRender
+              render={cell.column.columnDef.cell}
+              props={cell.getContext()}
+            />
+          </TableCell>
+        )
+      }
+
+      const renderRow = (row: Row<T>) => {
+        const cells = [
+          row.getLeftVisibleCells(),
+          row.getCenterVisibleCells(),
+          [null],
+          row.getRightVisibleCells()
+        ].flat()
+
+        return (
+          <>
+            <TableRow
+              key={row.id}
+              data-state={row.getIsSelected() ? 'selected' : undefined}
+              whenClick={() => row.toggleExpanded()}
+            >
+              {cells.map(renderCell)}
             </TableRow>
-          )}
-        </>
-      )
+            {row.getIsExpanded() && props.renderExpanded && (
+              <TableRow data-nonhoverable="true">
+                <TableCell
+                  colspan={props.tableApi.getVisibleFlatColumns().length}
+                >
+                  {props.renderExpanded(row.original, props.tableApi)}
+                </TableCell>
+              </TableRow>
+            )}
+          </>
+        )
+      }
 
       return () => (
         <TableBody>

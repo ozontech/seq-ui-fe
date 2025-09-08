@@ -5,7 +5,6 @@ import { prop } from "@/lib/prop"
 const props = {
   style: prop<HTMLAttributes['style']>().optional(),
   class: prop<HTMLAttributes["class"]>().optional(),
-  withScroll: prop<boolean>().optional(false),
 }
 
 export const Table = defineComponent({
@@ -15,7 +14,7 @@ export const Table = defineComponent({
     return () => (
       <div
         data-slot="table-container"
-        class={['relative w-full', { ['overflow-auto']: props.withScroll }]}>
+        class="relative w-full overflow-auto">
         <table
           data-slot="table"
           class={cn('w-full caption-bottom text-sm', props.class)}
