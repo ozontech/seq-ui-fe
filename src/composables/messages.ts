@@ -1,17 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { differenceInSeconds, parseISO, subSeconds } from 'date-fns'
-import { format } from 'date-fns-tz'
-import type { LocationQuery, LocationQueryValueRaw, RouteLocationNormalized } from 'vue-router'
-import { ref, computed, watch } from 'vue'
+import { parseISO, subSeconds } from 'date-fns'
+import type { RouteLocationNormalized } from 'vue-router'
+import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { isEmpty as _isEmpty, symmetricDifference } from 'ramda'
 import { computedWithControl } from '@vueuse/core'
 
 import { useTimezoneStore } from '@/stores/timezone'
 import { LS_COLUMNS_KEY, useConfigStore } from '@/stores/config'
-import { useGroup } from '@/composables/group'
-import { usePagination } from '@/composables/pagination'
-import { utcToZonedTime } from '@/helpers/date-fns-tz'
 import { secondsToSingleUnitDuration, durationToSeconds, durationToISOString } from '@/helpers/duration'
 import type { SeqapiV1SearchResponseDto } from '@/api/generated/seq-ui-server'
 import type { Message, SearchWarning, GetRawIntervalOptions, Order } from '@/types/messages'
@@ -21,30 +16,17 @@ import { normalizeMessage, normalizeSearchWarning } from '@/normalizers/events'
 import { formatHistogramDate, normalizeBuckets } from '@/normalizers/bucket'
 import { getApi } from '@/api/client'
 import type { FetchMessagesNormalizedData } from '@/api/services/seq-ui-server'
-import { useLastRelative } from '@/helpers/last-relative'
-import { DEFAULT_LIMIT, defaultFrom } from '@/constants/search'
+import { DEFAULT_LIMIT } from '@/constants/search'
 import { getClosestPrettyTime } from '@/helpers/closest-pretty-time'
 import { useSearchStore } from '@/stores/search'
 import { pickByIndex } from '@/helpers/search'
-import { useDashboardsStore } from '@/stores/dashboards'
 import type { Duration } from '@/types/duration'
 
-const normalizeResponse = (data: Pick<SeqapiV1SearchResponseDto, 'events'>, timezone: string) => data.events?.map((event) => normalizeMessage(event, timezone)) || []
+const normalizeResponse = (data: Pick<SeqapiV1SearchResponseDto, 'events'>) => data.events?.map((event) => normalizeMessage(event)) || []
 type LastHistogram = {
 	query?: string
 	from?: string | number
 	to?: string | number
-}
-type LocationScalarQuery = Record<string, LocationQueryValueRaw>
-
-const getLocationScalarQuery = (data: LocationQuery): LocationScalarQuery => {
-	if (!data || typeof data !== 'object') return {}
-
-	return Object.keys(data).reduce<LocationScalarQuery>((accum, key) => {
-		const value = data[key]
-		accum[key] = typeof value === 'string' || typeof value === 'number' ? value.toString() : null
-		return accum
-	}, {})
 }
 const defaultHistogram = (): Histogram => ({
 	x: [],
@@ -54,7 +36,6 @@ const defaultHistogram = (): Histogram => ({
 
 export const useMessages = (id: number) => {
 	const searchStore = useSearchStore()
-	const dashboardStore = useDashboardsStore()
   const route = useRoute()
 	const { intervalParams, queryParams } = searchStore.getParams(id)
 
@@ -76,14 +57,11 @@ export const useMessages = (id: number) => {
 		editQuery,
 	} = queryParams
 
-	const pagination = usePagination(id)
-
 	const isFetching = ref(false)
 
 	const messages = ref<Message[]>([])
 	const selectedColumns = ref<string[]>([])
 	const tableFields = ref<string[]>([])
-	const groups = useGroup(id, messages)
 	const histogram = ref(defaultHistogram())
 	const isHistogramVisible = ref(false)
 	const isHistogramFetching = ref(false)
@@ -132,7 +110,6 @@ export const useMessages = (id: number) => {
 			rangetype: _rangetype,
 			q: _query,
 			service: _service,
-			page: _page,
 			fields: _fields,
 		} = pickByIndex(routeQueryValue as Record<string, string>, id)
 
@@ -166,58 +143,7 @@ export const useMessages = (id: number) => {
 			useConfigStore().setFields(fields.value.split(','))
 		}
 
-		if (_page) {
-			pagination.isPaginationMode.value = true
-			pagination.page.value = Number(_page)
-			const result = useLastRelative().extractRelative(from.value)
-			if (result) {
-				setInterval(result.from, result.to)
-			}
-		}
 		return id
-	}
-
-	// ToDo: do we really need it
-	const loadSliceDataFromQuery = async () => {
-		const {
-			from: _from,
-			to: _to,
-			rangetype,
-			histogram,
-			aggregation,
-			timezone,
-			q,
-			...rest
-		} = getLocationScalarQuery(useRoute().query)
-		const buildedQuery = Object.entries(rest).map(([key, value]) => `${key}:"${value}"`).join(' AND ')
-		firstSearch.value = false
-
-		query.value = buildedQuery
-		if (rangetype === 'absolute') {
-      if (_from) {
-        setFrom(parseISO(_from.toString()))
-      }
-      if (_to) {
-        setTo(parseISO(_to.toString()))
-      }
-			return
-		}
-		if (_from === '0') {
-			from.value = {}
-			return
-		}
-		const fromInDuration = _from && secondsToSingleUnitDuration(Number(_from))
-		const toInDuration = _to && secondsToSingleUnitDuration(Number(_to))
-		if (fromInDuration) {
-			from.value = fromInDuration
-		} else {
-			from.value = defaultFrom()
-		}
-		if (toInDuration) {
-			to.value = toInDuration
-		} else {
-			to.value = {}
-		}
 	}
 
 	const setRelative = (arg?: { from: Duration }) => {
@@ -263,8 +189,6 @@ export const useMessages = (id: number) => {
 		hasMore.value = true
 	}
 	/*private*/const timezone = computed(() => tzStore.timezone.name)
-	/*private*/const dashboardUUID = computed(() => dashboardStore.selectedUuid)
-	/*private*/const canEditDashboard = computed(() => dashboardStore.canEdit)
 
 	/*private*/const createQuery = () => {
 		return query.value || ''
@@ -278,7 +202,6 @@ export const useMessages = (id: number) => {
 		offset.value = 0
 		hasMore.value = false
 
-		pagination.setTotalPages(null)
 		searchTime.value = new Date()
 		const {
 			from: _from,
@@ -303,20 +226,15 @@ export const useMessages = (id: number) => {
 
 			const data = await getApi().seqUiServer.fetchMessages({
 				query: createQuery(),
-				offset: pagination.isPaginationMode.value ? (pagination.page.value - 1) * (limit.value - 1) : offset.value,
+				offset: offset.value,
 				from: _from,
 				to: _to,
 				order: order.value,
-				limit: pagination.isPaginationMode.value ? limit.value - 1 : limit.value,
+				limit: limit.value,
 				interval,
-				withTotal: pagination.isPaginationMode.value,
 			})
-			if (pagination.isPaginationMode.value) {
-				const total = Number(data.total || 0)
-				pagination.setTotalPages(Math.ceil(total / (limit.value - 1)))
-			}
 			setHasMoreAndPartialResponseFromData(data)
-			const _messages = normalizeResponse(data, timezone.value)
+			const _messages = normalizeResponse(data)
 			messages.value = _messages.length === limit.value ? _messages.slice(0, -1) : _messages
 			if (shouldFetchNewHistogram.value) {
 				histogram.value = normalizeBuckets(data.histogram, timezone.value, intervalMs)
@@ -339,7 +257,6 @@ export const useMessages = (id: number) => {
 				y: [],
 			}
 			lastSearchFilters.value = {}
-			pagination.setTotalPages(0)
 		} finally {
 			isHistogramFetching.value = false
 			isFetching.value = false
@@ -349,14 +266,14 @@ export const useMessages = (id: number) => {
 	const fetchAndReturnMessageById = async (id: string) => {
 		const event = await getApi().seqUiServer.fetchMessageById(id)
 		if (!_isEmpty(event.data)) {
-			return normalizeMessage(event, timezone.value)
+			return normalizeMessage(event)
 		}
 	}
 
 	const fetchMessageById = async (id: string) => {
 		const event = await getApi().seqUiServer.fetchMessageById(id)
 		if (!_isEmpty(event.data)) {
-			selectedMessage.value = normalizeMessage(event, timezone.value)
+			selectedMessage.value = normalizeMessage(event)
 		}
 	}
 	const setQueryAndFetch = (_query: string) => {
@@ -383,7 +300,7 @@ export const useMessages = (id: number) => {
 			limit: limit.value,
 			...searchInterval.value,
 		})
-		const _messages = normalizeResponse(data, timezone.value)
+		const _messages = normalizeResponse(data)
 		messages.value.push(...(_messages.length === limit.value ? _messages.slice(0, -1) : _messages))
 		setHasMoreAndPartialResponseFromData(data)
 		isFetching.value = false
@@ -404,51 +321,10 @@ export const useMessages = (id: number) => {
 			...searchInterval.value,
 			from: extendedFrom,
 		})
-		const _messages = normalizeResponse(data, timezone.value)
+		const _messages = normalizeResponse(data)
 		messages.value.push(...(_messages.length === limit.value ? _messages.slice(0, -1) : _messages))
 		setHasMoreAndPartialResponseFromData(data)
 		isFetching.value = false
-	}
-
-	const shouldAddWithTotal = (totalPages: number | null) => {
-		// todo
-		return totalPages === null || differenceInSeconds(new Date(), to.value as Date) < 30
-	}
-
-	const fetchPage = async () => {
-		isFetching.value = true
-		messages.value = []
-		const withTotal = shouldAddWithTotal(pagination.totalPages.value)
-		try {
-			const data = await getApi().seqUiServer.fetchMessages({
-				query: createQuery(),
-				offset: pagination.page.value > 0 ? (pagination.page.value - 1) * (limit.value - 1) : 0,
-				order: order.value,
-				limit: limit.value - 1,
-				withTotal,
-				...searchInterval.value,
-			})
-			error.value = null
-
-			messages.value = normalizeResponse(data, timezone.value)
-			if (withTotal && data.total) {
-				const total = Number(data.total || 0)
-				pagination.setTotalPages(Math.ceil(total / (limit.value - 1)))
-			}
-		} catch (e) {
-			console.error(e)
-			error.value = e as string
-			hasMore.value = false
-			histogram.value = {
-				x: [],
-				_x: [],
-				y: [],
-			}
-			lastSearchFilters.value = {}
-		}
-		finally {
-			isFetching.value = false
-		}
 	}
 
 	const fetchHistogram = async () => {
@@ -477,17 +353,7 @@ export const useMessages = (id: number) => {
 	}
 
 	const changeTimezone = (timeZone: string) => {
-		const callback = (message: Message) => {
-			return {
-				...message,
-				timestamp: format(utcToZonedTime(message.rawTime.toISOString(), timeZone), 'yyyy-MM-dd HH:mm:ss.SSS', {
-					timeZone,
-				}),
-			}
-		}
-		messages.value = messages.value.map(callback)
-
-		groups.updateGroups(callback)
+    // todo: refactor, timezone should only affect render values
 		histogram.value = {
 			...histogram.value,
 			x: histogram.value._x.map((date) => formatHistogramDate(date, timeZone)),
@@ -496,9 +362,6 @@ export const useMessages = (id: number) => {
 
 	const toggleOrder = () => {
 		order.value = (order.value === 'desc' ? 'asc' : 'desc')
-		if (groups.isGroupView.value) {
-			return
-		}
 		fetchMessages()
 	}
 
@@ -510,47 +373,21 @@ export const useMessages = (id: number) => {
 		selectedColumns.value = columns
 	}
 
-	const loadDashboardColumns = () => {
-		let result: string[] | undefined = tableFields.value
-		if (!result.length) {
-			result = selectedColumns.value.length ? selectedColumns.value : localStorage.getItem(LS_COLUMNS_KEY)?.split(',')
-		}
-		setSelectedColumns(result && result[0].length ? result : [])
-	}
-
 	const saveColumnsToLocalStorage = (selectedColumns: string[]) => {
 		localStorage.setItem(LS_COLUMNS_KEY, selectedColumns.join(','))
 	}
 
 	const toggleColumn = (column: string) => {
 		setSelectedColumns(symmetricDifference(selectedColumns.value, [column]), true)
-
-		if (canEditDashboard.value || !dashboardUUID.value) {
-			saveColumnsToLocalStorage(selectedColumns.value)
-		}
+    saveColumnsToLocalStorage(selectedColumns.value)
 	}
 
 	const addColumnToStart = (column: string) => {
 		const newColumnsOrder = selectedColumns.value.filter((col) => col !== column)
 		newColumnsOrder.unshift(column)
 		setSelectedColumns(newColumnsOrder, true)
-		if (canEditDashboard.value || !dashboardUUID.value) {
-			saveColumnsToLocalStorage(selectedColumns.value)
-		}
+    saveColumnsToLocalStorage(selectedColumns.value)
 	}
-
-	watch(groups.isGroupView, (value) => {
-		const { setRelative: _setRelative, extractRelative } = useLastRelative()
-		if (value) {
-			const result = extractRelative(from.value)
-			if (result) {
-				setInterval(result.from, result.to)
-			}
-			return
-		}
-		setRelative(_setRelative())
-		fetchMessages()
-	})
 
 	return {
 		messages,
@@ -560,15 +397,9 @@ export const useMessages = (id: number) => {
 		lastSearchFilters,
 		selectedMessage,
 		firstSearch,
-		/** @deprecated */
-		query,
 		editQuery,
 		rangetype,
 		getRawInterval,
-		/** @deprecated */
-		from,
-		/** @deprecated */
-		to,
 		isEmpty,
 		isWarning,
 		isFetching,
@@ -582,27 +413,22 @@ export const useMessages = (id: number) => {
 		hasMore,
 		exportLimit,
 		order,
-		pagination,
 		selectedColumns,
-		groups,
 
 		changeTimezone,
 		fetchMessages,
 		fetchHistogram,
 		fetchMessageById,
 		fetchAndReturnMessageById,
-		fetchPage,
 		setQueryAndFetch,
 		fetchMore,
 		fetchMoreExtended,
 		toggleHistogram,
 		setRelative,
 		loadDataFromQuery,
-		loadSliceDataFromQuery,
 		toggleOrder,
 		setInterval,
 		toggleColumn,
 		addColumnToStart,
-		loadDashboardColumns,
 	}
 }

@@ -1,7 +1,0 @@
-export const FUNCTION_SELECT = 'function-select'
-export const FIELD_SELECT = 'field-select'
-export const GROUP_BY_SELECT = 'group-by-select'
-export const QUANTILE_INPUT = 'quantile-input'
-export const HEADLINE_AGGREGATIONS = 'headline-aggregations'
-export const AGGREGATION_WIDGET = 'aggregation-widget'
-export const AGGREGATION_DATE_TIME_PICKER = 'aggregation-date-time-picker'

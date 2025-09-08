@@ -1,8 +1,0 @@
-export const INTERVAL_UNIT = 'interval-unit'
-export const INTERVAL_COUNT = 'interval-count'
-export const REQUEST_NAME = 'request-name'
-export const REQUEST_TEXT = 'request-text'
-export const REQUEST_PERIOD = 'interval-count'
-export const MODAL_HEADER = 'modal-header'
-export const DURATION_UNIT_SELECT = 'duration-unit-select'
-export const BUTTON_RESET = 'button-reset'

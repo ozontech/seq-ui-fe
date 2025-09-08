@@ -6,46 +6,8 @@ import {
   SECONDS_IN_MINUTE,
 } from './duration'
 
-import { pluralize } from './pluralize'
-
-export const locale: Record<string, [string, string, string]> = {
-  seconds: ['секунда', 'секунды', 'секунд'],
-  minutes: ['минута', 'минуты', 'минут'],
-  hours: ['час', 'часа', 'часов'],
-  days: ['день', 'дня', 'дней'],
-  weeks: ['неделя', 'недели', 'недель'],
-  months: ['месяц', 'месяца', 'месяцев'],
-  years: ['год', 'года', 'лет'],
-}
-
-export const localeAccusative: Record<string, [string, string, string]> = {
-  seconds: ['секунду', 'секунды', 'секунд'],
-  minutes: ['минуту', 'минуты', 'минут'],
-  hours: ['час', 'часа', 'часов'],
-  days: ['день', 'дня', 'дней'],
-  weeks: ['неделю', 'недели', 'недель'],
-  months: ['месяц', 'месяца', 'месяцев'],
-  years: ['год', 'года', 'лет'],
-}
-
-// russian stuff
-const getLastForUnit = (
-  amount: number,
-  unit: keyof Duration,
-  wordCase: 'nominative' | 'accusative',
-) => {
-  if (amount % 100 === 11 || amount % 10 !== 1) {
-    return 'Последние'
-  }
-  if (['seconds', 'minutes', 'weeks'].includes(unit)) {
-    return wordCase === 'nominative' ? 'Последняя' : 'Последнюю'
-  }
-  return 'Последний'
-}
-
 export const durationToMessage = (
   value: Duration,
-  wordCase: 'nominative' | 'accusative' = 'nominative',
 ) => {
   const unit = getUnitFromDuration(value, 'first')
   const _amount = unit ? value[unit] : null
@@ -55,18 +17,10 @@ export const durationToMessage = (
   if (typeof _amount === 'boolean') {
     return ['все', '', 'время']
   }
-  const last = getLastForUnit(_amount, unit, wordCase)
   const amount = `${_amount === 1 ? '' : _amount}`
-  const casedLocale = wordCase === 'nominative' ? locale : localeAccusative
-  const units = `${pluralize(_amount, casedLocale[unit])}`
+  const units = `${!amount ? unit.slice(unit.length - 1) : unit}`
 
-  return [last, amount, units]
-}
-
-export const getPluralizedUnit = (unit: keyof Duration, amount: number | null) => {
-  const units = `${pluralize(amount || 0, locale[unit])}`
-
-  return units
+  return ['last', amount, units]
 }
 
 export const secondsToDuration = (value?: number): Duration => {
@@ -96,28 +50,35 @@ export const secondsToDuration = (value?: number): Duration => {
   return durationObject
 }
 
+export const pluralize = (amount: number, word: string) => {
+  if (amount === 1) {
+    return word
+  }
+  return word + 's'
+}
+
 export const durationToText = (duration: Duration) => {
   let str = ''
   if (duration.years) {
-    str += ` ${duration.years} ${pluralize(duration.years, ['год', 'года', 'лет'])}`
+    str += ` ${duration.years} ${pluralize(duration.years, 'year')}`
   }
   if (duration.months) {
-    str += ` ${duration.months} ${pluralize(duration.months, ['месяц', 'месяца', 'месяцев'])}`
+    str += ` ${duration.months} ${pluralize(duration.months, 'month')}`
   }
   if (duration.weeks) {
-    str += ` ${duration.weeks} ${pluralize(duration.weeks, ['неделя', 'недели', 'недель'])}`
+    str += ` ${duration.weeks} ${pluralize(duration.weeks, 'week')}`
   }
   if (duration.days) {
-    str += ` ${duration.days} ${pluralize(duration.days, ['день', 'дня', 'дней'])}`
+    str += ` ${duration.days} ${pluralize(duration.days, 'day')}`
   }
   if (duration.hours) {
-    str += ` ${duration.hours} ${pluralize(duration.hours, ['час', 'часа', 'часов'])}`
+    str += ` ${duration.hours} ${pluralize(duration.hours, 'hour')}`
   }
   if (duration.minutes) {
-    str += ` ${duration.minutes} ${pluralize(duration.minutes, ['минута', 'минуты', 'минут'])}`
+    str += ` ${duration.minutes} ${pluralize(duration.minutes, 'minute')}`
   }
   if (duration.seconds) {
-    str += ` ${duration.seconds} ${pluralize(duration.seconds, ['секунда', 'секунды', 'секунд'])}`
+    str += ` ${duration.seconds} ${pluralize(duration.seconds, 'second')}`
   }
   return str.trim()
 }
@@ -126,25 +87,25 @@ export const durationToShortText = (duration: Duration) => {
   let str = ''
 
   if (duration.years) {
-    str += ` ${duration.years} г`
+    str += ` ${duration.years} y`
   }
   if (duration.months) {
-    str += ` ${duration.months} мес`
+    str += ` ${duration.months} mo`
   }
   if (duration.weeks) {
-    str += ` ${duration.weeks} нед`
+    str += ` ${duration.weeks} w`
   }
   if (duration.days) {
-    str += ` ${duration.days} д`
+    str += ` ${duration.days} d`
   }
   if (duration.hours) {
-    str += ` ${duration.hours}ч`
+    str += ` ${duration.hours}h`
   }
   if (duration.minutes) {
-    str += ` ${duration.minutes}мин`
+    str += ` ${duration.minutes}m`
   }
   if (duration.seconds) {
-    str += ` ${duration.seconds}с`
+    str += ` ${duration.seconds}s`
   }
   return str.trim()
 }

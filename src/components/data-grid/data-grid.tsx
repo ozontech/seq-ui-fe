@@ -54,7 +54,7 @@ export const useDataGrid = <T extends RowData>() => {
         props.whenSortingChange?.(sorting.value, (state) => sorting.value = state)
       }
 
-      const tableApi = useVueTable({
+      const tableApi = useVueTable<T>({
         data: props.data,
         columns: props.columns,
         columnResizeMode: 'onChange',

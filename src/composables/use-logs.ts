@@ -2,7 +2,7 @@ import { useRouteQuery } from "@vueuse/router"
 import { useInterval } from "./use-interval"
 import { getApi } from "@/api/client"
 import { ref } from "vue"
-import type { Log } from "@/types/log"
+import type { Message } from "@/types/messages"
 
 export const useLogs = () => {
   const api = getApi()
@@ -10,7 +10,7 @@ export const useLogs = () => {
   const interval = useInterval()
   const query = useRouteQuery<string>('q', '')
 
-  const data = ref<Log[]>([])
+  const data = ref<Message[]>([])
   const isLoading = ref(false)
 
   const setQuery = (value: string) => {
@@ -29,9 +29,9 @@ export const useLogs = () => {
       order: 'desc',
       from,
       to,
-      interval: '30s',
-      withTotal: false,
+      //interval: '30s',
     })
+    data.value = response.events
 
     isLoading.value = false
   }
