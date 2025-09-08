@@ -1,5 +1,5 @@
 import { getUnitFromDuration } from "@/helpers/duration";
-import { durationToMessage, getPluralizedUnit } from "@/helpers/duration-locale";
+import { durationToMessage } from "@/helpers/duration-locale";
 import { prop } from "@/lib/prop";
 import type { Duration } from "@/types/duration";
 import {
@@ -138,7 +138,8 @@ export const RelativeDuration = defineComponent({
                     key={option}
                     value={option}
                   >
-                    {getPluralizedUnit(option, props.amount ?? null)}
+                    {/* todo: splice 's'*/}
+                    {option}
                   </SelectItem>
                 ))}
               </SelectContent>

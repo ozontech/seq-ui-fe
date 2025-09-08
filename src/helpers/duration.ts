@@ -3,8 +3,7 @@ import { equals } from 'ramda'
 import type { LocationQueryValue } from 'vue-router'
 
 import { utcToZonedTime } from './date-fns-tz'
-import { locale } from './duration-locale'
-import { pluralize } from './pluralize'
+import { pluralize } from './duration-locale'
 import type { Duration } from '@/types/duration'
 
 export const durationToSeconds = (duration: Duration | null | undefined) => {
@@ -159,19 +158,19 @@ export const formatDuration = (
   const differenceInMinutes = Math.floor(differenceInSeconds / 60)
   const differenceInHours = Math.floor(differenceInMinutes / 60)
 
-  if (differenceInSeconds < 60) {
-    return 'несколько секунд назад'
-  } else if (differenceInMinutes < 5) {
-    return 'менее 5 минут назад'
-  } else if (differenceInMinutes < 10) {
-    return 'менее 10 минут назад'
-  } else if (differenceInMinutes < 30) {
-    return 'менее 30 минут назад'
-  } else if (differenceInMinutes < 60) {
-    return 'менее часа назад'
-  } else if (differenceInHours < 24) {
-    return `${differenceInHours} ${pluralize(differenceInHours, locale['hours'])} назад`
-  }
+	if (differenceInSeconds < 60) {
+		return 'just now'
+	} else if (differenceInMinutes < 5) {
+		return 'less than 5 minutes ago'
+	} else if (differenceInMinutes < 10) {
+		return 'less than 10 minutes ago'
+	} else if (differenceInMinutes < 30) {
+		return 'less than 30 minutes ago'
+	} else if (differenceInMinutes < 60) {
+		return 'less than an hour ago'
+	} else if (differenceInHours < 24) {
+		return `${differenceInHours} ${pluralize(differenceInHours, 'hour')}`
+	}
 
   return dateToLocaleString(updateTime, timeZone)
 }
