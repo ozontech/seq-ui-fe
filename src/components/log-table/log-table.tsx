@@ -6,9 +6,6 @@ import { format } from "date-fns-tz";
 
 import { useDataGrid, useDataGridColumnSettings } from "../data-grid";
 
-const DataGrid = useDataGrid<Log>()
-const DataGridColumnSettings = useDataGridColumnSettings<Log>()
-
 const props = {
   data: prop<Log[]>().required(),
   keywords: prop<string[]>().required(),
@@ -31,6 +28,9 @@ export const LogTable = defineComponent({
   setup(props) {
     const wrapperRef = ref<HTMLDivElement>()
     const messageWidth = ref(300)
+    const DataGrid = useDataGrid<Log>()
+    const DataGridColumnSettings = useDataGridColumnSettings<Log>()
+
 
     const columns = computed((): ColumnDef<Log>[] => [
       {
