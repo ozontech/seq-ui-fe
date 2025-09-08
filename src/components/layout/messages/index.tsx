@@ -5,6 +5,7 @@ import { useTokensStore } from '@/stores/tokens'
 import { LogTable } from '@/components/log-table'
 import { LogControls } from '@/components/log-controls'
 import { useLogs } from '@/composables/use-logs'
+import { SonnerToaster } from '@/ui/sonner'
 
 export const MessagesLayout = defineComponent({
   name: 'MessagesLayout',
@@ -34,6 +35,7 @@ export const MessagesLayout = defineComponent({
           loadMore={logs.loadMore}
           keywords={keywordOptions.value}
         />
+        <SonnerToaster/>
       </div>
     )
   },
