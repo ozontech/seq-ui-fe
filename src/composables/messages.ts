@@ -55,6 +55,7 @@ const defaultHistogram = (): Histogram => ({
 export const useMessages = (id: number) => {
 	const searchStore = useSearchStore()
 	const dashboardStore = useDashboardsStore()
+  const route = useRoute()
 	const { intervalParams, queryParams } = searchStore.getParams(id)
 
 	const {
@@ -119,10 +120,10 @@ export const useMessages = (id: number) => {
 	const exportLimit = ref(100_000)
 	const tzStore = useTimezoneStore()
 
-	const loadDataFromQuery = async ({ route, hard }: { route?: RouteLocationNormalized; hard?: boolean }) => {
-		let routeQueryValue = route?.query
+	const loadDataFromQuery = async ({ route: _route, hard }: { route?: RouteLocationNormalized; hard?: boolean }) => {
+		let routeQueryValue = _route?.query
 		if (!routeQueryValue) {
-			routeQueryValue = useRoute().query
+			routeQueryValue = route.query
 		}
 
 		const {
