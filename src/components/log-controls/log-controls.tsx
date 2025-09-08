@@ -36,9 +36,9 @@ export const LogControls = defineComponent({
           />
           <Button
             class="cursor-pointer"
-            whenClick={props.whenSubmit}
+            whenClick={() => props.whenSubmit(props.expression)}
           >
-            <Play size={16} />Выполнить запрос
+            <Play size={16} /> Search
           </Button>
         </div>
       </div>
