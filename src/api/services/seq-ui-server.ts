@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from 'axios'
 import { Api, SeqapiV1AggregationFuncDto, SeqapiV1OrderDto, type SeqapiV1AggregationQueryDto } from '../generated/seq-ui-server'
-import { normalizeEvent } from '@/normalizers/events'
+import { normalizeEvent, normalizeMessage } from '@/normalizers/events'
 import type { NoDataAg } from '@/composables/aggregations'
 import { normalizeAggregation, type NormalizedAggregationType } from '@/normalizers/aggregations'
 import { getKeywords } from '@/helpers/generate-data'
 import type { Order } from '@/types/messages'
+import { HandleErrorDecorator, ServiceHandleError } from '../base/error-handler'
 
 export type FetchMessagesNormalizedData = Awaited<ReturnType<InstanceType<typeof SeqUiServerService>['fetchMessages']>>
 
@@ -15,6 +16,13 @@ export type ResponseType<T> = {
 }
 
 export class SeqUiServerService extends Api {
+  @ServiceHandleError(() => ({
+    total: 0,
+    histogram: [],
+    events: [],
+    partialResponse: false,
+    error: ''
+  }))
 	async fetchMessages({ offset = 0, query = '', limit = 100, from, to, interval = '', order }: {
 		limit?: number
 		offset?: number
