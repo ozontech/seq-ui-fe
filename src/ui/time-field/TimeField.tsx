@@ -14,6 +14,7 @@ import { Clock8 } from 'lucide-vue-next'
 const props = {
   value: prop<string>().required(),
   whenChange: prop<(value: string) => void>().required(),
+  placeholder: prop<string>().optional(),
   as: prop<TimeFieldRootProps['as']>().optional(),
   asChild: prop<TimeFieldRootProps['asChild']>().optional(),
   defaultPlaceholder: prop<TimeFieldRootProps['defaultPlaceholder']>().optional(),
@@ -28,7 +29,6 @@ const props = {
   minValue: prop<TimeFieldRootProps['minValue']>().optional(),
   maxValue: prop<TimeFieldRootProps['maxValue']>().optional(),
   name: prop<TimeFieldRootProps['name']>().optional(),
-  placeholder: prop<TimeFieldRootProps['placeholder']>().optional(),
   readonly: prop<TimeFieldRootProps['readonly']>().optional(),
   required: prop<TimeFieldRootProps['required']>().optional(),
   asteps: prop<TimeFieldRootProps['step']>().optional(),
@@ -59,13 +59,13 @@ export const TimeField = defineComponent({
         )}
         modelValue={parseTimeString(props.value)}
         onUpdate:modelValue={(time) => props.whenChange(time?.toString() ?? '')}
-        {...reactiveOmit(props, 'class')}
+        {...reactiveOmit(props, 'class', 'placeholder')}
       >
         {{
           default: ({ segments }: { segments: Segment[] }) => (
             <div class="flex items-center">
               <Clock8 class="mr-2 h-4 w-4" />
-              {segments.map((segment, index) => (
+              {props.value ? segments.map((segment, index) => (
                 <TimeFieldInput
                   key={`${segment.part}-${index}`}
                   part={segment.part}
@@ -73,7 +73,7 @@ export const TimeField = defineComponent({
                 >
                   {segment.value}
                 </TimeFieldInput>
-              ))}
+              )) : props.placeholder}
             </div>
           )
         }}

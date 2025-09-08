@@ -2,10 +2,11 @@ import { computed, defineComponent, type VNode } from "vue";
 import type { ColumnDef, SortingState, Table } from "@tanstack/vue-table";
 import type { Log } from "@/types/log";
 import { prop } from "@/lib/prop";
-
-import { useDataGrid, useDataGridColumnSettings } from "../data-grid";
 import { format } from "date-fns-tz";
 import { useTokensStore } from "@/stores/tokens";
+import { storeToRefs } from "pinia";
+
+import { useDataGrid, useDataGridColumnSettings } from "../data-grid";
 
 const DataGrid = useDataGrid<Log>()
 const DataGridColumnSettings = useDataGridColumnSettings<Log>()
@@ -23,12 +24,13 @@ export const LogTable = defineComponent({
   props,
   setup(props) {
     const tokensStore = useTokensStore()
+    const { keywords } = storeToRefs(tokensStore)
 
-    const keywords = computed(() => {
-      return props.keywords ?? tokensStore.keywords.map(keyword => keyword.name ?? '')
+    const additionalColumns = computed(() => {
+      return props.keywords ?? keywords.value.map(keyword => keyword.name ?? '')
     })
 
-    const columns: ColumnDef<Log>[] = [
+    const columns = computed((): ColumnDef<Log>[] => [
       {
         accessorKey: 'timestamp',
         header: () => <div class='text-left'>Timestamp</div>,
@@ -76,7 +78,7 @@ export const LogTable = defineComponent({
           )
         },
       },
-      ...keywords.value.map((column): ColumnDef<Log> => ({
+      ...additionalColumns.value.map((column): ColumnDef<Log> => ({
         accessorKey: column,
         header: () => <div class='text-left'>{column}</div>,
         enableSorting: false,
@@ -109,7 +111,7 @@ export const LogTable = defineComponent({
           return <div />
         }
       },
-    ]
+    ])
 
     // сортировка колонки timestamp должна быть активна всегда
     const whenSortingChange = (state: SortingState, changeState: (state: SortingState) => void) => {
@@ -120,11 +122,12 @@ export const LogTable = defineComponent({
 
     const initialState = computed(() => {
       const defaultColumns = ['timestamp', 'message', 'actions'].map(column => [column, true])
-      const restColumns = keywords.value.map(column => [column, false])
+      const restColumns = additionalColumns.value.map(column => [column, false])
 
       return {
         columnVisibility: Object.fromEntries([...defaultColumns, ...restColumns]),
         sorting: [{ id: 'timestamp', desc: true }],
+        columnPinning: { left: ['timestamp', 'message'], right: ['actions'] }
       }
     })
 
@@ -148,7 +151,7 @@ export const LogTable = defineComponent({
     return () => (
       <DataGrid
         headerClass="sticky top-0 z-2"
-        columns={props.columns ?? columns}
+        columns={props.columns ?? columns.value}
         data={props.data}
         initialState={initialState.value}
         isLoading={false}

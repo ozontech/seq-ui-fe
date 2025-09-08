@@ -19,6 +19,7 @@ import { CalendarGridRow } from "./CalendarGridRow";
 import { CalendarHeadCell } from "./CalendarHeadCell";
 import { CalendarGridBody } from "./CalendarGridBody";
 import { parseDate } from "@internationalized/date"
+import { format } from "date-fns-tz";
 
 type CalendarValue = Date | Date[] | undefined
 
@@ -56,7 +57,6 @@ const props = {
   whenPlaceholderChange: prop<(value: DateValue) => void>().optional(),
 }
 
-
 type SlotParams = {
   grid: {
     value: DateValue
@@ -66,16 +66,18 @@ type SlotParams = {
   weekDays: string[]
 }
 
+const DATE_FORMAT = 'yyyy-MM-dd'
+
 export const Calendar = defineComponent({
   name: 'BaseCalendar',
   props,
   setup(props) {
     const modelValue = computed(() => {
       if (Array.isArray(props.value)) {
-        return props.value.map(item => parseDate(item.toISOString().split('T')[0]))
+        return props.value.map(item => parseDate(format(item, DATE_FORMAT)))
       }
 
-      return props.value ? parseDate(props.value.toISOString().split('T')[0]) : undefined
+      return props.value ? parseDate(format(props.value, DATE_FORMAT)) : undefined
     })
 
     const whenValueChange = (calendarDate?: DateValue) => {

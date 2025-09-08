@@ -76,6 +76,8 @@ export const useDataGrid = <T extends RowData>() => {
         initialized.value = false
       }
 
+      // TODO: переделать как в примере
+      // https://tanstack.com/table/latest/docs/framework/react/examples/full-width-resizable-table
       const updateColumnsWidth = async () => {
         await nextTick()
 

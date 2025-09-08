@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils"
 const props = {
   value: prop<Date>().optional(),
   timezone: prop<string>().required(),
+  invalid: prop<boolean>().optional(),
   whenChange: prop<(value?: Date) => void>().required(),
 }
 
@@ -18,8 +19,11 @@ export const DateTimePicker = defineComponent({
     const open = ref(false)
 
     const preview = computed(() => {
-      const date = props.value ?? new Date()
-      return formatInTimeZone(date, props.timezone, 'dd.MM.yyyy')
+      if (!props.value) {
+        return 'дд.мм.гггг'
+      }
+
+      return formatInTimeZone(props.value, props.timezone, 'dd.MM.yyyy')
     })
 
     const time = computed(() => {
@@ -36,7 +40,6 @@ export const DateTimePicker = defineComponent({
     }
 
     const whenTimeChange = (value: string) => {
-
       const date = props.value ?? new Date()
       const [h, m, s] = (value || '0:0:0').split(':').map(Number)
 
@@ -50,7 +53,11 @@ export const DateTimePicker = defineComponent({
           <PopoverTrigger as-child>
             <Button
               variant="outline"
-              class={cn('w-[140px] font-normal', !props.value && 'text-muted-foreground')}
+              class={cn(
+                'w-[140px] font-normal',
+                !props.value && 'text-muted-foreground',
+                props.invalid && 'text-destructive',
+              )}
             >
               <CalendarIcon class="mr-2 h-4 w-4" />
               {preview.value}
@@ -58,6 +65,7 @@ export const DateTimePicker = defineComponent({
           </PopoverTrigger>
           <PopoverContent class="w-auto p-0">
             <Calendar
+              locale="ru-RU"
               value={props.value}
               timezone={props.timezone}
               whenValueChange={whenDateChange}
@@ -67,10 +75,13 @@ export const DateTimePicker = defineComponent({
         <TimeField
           class={cn(
             'text-foreground hover:text-foreground',
-            !props.value && 'text-muted-foreground')}
+            !props.value && 'text-muted-foreground',
+            props.invalid && 'text-destructive'
+          )}
+          locale="ru-RU"
           value={time.value}
+          placeholder={'чч:мм:сс'}
           granularity="second"
-          hourCycle={24}
           whenChange={whenTimeChange}
         />
       </div>
