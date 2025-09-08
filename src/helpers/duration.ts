@@ -84,7 +84,7 @@ export const secondsToSingleUnitDuration = (seconds: number): Duration => {
 	}
 
 	if (seconds === Infinity) {
-		return { forever: true }
+		return { forever: 1 }
 	}
 
 	if (seconds % SECONDS_IN_WEEK === 0) {
