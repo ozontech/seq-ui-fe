@@ -10,6 +10,7 @@ import { useRouteQuery } from './route-query'
 import { useSearchStore } from '@/stores/search'
 
 export const useBlock = (_id = 0, opened = false) => {
+  const route = useRoute()
 	const id = _id || useCounter().getValue()
 
 	const params = useSearchStore().getParams(id)
@@ -35,7 +36,7 @@ export const useBlock = (_id = 0, opened = false) => {
 
 	const saveToUrl = (object: Record<string, string | undefined>) => {
 		const index = id === 0 ? '' : `.${id}`
-		const query = useRoute().query
+		const query = route.query
 		const objectWithTrimmedValues = Object.fromEntries(Object.entries(object).map(([key, value]) => [`${key}${index}`, value?.trim()]))
 		if (isEqual(objectWithTrimmedValues, query)) {
 			return
