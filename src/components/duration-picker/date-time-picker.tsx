@@ -20,7 +20,7 @@ export const DateTimePicker = defineComponent({
 
     const preview = computed(() => {
       if (!props.value) {
-        return 'дд.мм.гггг'
+        return 'dd.mm.yyyy'
       }
 
       return formatInTimeZone(props.value, props.timezone, 'dd.MM.yyyy')
@@ -65,7 +65,7 @@ export const DateTimePicker = defineComponent({
           </PopoverTrigger>
           <PopoverContent class="w-auto p-0">
             <Calendar
-              locale="ru-RU"
+              locale="en-GB"
               value={props.value}
               timezone={props.timezone}
               whenValueChange={whenDateChange}
@@ -78,9 +78,9 @@ export const DateTimePicker = defineComponent({
             !props.value && 'text-muted-foreground',
             props.invalid && 'text-destructive'
           )}
-          locale="ru-RU"
+          locale="en-GB"
           value={time.value}
-          placeholder={'чч:мм:сс'}
+          placeholder={'hh:mm:ss'}
           granularity="second"
           whenChange={whenTimeChange}
         />

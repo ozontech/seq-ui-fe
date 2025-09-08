@@ -6,7 +6,7 @@ import type { DashboardInfo, DashboardSaved } from '@/types/dashboards'
 import { normalizeEvent } from '@/normalizers/events'
 import type { NoDataAg } from '@/composables/aggregations'
 import { normalizeAggregation, type NormalizedAggregationType } from '@/normalizers/aggregations'
-import { getKeywords } from '@/helpers/generate-data'
+import { generateTableData, getKeywords } from '@/helpers/generate-data'
 
 export type FetchMessagesNormalizedData = Awaited<ReturnType<InstanceType<typeof SeqUiServerService>['fetchMessages']>>
 
@@ -20,7 +20,7 @@ export class SeqUiServerService extends Api {
     return {
       total: 1,
       histogram: [],
-      events: [],
+      events: generateTableData(50),
       partialResponse: undefined,
       error: {
         code: 'code',

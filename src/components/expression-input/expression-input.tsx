@@ -1,6 +1,7 @@
 import { nextTick, defineComponent, computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { prop } from '@/lib/prop'
+import { cn } from "@/lib/utils"
 
 import { useTokensStore } from '@/stores/tokens'
 import { useCodemirror } from './use-codemirror'
@@ -74,12 +75,10 @@ export const ExpressionInput = defineComponent({
     return () => (
       <div
         id={props.id}
-        class={[
+        class={cn(
           'flex grow items-center gap-[8px] w-full border border-input rounded-md shadow-xs bg-transparent px-3 py-2',
-          {
-            ['border-ring ring-ring/50 ring-[3px]']: codemirror.active.value,
-          }
-        ]}
+          codemirror.active.value && 'border-ring ring-ring/50 ring-[3px]',
+        )}
       >
         <SuggestionsHint
           whenSelect={handleSelectSuggestion}

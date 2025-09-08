@@ -18,6 +18,7 @@ import {
 import { equals } from "ramda";
 import type { AcceptableValue } from "reka-ui";
 import { computed, defineComponent } from "vue";
+import { cn } from "@/lib/utils"
 
 export const relativeOptions: Duration[] = [
   { minutes: 15 },
@@ -80,7 +81,7 @@ export const RelativeDuration = defineComponent({
 
             return (
               <FilterChipToggle
-                class={[{ ['border-primary']: selected }]}
+                class={cn(selected && 'border-primary')}
                 key={`${amount}${unit}`}
                 variant="outline"
                 whenClick={() => props.whenSelect(duration)}

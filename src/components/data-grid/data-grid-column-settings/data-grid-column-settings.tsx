@@ -29,7 +29,7 @@ export const useDataGridColumnSettings = <T extends RowData>() => {
 
       return () => (
         <Popover>
-          <PopoverTrigger class="w-full flex justify-center align-middle">
+          <PopoverTrigger class="w-full flex justify-center align-middle cursor-pointer">
             <Settings size={18} />
           </PopoverTrigger>
           <PopoverContent>

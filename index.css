@@ -126,6 +126,18 @@
     background-color: var(--background) !important;
   }
 
+  .pinned-cell {
+    --data-grid-pinned-border:2px solid var(--border);
+  }
+
+  .pinned-cell.first-right {
+    border-left: var( --data-grid-pinned-border);
+  }
+
+  .pinned-cell.last-left {
+    border-right: var( --data-grid-pinned-border);
+  }
+
   .resizer {
     @apply absolute top-0 bottom-0 right-0 grid justify-end w-2 select-none touch-none after:w-[1px] after:mx-[0] after:my-[8px] after:bg-border after:rounded-xs after:duration-[0.2s] after:ease-in after:content-[""];
   }
