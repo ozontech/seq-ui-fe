@@ -5,13 +5,16 @@ import { prop } from "@/lib/prop";
 import { format } from "date-fns-tz";
 
 import { useDataGrid, useDataGridColumnSettings } from "../data-grid";
+import type { SortDirection } from "@/types/shared";
 
 const props = {
   data: prop<Log[]>().required(),
   keywords: prop<string[]>().required(),
+  timeDirection: prop<SortDirection>().optional(),
   columns: prop<ColumnDef<Log>[]>().optional(),
-  loadMore: prop<() => Promise<void>>().optional(),
   isLoading: prop<boolean>().optional(false),
+  loadMore: prop<() => Promise<void>>().optional(),
+  setTimeDirection: prop<(value: SortDirection) => void>().optional(),
   renderCell: prop<(key: string, item: Log) => VNode>().optional(),
   renderExpanded: prop<(item: Log, tableApi: Table<Log>) => VNode>().optional(),
 }
@@ -122,6 +125,9 @@ export const LogTable = defineComponent({
       if (state.length === 0) {
         changeState([{ id: 'timestamp', desc: true }])
       }
+
+      const direction = state.find(item => item.id === 'timestamp')?.desc ?? true ? 'desc' : 'asc'
+      props.setTimeDirection?.(direction)
     }
 
     const initialState = computed(() => {
