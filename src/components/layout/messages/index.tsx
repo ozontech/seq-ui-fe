@@ -31,9 +31,11 @@ export const MessagesLayout = defineComponent({
         />
         <LogTable
           data={logs.data.value}
+          keywords={keywordOptions.value}
+          timeDirection={logs.timeDirection.value}
+          setTimeDirection={logs.setTimeDirection}
           isLoading={logs.isLoading.value}
           loadMore={logs.loadMore}
-          keywords={keywordOptions.value}
         />
         <SonnerToaster
           richColors

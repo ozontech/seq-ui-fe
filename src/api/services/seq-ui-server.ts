@@ -17,16 +17,20 @@ export type ResponseType<T> = {
 }
 
 export class SeqUiServerService extends Api {
-	async fetchMessages({ offset = 0, query = '', limit = 100, from, to, interval = '', order }: {
-		limit?: number
-		offset?: number
-		query?: string
-		from?: string
-		to?: string
-		interval?: string
-		order?: Order
-	}) {
-		const orderEnumed = order === 'asc' ? SeqapiV1OrderDto.OASC : order === 'desc' ? SeqapiV1OrderDto.ODESC : undefined
+  async fetchMessages({ offset = 0, query = '', limit = 100, from, to, interval = '', order }: {
+    limit?: number
+    offset?: number
+    query?: string
+    from?: string
+    to?: string
+    interval?: string
+    order?: Order
+  }) {
+    const orderEnumed = order === 'asc'
+      ? SeqapiV1OrderDto.OASC
+      : order === 'desc'
+        ? SeqapiV1OrderDto.ODESC
+        : undefined
 
     try {
       const { data: { total, events, histogram, partialResponse, error } } = await this.seqapiV1Search({
@@ -42,13 +46,13 @@ export class SeqUiServerService extends Api {
       })
 
       return {
-        total,
+        total: Number(total),
         histogram: histogram?.buckets || [],
-        events: [{data: {message: 'lol'}, id: '1', time: new Date().toISOString()}].map((ev) => normalizeMessage(normalizeEvent(ev))) || [],
+        events: (events ?? []).map(normalizeMessage),
         partialResponse,
         error,
       }
-    } catch(e) {
+    } catch (e) {
       // @ts-ignore fix later
       toast.error((e as AxiosError).response?.data?.message, {
         id: 'search',
@@ -59,7 +63,7 @@ export class SeqUiServerService extends Api {
         events: []
       }
     }
-	}
+  }
 
   async getLimits() {
     return {
