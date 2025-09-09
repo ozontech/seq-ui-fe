@@ -4,7 +4,6 @@ import { Api, SeqapiV1AggregationFuncDto, SeqapiV1OrderDto, type SeqapiV1Aggrega
 import { normalizeEvent, normalizeMessage } from '@/normalizers/events'
 import type { NoDataAg } from '@/composables/aggregations'
 import { normalizeAggregation, type NormalizedAggregationType } from '@/normalizers/aggregations'
-import { getKeywords } from '@/helpers/generate-data'
 import type { Order } from '@/types/messages'
 import { HandleErrorDecorator, ServiceHandleError } from '../base/error-handler'
 import { toast } from 'vue-sonner'
@@ -78,7 +77,8 @@ export class SeqUiServerService extends Api {
   }
 
   async getPinnedFields() {
-    return []
+    const { data: { fields = [] } } = await this.seqapiV1GetPinnedFields()
+    return fields.map(({ name }) => name || '')
   }
 
   async streamExport(body: unknown): Promise<Response> {
@@ -86,7 +86,8 @@ export class SeqUiServerService extends Api {
   }
 
   async fetchKeywords() {
-    return getKeywords()
+    const { data } = await this.seqapiV1GetFields()
+    return data.fields || []
   }
 
   async fetchMessageById(id: string) {
