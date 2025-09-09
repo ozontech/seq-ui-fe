@@ -28,7 +28,7 @@ export const AbsolutePicker = defineComponent({
     return () => (
       <div class="flex flex-col gap-[8px]">
         <div class="flex flex-col gap-[4px]">
-          <span class="text-muted-foreground">С</span>
+          <span class="text-muted-foreground">From</span>
           <DateTimePicker
             timezone={props.timezone.name}
             value={props.from.date}
@@ -38,7 +38,7 @@ export const AbsolutePicker = defineComponent({
         </div>
 
         <div class="flex flex-col gap-[4px]">
-          <span class="text-muted-foreground">По</span>
+          <span class="text-muted-foreground">To</span>
           <DateTimePicker
             timezone={props.timezone.name}
             value={props.to.date}

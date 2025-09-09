@@ -14,13 +14,10 @@ export const durationToMessage = (
   if (!unit || !_amount) {
     return
   }
-  if (typeof _amount === 'boolean') {
-    return ['все', '', 'время']
-  }
   const amount = `${_amount === 1 ? '' : _amount}`
-  const units = `${!amount ? unit.slice(unit.length - 1) : unit}`
+  const units = `${!amount ? unit.slice(0, -1) : unit}`
 
-  return ['last', amount, units]
+  return ['Last', amount, units]
 }
 
 export const secondsToDuration = (value?: number): Duration => {

@@ -5,12 +5,12 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/ui'
 
 const suggestionsArray = [
   {
-    caption: 'Поиск ошибок по сервису',
+    caption: 'Search for errors by service',
     label: 'service:"my-service" AND message:"error"',
     snippet: 'service:"${1:my-service}" AND message:"error"',
   },
   {
-    caption: 'Поиск ошибок на определенном контейнере',
+    caption: 'Search for errors on a specific container',
     label: 'k8s_container:"service-api-*" AND message:"error"',
     snippet: 'k8s_container:"${1:service-api-*}" AND message:"error"',
   },

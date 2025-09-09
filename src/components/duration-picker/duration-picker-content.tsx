@@ -77,13 +77,13 @@ export const DurationPickerContent = defineComponent({
             disabled={invalid.value}
             whenClick={whenSubmit}
           >
-            Применить
+            Submit
           </Button>
           <Button
             variant="secondary"
             whenClick={props.whenClose}
           >
-            Отменить
+            Cancel
           </Button>
         </div>
       </>
