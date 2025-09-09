@@ -3,8 +3,7 @@ import { equals } from 'ramda'
 import type { LocationQueryValue } from 'vue-router'
 
 import { utcToZonedTime } from './date-fns-tz'
-import { locale } from './duration-locale'
-import { pluralize } from './pluralize'
+import { pluralize } from './duration-locale'
 import type { Duration } from '@/types/duration'
 
 export const durationToSeconds = (duration: Duration | null | undefined) => {
@@ -84,7 +83,7 @@ export const secondsToSingleUnitDuration = (seconds: number): Duration => {
 	}
 
 	if (seconds === Infinity) {
-		return { forever: true }
+		return { forever: 1 }
 	}
 
 	if (seconds % SECONDS_IN_WEEK === 0) {
@@ -160,17 +159,17 @@ export const formatDuration = (
 	const differenceInHours = Math.floor(differenceInMinutes / 60)
 
 	if (differenceInSeconds < 60) {
-		return 'несколько секунд назад'
+		return 'just now'
 	} else if (differenceInMinutes < 5) {
-		return 'менее 5 минут назад'
+		return 'less than 5 minutes ago'
 	} else if (differenceInMinutes < 10) {
-		return 'менее 10 минут назад'
+		return 'less than 10 minutes ago'
 	} else if (differenceInMinutes < 30) {
-		return 'менее 30 минут назад'
+		return 'less than 30 minutes ago'
 	} else if (differenceInMinutes < 60) {
-		return 'менее часа назад'
+		return 'less than an hour ago'
 	} else if (differenceInHours < 24) {
-		return `${differenceInHours} ${pluralize(differenceInHours, locale['hours'])} назад`
+		return `${differenceInHours} ${pluralize(differenceInHours, 'hour')}`
 	}
 
 	return dateToLocaleString(updateTime, timeZone)

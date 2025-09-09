@@ -34,7 +34,12 @@ export const LogControls = defineComponent({
             to={props.to}
             whenChange={props.whenIntervalChange}
           />
-          <Button><Play size={16} />Выполнить запрос</Button>
+          <Button
+            class="cursor-pointer"
+            whenClick={() => props.whenSubmit(props.expression)}
+          >
+            <Play size={16} /> Search
+          </Button>
         </div>
       </div>
     )

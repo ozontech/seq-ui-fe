@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "vue-sonner/style.css";
 
 @custom-variant dark (&:is(.dark *));
 @theme inline {
@@ -124,6 +125,18 @@
 @layer components {
   tr[data-nonhoverable]:hover {
     background-color: var(--background) !important;
+  }
+
+  .pinned-cell {
+    --data-grid-pinned-border:2px solid var(--border);
+  }
+
+  .pinned-cell.first-right {
+    border-left: var( --data-grid-pinned-border);
+  }
+
+  .pinned-cell.last-left {
+    border-right: var( --data-grid-pinned-border);
   }
 
   .resizer {

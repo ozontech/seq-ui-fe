@@ -1,34 +1,40 @@
-import { computed, defineComponent, type VNode } from "vue";
+import { computed, defineComponent, onMounted, ref, type VNode } from "vue";
 import type { ColumnDef, SortingState, Table } from "@tanstack/vue-table";
-import type { Log } from "@/types/log";
+import type { Message as Log } from "@/types/messages";
 import { prop } from "@/lib/prop";
+import { format } from "date-fns-tz";
 
 import { useDataGrid, useDataGridColumnSettings } from "../data-grid";
-import { format } from "date-fns-tz";
-import { useTokensStore } from "@/stores/tokens";
-
-const DataGrid = useDataGrid<Log>()
-const DataGridColumnSettings = useDataGridColumnSettings<Log>()
+import type { SortDirection } from "@/types/shared";
 
 const props = {
-  data: prop<Log[]>().optional([]),
+  data: prop<Log[]>().required(),
+  keywords: prop<string[]>().required(),
+  timeDirection: prop<SortDirection>().optional(),
   columns: prop<ColumnDef<Log>[]>().optional(),
-  keywords: prop<string[]>().optional(),
+  isLoading: prop<boolean>().optional(false),
+  loadMore: prop<() => Promise<void>>().optional(),
+  setTimeDirection: prop<(value: SortDirection) => void>().optional(),
   renderCell: prop<(key: string, item: Log) => VNode>().optional(),
   renderExpanded: prop<(item: Log, tableApi: Table<Log>) => VNode>().optional(),
+}
+
+const FIXED_WIDTH = {
+  TIME: 200,
+  ACTIONS: 36,
+  OFFSET: 200,
 }
 
 export const LogTable = defineComponent({
   name: 'LogTable',
   props,
   setup(props) {
-    const tokensStore = useTokensStore()
+    const wrapperRef = ref<HTMLDivElement>()
+    const messageWidth = ref(300)
+    const DataGrid = useDataGrid<Log>()
+    const DataGridColumnSettings = useDataGridColumnSettings<Log>()
 
-    const keywords = computed(() => {
-      return props.keywords ?? tokensStore.keywords.map(keyword => keyword.name ?? '')
-    })
-
-    const columns: ColumnDef<Log>[] = [
+    const columns = computed((): ColumnDef<Log>[] => [
       {
         accessorKey: 'timestamp',
         header: () => <div class='text-left'>Timestamp</div>,
@@ -36,7 +42,8 @@ export const LogTable = defineComponent({
         enableSorting: true,
         enableResizing: false,
         enableHiding: false,
-        size: 200,
+        size: FIXED_WIDTH.TIME,
+        maxSize: FIXED_WIDTH.TIME,
         cell: ({ column, row }) => {
           const view = props.renderCell?.(column.id, row.original)
           if (view) {
@@ -45,7 +52,6 @@ export const LogTable = defineComponent({
 
           const timestamp = row.getValue<string>(column.id)
           const [date, time] = format(new Date(timestamp), 'yyyy-MM-dd HH:mm:ss.SSS').split(' ')
-
 
           return (
             <div class="text-left">
@@ -62,6 +68,7 @@ export const LogTable = defineComponent({
         enableResizing: true,
         enableHiding: false,
         minSize: 300,
+        size: messageWidth.value,
         maxSize: 1000,
         cell: ({ column, row }) => {
           const view = props.renderCell?.(column.id, row.original)
@@ -76,7 +83,7 @@ export const LogTable = defineComponent({
           )
         },
       },
-      ...keywords.value.map((column): ColumnDef<Log> => ({
+      ...props.keywords.map((column): ColumnDef<Log> => ({
         accessorKey: column,
         header: () => <div class='text-left'>{column}</div>,
         enableSorting: false,
@@ -99,7 +106,9 @@ export const LogTable = defineComponent({
         enableSorting: false,
         enableResizing: false,
         enableHiding: false,
-        size: 34,
+        minSize: FIXED_WIDTH.ACTIONS,
+        size: FIXED_WIDTH.ACTIONS,
+        maxSize: FIXED_WIDTH.ACTIONS,
         cell: ({ column, row }) => {
           const view = props.renderCell?.(column.id, row.original)
           if (view) {
@@ -109,22 +118,26 @@ export const LogTable = defineComponent({
           return <div />
         }
       },
-    ]
+    ])
 
     // сортировка колонки timestamp должна быть активна всегда
     const whenSortingChange = (state: SortingState, changeState: (state: SortingState) => void) => {
       if (state.length === 0) {
         changeState([{ id: 'timestamp', desc: true }])
       }
+
+      const direction = state.find(item => item.id === 'timestamp')?.desc ?? true ? 'desc' : 'asc'
+      props.setTimeDirection?.(direction)
     }
 
     const initialState = computed(() => {
       const defaultColumns = ['timestamp', 'message', 'actions'].map(column => [column, true])
-      const restColumns = keywords.value.map(column => [column, false])
+      const restColumns = props.keywords.map(column => [column, false])
 
       return {
         columnVisibility: Object.fromEntries([...defaultColumns, ...restColumns]),
         sorting: [{ id: 'timestamp', desc: true }],
+        columnPinning: { left: ['timestamp', 'message'], right: ['actions'] }
       }
     })
 
@@ -145,17 +158,24 @@ export const LogTable = defineComponent({
       )
     }
 
+    onMounted(() => {
+      if (wrapperRef.value) {
+        messageWidth.value = wrapperRef.value?.offsetWidth - FIXED_WIDTH.ACTIONS - FIXED_WIDTH.TIME - FIXED_WIDTH.OFFSET
+      }
+    })
+
     return () => (
-      <DataGrid
-        headerClass="sticky top-0 z-2"
-        columns={props.columns ?? columns}
-        data={props.data}
-        initialState={initialState.value}
-        isLoading={false}
-        loadMore={() => { console.log('load more') }}
-        renderExpanded={renderExpanded}
-        whenSortingChange={whenSortingChange}
-      />
+      <div ref={wrapperRef}>
+        <DataGrid
+          columns={props.columns ?? columns.value}
+          data={props.data}
+          initialState={initialState.value}
+          isLoading={props.isLoading}
+          loadMore={props.loadMore}
+          renderExpanded={renderExpanded}
+          whenSortingChange={whenSortingChange}
+        />
+      </div>
     )
   }
 })

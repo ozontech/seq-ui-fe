@@ -1,5 +1,6 @@
 import type { VNode } from "vue"
 
+// todo: remove? src/api/services/seq-ui-server.ts:53
 const sendNotification = (options: {
   renderContent: VNode | string
 }) => {

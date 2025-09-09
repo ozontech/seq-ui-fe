@@ -45,17 +45,17 @@ export const DurationPickerTrigger = defineComponent({
       return Boolean(value && Object.keys(value).length)
     }
 
-    const renderInterval = () => {
-      return (
-        <span>
-          {durationNotEmpty(props.from) && renderDate(props.from)}
-          {durationNotEmpty(props.to) && props.from?.date && (<>
+    const renderInterval = () => (
+      <span>
+        {durationNotEmpty(props.from) && renderDate(props.from)}
+        {durationNotEmpty(props.to) && props.from?.date && (
+          <>
             <span class="text-base text-muted-foreground"> - </span>
             {renderDate(props.to)}
-          </>)}
-        </span>
-      )
-    }
+          </>
+        )}
+      </span>
+    )
 
     return () => (
       <Button class="rounded-none" variant="outline">

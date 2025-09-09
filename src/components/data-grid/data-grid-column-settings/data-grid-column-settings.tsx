@@ -29,14 +29,14 @@ export const useDataGridColumnSettings = <T extends RowData>() => {
 
       return () => (
         <Popover>
-          <PopoverTrigger class="w-full flex justify-center align-middle">
+          <PopoverTrigger class="w-full flex justify-center align-middle cursor-pointer">
             <Settings size={18} />
           </PopoverTrigger>
           <PopoverContent>
             <Input
               class="mb-2"
               value={search.value}
-              placeholder="Поиск поля"
+              placeholder={'Field search'}
               whenChange={whenSearchChange}
             />
             <div class="max-h-[400px] overflow-auto flex flex-col gap-[8px]">
