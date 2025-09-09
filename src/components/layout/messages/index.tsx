@@ -35,7 +35,10 @@ export const MessagesLayout = defineComponent({
           loadMore={logs.loadMore}
           keywords={keywordOptions.value}
         />
-        <SonnerToaster/>
+        <SonnerToaster
+          richColors
+          position='bottom-right'
+        />
       </div>
     )
   },

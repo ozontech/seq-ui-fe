@@ -55,9 +55,6 @@ export const useInterval = (
     to.value = newTo ?? {}
   }
 
-  watch(from, (value) => console.log(value), { immediate: true })
-  watch(to, (value) => console.log(value), { immediate: true })
-
   const toDates = () => {
     const _from = from.value
     const _to = to.value
