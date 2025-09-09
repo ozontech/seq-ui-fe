@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { Api, SeqapiV1AggregationFuncDto, SeqapiV1OrderDto, type SeqapiV1AggregationQueryDto } from '../generated/seq-ui-server'
 import { normalizeEvent, normalizeMessage } from '@/normalizers/events'
 import type { NoDataAg } from '@/composables/aggregations'
@@ -7,6 +7,7 @@ import { normalizeAggregation, type NormalizedAggregationType } from '@/normaliz
 import { getKeywords } from '@/helpers/generate-data'
 import type { Order } from '@/types/messages'
 import { HandleErrorDecorator, ServiceHandleError } from '../base/error-handler'
+import { toast } from 'vue-sonner'
 
 export type FetchMessagesNormalizedData = Awaited<ReturnType<InstanceType<typeof SeqUiServerService>['fetchMessages']>>
 
@@ -16,13 +17,6 @@ export type ResponseType<T> = {
 }
 
 export class SeqUiServerService extends Api {
-  @ServiceHandleError(() => ({
-    total: 0,
-    histogram: [],
-    events: [],
-    partialResponse: false,
-    error: ''
-  }))
 	async fetchMessages({ offset = 0, query = '', limit = 100, from, to, interval = '', order }: {
 		limit?: number
 		offset?: number
@@ -34,25 +28,37 @@ export class SeqUiServerService extends Api {
 	}) {
 		const orderEnumed = order === 'asc' ? SeqapiV1OrderDto.OASC : order === 'desc' ? SeqapiV1OrderDto.ODESC : undefined
 
-		const { data: { total, events, histogram, partialResponse, error } } = await this.seqapiV1Search({
-			query,
-			from,
-			to,
-			limit,
-			offset,
-			order: orderEnumed,
-			histogram: {
-				interval,
-			},
-		})
+    try {
+      const { data: { total, events, histogram, partialResponse, error } } = await this.seqapiV1Search({
+        query,
+        from,
+        to,
+        limit,
+        offset,
+        order: orderEnumed,
+        histogram: {
+          interval,
+        },
+      })
 
-		return {
-			total,
-			histogram: histogram?.buckets || [],
-			events: events?.map(normalizeEvent) || [],
-			partialResponse,
-			error,
-		}
+      return {
+        total,
+        histogram: histogram?.buckets || [],
+        events: [{data: {message: 'lol'}, id: '1', time: new Date().toISOString()}].map((ev) => normalizeMessage(normalizeEvent(ev))) || [],
+        partialResponse,
+        error,
+      }
+    } catch(e) {
+      // @ts-ignore fix later
+      toast.error((e as AxiosError).response?.data?.message, {
+        id: 'search',
+      })
+      return {
+        total: 0,
+        histogram: [],
+        events: []
+      }
+    }
 	}
 
   async getLimits() {

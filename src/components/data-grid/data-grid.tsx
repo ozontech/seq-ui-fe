@@ -17,7 +17,7 @@ import type {
   Table as TanstackTable,
   ColumnPinningState
 } from "@tanstack/vue-table";
-import { defineComponent, ref, watch, type VNode } from "vue";
+import { defineComponent, ref, toRef, watch, type VNode } from "vue";
 import { useDataGridHeader } from "./data-grid-header";
 import { useDataGridBody } from "./data-grid-body";
 import { valueUpdater } from "@/ui/table/utils";
@@ -53,9 +53,10 @@ export const useDataGrid = <T extends RowData>() => {
         valueUpdater(updaterOrValue, sorting)
         props.whenSortingChange?.(sorting.value, (state) => sorting.value = state)
       }
+      const data = toRef(props, 'data');
 
       const tableApi = useVueTable<T>({
-        data: props.data,
+        data,
         columns: props.columns,
         columnResizeMode: 'onChange',
         getCoreRowModel: getCoreRowModel(),

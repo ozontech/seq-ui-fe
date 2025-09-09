@@ -40,7 +40,7 @@ export const normalizeMessage = (event: Event): Message => {
 
 	let zonedTime
 	try {
-		zonedTime = timestamp.endsWith('Z') ? '' : 'Z'
+		zonedTime = timestamp + (timestamp.endsWith('Z') ? '' : 'Z')
 	} catch {
 		const error = `Некорректный timestamp ${timestamp} у документа ${event.id}`
 		console.error(error)

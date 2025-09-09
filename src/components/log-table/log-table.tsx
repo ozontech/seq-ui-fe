@@ -31,7 +31,6 @@ export const LogTable = defineComponent({
     const DataGrid = useDataGrid<Log>()
     const DataGridColumnSettings = useDataGridColumnSettings<Log>()
 
-
     const columns = computed((): ColumnDef<Log>[] => [
       {
         accessorKey: 'timestamp',
@@ -50,7 +49,6 @@ export const LogTable = defineComponent({
 
           const timestamp = row.getValue<string>(column.id)
           const [date, time] = format(new Date(timestamp), 'yyyy-MM-dd HH:mm:ss.SSS').split(' ')
-
 
           return (
             <div class="text-left">
