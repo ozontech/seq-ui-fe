@@ -1,7 +1,5 @@
-import type { DialogOverlayProps } from "reka-ui"
+import { DialogOverlay as RekaDialogOverlay, type DialogOverlayProps } from "reka-ui"
 import { defineComponent, type HTMLAttributes } from "vue"
-import { reactiveOmit } from "@vueuse/core"
-import { DrawerOverlay as DO } from "vaul-vue"
 import { cn } from "@/lib/utils"
 import { prop } from "@/lib/prop"
 
@@ -16,11 +14,12 @@ export const DrawerOverlay = defineComponent({
   name: 'DrawerOverlay',
   props,
   setup(props) {
-    const delegatedProps = reactiveOmit(props, "class")
     return () => (
-      <DO
+      <RekaDialogOverlay
         data-slot="drawer-overlay"
-        {...delegatedProps}
+        as={props.as}
+        asChild={props.asChild}
+        forceMount={props.forceMount}
         class={cn(`
           data-[state=open]:animate-in data-[state=closed]:animate-out
           data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50

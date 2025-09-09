@@ -8,7 +8,7 @@ const props = {
   dir: prop<DropdownMenuRootProps['dir']>().optional(),
   modal: prop<DropdownMenuRootProps['modal']>().optional(),
   defaultOpen: prop<DropdownMenuRootProps['defaultOpen']>().optional(),
-  whenOpen: prop<(open: boolean) => void>().optional(),
+  whenOpenChange: prop<(open: boolean) => void>().optional(),
 }
 
 export const DropdownMenu = defineComponent({
@@ -18,7 +18,7 @@ export const DropdownMenu = defineComponent({
     return () => (
       <DropdownMenuRoot
         data-slot="dropdown-menu"
-        onUpdate:open={props.whenOpen}
+        onUpdate:open={props.whenOpenChange}
         open={props.open}
         defaultOpen={props.defaultOpen}
         modal={props.modal}
