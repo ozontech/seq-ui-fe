@@ -1,8 +1,7 @@
 import { prop } from "@/lib/prop"
-import { cx } from "class-variance-authority"
 import { defineComponent } from "vue"
 import type { ToasterProps } from "vue-sonner"
-import { Toaster as Sonner } from "vue-sonner"
+import { Toaster } from "vue-sonner"
 
 const props = {
   dir: prop<ToasterProps['dir']>().optional(),
@@ -32,14 +31,16 @@ export const SonnerToaster = defineComponent({
   props,
   setup(props) {
     return () => (
-      <Sonner
+      <Toaster
         {...props}
-        class={cx(props.class, "toaster group")}
+        class="toaster group"
         style={{
           '--normal-bg': 'var(--popover)',
           '--normal-text': 'var(--popover-foreground)',
           '--normal-border': 'var(--border)',
-          ...props.style
+        }}
+        toastOptions={{
+          ...props.toastOptions
         }}
       />
     )
