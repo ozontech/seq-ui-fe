@@ -36,7 +36,7 @@ export const useDataGridColumnSettings = <T extends RowData>() => {
             <Input
               class="mb-2"
               value={search.value}
-              placeholder="Поиск поля"
+              placeholder={'Field search'}
               whenChange={whenSearchChange}
             />
             <div class="max-h-[400px] overflow-auto flex flex-col gap-[8px]">

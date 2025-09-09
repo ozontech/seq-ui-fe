@@ -49,7 +49,7 @@ export const RelativeDuration = defineComponent({
     const customLastLabel = computed(() => {
       const message = durationToMessage(props.from)
 
-      return message ? message[0] : 'Последние'
+      return message ? message[0] : 'Last'
     })
 
     const customUnitLabel = computed(() => {
@@ -67,7 +67,7 @@ export const RelativeDuration = defineComponent({
 
     const renderOptions = () => (
       <>
-        <span class="text-base font-medium">Пресеты</span>
+        <span class="text-base font-medium">Presets</span>
         <div class="flex flex-wrap gap-[8px]">
           {relativeOptions.map((duration) => {
             const message = durationToMessage(duration)
@@ -115,7 +115,7 @@ export const RelativeDuration = defineComponent({
 
       return (
         <>
-          <span class="text-base font-medium mt-[8px]">Кастомный пресет</span>
+          <span class="text-base font-medium mt-[8px]">Custom preset</span>
           <span class="text-muted-foreground">{customLastLabel.value}</span>
           <div class="grid grid-cols-[180px_1fr] gap-[8px]">
             <NumberField
@@ -124,13 +124,13 @@ export const RelativeDuration = defineComponent({
             >
               <NumberFieldContent>
                 <NumberFieldDecrement />
-                <NumberFieldInput placeholder="Кол-во" />
+                <NumberFieldInput placeholder={'count'} />
                 <NumberFieldIncrement />
               </NumberFieldContent>
             </NumberField>
             <Select value={props.unit} whenValueChange={whenUnitChange}>
               <SelectTrigger>
-                <SelectValue placeholder="дней">{customUnitLabel.value}</SelectValue>
+                <SelectValue placeholder={'days'}>{customUnitLabel.value}</SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {unitOptions.map(option => (
@@ -138,8 +138,7 @@ export const RelativeDuration = defineComponent({
                     key={option}
                     value={option}
                   >
-                    {/* todo: splice 's'*/}
-                    {option}
+                    {props.amount === 1 ? option.slice(0, -1) : option}
                   </SelectItem>
                 ))}
               </SelectContent>

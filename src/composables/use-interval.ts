@@ -1,11 +1,10 @@
 import type { Duration } from "@/types/duration";
 import { useRouteQuery } from '@vueuse/router'
 import { defaultFrom } from "@/constants/search";
-import { sub } from "date-fns";
+import { isValid, parseISO, sub } from "date-fns";
 import { isDate } from "lodash";
 import { durationToSeconds } from "@/helpers/duration";
 import { secondsToDuration } from "@/helpers/duration-locale";
-import { watch } from "vue";
 
 const valueToQuery = (arg?: Duration) => {
   if (!arg) {
@@ -25,11 +24,15 @@ const queryToValue = (arg: string | undefined): Duration => {
   if (!arg) {
     return {}
   }
-  if (typeof Number(arg) === 'number') {
-    return secondsToDuration(Number(arg))
+
+  const numberArg = Number(arg)
+
+  if (!isNaN(numberArg)) {
+    return secondsToDuration(numberArg)
   }
-  const date = new Date(arg)
-  return { date }
+
+  const date = parseISO(arg)
+  return isValid(date) ? { date } : {}
 }
 
 export const useInterval = (
