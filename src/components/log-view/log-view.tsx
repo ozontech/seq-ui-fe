@@ -1,25 +1,20 @@
 import { defineComponent } from "vue";
-import type { Message } from "@/types/messages";
+import type { Log } from "@/types/messages";
 import { prop } from "@/lib/prop";
-
-const props = {
-  data: prop<Message>().required(),
-}
+import { LogViewButtons } from "@/components/log-view-buttons";
+import { LogViewFields } from "@/components/log-view-fields";
 
 export const LogView = defineComponent({
   name: 'LogView',
-  props,
+  props: {
+    log: prop<Log>().required(),
+    query: prop<string>().optional(),
+  },
   setup(props) {
     return () => (
-      <div class="flex flex-col gap-[4px] whitespace-normal text-sm">
-        {
-          Object.entries(props.data).map(([field, value]) => (
-            <div key={field} class="grid grid-cols-[200px_1fr]">
-              <span>{field}:</span>
-              <span>{value}</span>
-            </div>
-          ))
-        }
+      <div class='flex flex-col gap-[8px]'>
+        <LogViewButtons log={props.log}/>
+        <LogViewFields log={props.log}/>
       </div>
     )
   }

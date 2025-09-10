@@ -104,6 +104,8 @@ export const useLogs = () => {
       submitSearch()
       aggregations.refetchAggregation()
     }
+  }, {
+    immediate: true
   })
 
   return {

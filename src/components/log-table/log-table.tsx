@@ -18,6 +18,7 @@ const props = {
   isLoading: prop<boolean>().optional(false),
   loadMore: prop<() => Promise<void>>().optional(),
   setTimeDirection: prop<(value: SortDirection) => void>().optional(),
+  query: prop<string>().optional(),
   renderCell: prop<(key: string, item: Log) => VNode>().optional(),
   renderExpanded: prop<(item: Log, tableApi: Table<Log>) => VNode>().optional(),
 }
@@ -151,7 +152,12 @@ export const LogTable = defineComponent({
         return props.renderExpanded(item, tableApi)
       }
 
-      return <LogView data={item}/>
+      return (
+        <LogView
+          log={item}
+          query={props.query}
+        />
+      )
     }
 
     onMounted(() => {

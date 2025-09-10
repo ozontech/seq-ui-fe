@@ -48,7 +48,8 @@ export default defineComponent({
           {
             isLoading.value ? 'loading...' : (
               <LogView
-                data={message.value}
+                log={message.value}
+                query={block.queryParams.query.value}
               />
             )
           }

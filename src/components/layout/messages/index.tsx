@@ -2,7 +2,6 @@ import { defineComponent } from 'vue'
 import { LogTable } from '@/components/log-table'
 import { LogControls } from '@/components/log-controls'
 import { useLogs } from '@/composables/use-logs'
-import { SonnerToaster } from '@/ui/sonner'
 import { LogWidgets } from '@/components/log-widgets/log-widgets'
 
 export const MessagesLayout = defineComponent({
@@ -29,15 +28,12 @@ export const MessagesLayout = defineComponent({
         />
         <LogTable
           data={logs.data.value}
+          query={logs.query.value}
           keywords={logs.keywords.value}
           timeDirection={logs.timeDirection.value}
           setTimeDirection={logs.setTimeDirection}
           isLoading={logs.isLoading.value}
           loadMore={logs.loadMore}
-        />
-        <SonnerToaster
-          richColors
-          position='bottom-right'
         />
       </div>
     )
