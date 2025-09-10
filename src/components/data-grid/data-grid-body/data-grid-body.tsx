@@ -47,6 +47,9 @@ export const useDataGridBody = <T extends RowData>() => {
                 <Skeleton class="w-full h-[20px]" />
               </TableCell>
             ))}
+            <TableCell>
+              <Skeleton class="w-full h-[20px]" />
+            </TableCell>
           </TableRow>
         ))
       }
@@ -54,7 +57,7 @@ export const useDataGridBody = <T extends RowData>() => {
       const renderEmpty = () => (
         <TableRow>
           <TableCell
-            colspan={props.tableApi.getVisibleFlatColumns().length}
+            colspan={props.tableApi.getVisibleFlatColumns().length + 1}
             class="h-24 text-center"
           >
             No results.

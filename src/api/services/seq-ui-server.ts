@@ -7,6 +7,7 @@ import { normalizeAggregation, type NormalizedAggregationType } from '@/normaliz
 import type { Order } from '@/types/messages'
 import { HandleErrorDecorator, ServiceHandleError } from '../base/error-handler'
 import { toast } from 'vue-sonner'
+import { normalizeBuckets } from '@/normalizers/bucket'
 
 export type FetchMessagesNormalizedData = Awaited<ReturnType<InstanceType<typeof SeqUiServerService>['fetchMessages']>>
 
@@ -95,11 +96,12 @@ export class SeqUiServerService extends Api {
     return normalizeEvent(data?.event || {})
   }
 
-  async fetchHistogram({ query = '', from, to, interval }: {
+  async fetchHistogram({ query = '', from, to, interval, intervalMs }: {
     from?: string
     to?: string
     query?: string
     interval: string
+    intervalMs: number
   }) {
     const { data } = await this.seqapiV1GetHistogram({
       query,
@@ -107,7 +109,7 @@ export class SeqUiServerService extends Api {
       to,
       interval,
     })
-    return data.histogram?.buckets || []
+    return normalizeBuckets(data.histogram?.buckets ?? [], intervalMs)
   }
 
   async fetchAggregation({ ...args }: {

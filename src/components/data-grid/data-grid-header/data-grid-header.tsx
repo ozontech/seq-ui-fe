@@ -2,15 +2,15 @@ import { prop } from "@/lib/prop";
 import { TableHead, TableHeader, TableRow } from "@/ui";
 import { _getVisibleLeafColumns, FlexRender } from "@tanstack/vue-table";
 import type { Column, Header, RowData, Table } from "@tanstack/vue-table";
-import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-vue-next";
-import { defineComponent, ref, type VNode } from "vue";
+import { ArrowDown, ArrowUp, ArrowUpDown, type LucideProps } from "lucide-vue-next";
+import { defineComponent, ref, type FunctionalComponent } from "vue";
 import { addPx } from "../utils";
 import { cn } from "@/lib/utils"
 
-const sortIconsMap: Record<string, VNode> = {
-  asc: <ArrowDown size={16} class="inline-block ml-1" />,
-  desc: <ArrowUp size={16} class="inline-block ml-1" />,
-  false: <ArrowUpDown size={16} class="inline-block ml-1" />,
+const sortIconsMap: Record<string, FunctionalComponent<LucideProps>> = {
+  asc: ArrowDown,
+  desc: ArrowUp,
+  false: ArrowUpDown,
 }
 
 // используется для красивого растягивания таблицы по ширине
@@ -50,7 +50,9 @@ export const useDataGridHeader = <T extends RowData>() => {
           return
         }
 
-        return sortIconsMap[String(column.getIsSorted())]
+        const Icon = sortIconsMap[String(column.getIsSorted())]
+
+        return <Icon size={16} class="inline-block ml-1" />
       }
 
       const whenResize = (header: Header<T, unknown>) => (event: MouseEvent | TouchEvent) => {
