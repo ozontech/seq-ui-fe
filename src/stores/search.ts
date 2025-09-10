@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 import { useSearch } from '@/composables/search/use-search'
 
-// todo: rewrite
+// todo: переписать
 export const useSearchStore = defineStore('search', () => {
 	const paramsMap = new Map<number, ReturnType<typeof useSearch>>()
 

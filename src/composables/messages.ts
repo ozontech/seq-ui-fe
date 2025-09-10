@@ -113,7 +113,7 @@ export const useMessages = (id: number) => {
 			fields: _fields,
 		} = pickByIndex(routeQueryValue as Record<string, string>, id)
 
-		// we lose it when change tabs
+		// проебывается при смене вкладки
 		const loadedQuery = hard ? (_query || '') : (_query ?? query.value)
 		service.value = _service ? _service as string : ''
 

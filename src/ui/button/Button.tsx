@@ -32,7 +32,7 @@ export const Button = defineComponent({
         data-slot="button"
         as={props.as}
         asChild={props.asChild}
-        class={cn(buttonVariants({ variant: props.variant, size: props.size }), props.class)}
+        class={cn('cursor-pointer', buttonVariants({ variant: props.variant, size: props.size }), props.class)}
         //@ts-expect-error interface doesn't have this field
         disabled={props.disabled}
         {...{ onclick: props.whenClick }}

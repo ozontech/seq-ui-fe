@@ -79,7 +79,7 @@ export async function generateAndDownloadFile({
 						break
 					}
 
-					// line `{"id":`
+					// строка `{"id":`
 					const pattern = new Uint8Array([123, 34, 105, 100, 34, 58])
 
 					queueMicrotask(() => {

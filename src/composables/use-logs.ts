@@ -1,17 +1,32 @@
 import { useRouteQuery } from "@vueuse/router"
-import { useInterval } from "./use-interval"
+import { computed, ref, watch } from "vue"
+import { equals } from "ramda"
+import { storeToRefs } from "pinia"
+
 import { getApi } from "@/api/client"
-import { ref, watch } from "vue"
 import type { Message } from "@/types/messages"
 import { DEFAULT_LIMIT } from "@/constants/search"
 import type { SortDirection } from "@/types/shared"
-import { equals } from "ramda"
+import { useTokensStore } from "@/stores/tokens"
+import { SeqapiV1AggregationFuncDto } from "@/api/generated/seq-ui-server"
+
+import { useAggregations } from "./use-aggregations"
+import { useInterval } from "./use-interval"
+import { useHistogram } from "./use-histogram"
+
+export type LogsState = ReturnType<typeof useLogs>
 
 export const useLogs = () => {
+  const tokens = useTokensStore()
+  const { keywords: keywordList } = storeToRefs(tokens)
+
   const api = getApi()
 
   const interval = useInterval()
   const query = useRouteQuery<string>('q', '')
+
+  const aggregations = useAggregations(interval, query)
+  const histogram = useHistogram(interval, query)
 
   const offset = ref(0)
   const timeDirection = ref<SortDirection>('desc')
@@ -20,6 +35,11 @@ export const useLogs = () => {
   const data = ref<Message[]>([])
   const hasMore = ref(false)
   const isLoading = ref(false)
+
+  const functions = Object.values(SeqapiV1AggregationFuncDto)
+  const keywords = computed(() => {
+    return keywordList.value.map(({ name }) => name || '')
+  })
 
   const setQuery = (value: string) => {
     query.value = value
@@ -82,10 +102,13 @@ export const useLogs = () => {
 
     if (updated) {
       submitSearch()
+      aggregations.refetchAggregation()
     }
   })
 
   return {
+    keywords,
+    functions,
     query,
     interval,
     setQuery,
@@ -95,5 +118,7 @@ export const useLogs = () => {
     isLoading,
     submitSearch,
     loadMore,
+    aggregations,
+    histogram,
   }
 }

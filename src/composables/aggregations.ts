@@ -200,7 +200,7 @@ export const useAggregations = (id: number) => {
 		return result?.data
 	}
 
-	// TODO: should return nulls if the request failed
+	// TODO: надо вернуть заполнение нуллами если запрос упал
 	async function fetchChunk(aggs: GroupedAggregations, chunkIndex = 0, dataLength = 1) {
 		clearErrors(true)
 		isErrorFromPreview.value = false
@@ -226,7 +226,7 @@ export const useAggregations = (id: number) => {
 
 		result.data.forEach((aggregation, index) => {
 			aggregationsData.value[chunkIndex + dataLength + index] = aggregation.aggregation
-			// todo: terrible stuff
+			// todo: какой ужас
 			aggregations.value[chunkIndex + dataLength + index].total = aggregation.total
 		})
 	}
@@ -339,7 +339,7 @@ export const useAggregations = (id: number) => {
 			})
 		}
 
-		// todo: do not fetch if no search was made
+		// todo: не запрашивать если не выполнен поиск
 		const data = await fetchIndependentAggregation({
 			...aggregation,
 			aggregations: [aggregation],

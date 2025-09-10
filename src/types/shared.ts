@@ -4,9 +4,9 @@ export type Histogram = {
   x: string[]
   y: number[]
 
-	// initial timestamp for changing timezones
-	_x: Date[]
-	width?: number
+  // изначальный таймстемп для перевода в другие таймзоны
+  _x: Date[]
+  width?: number
 }
 
 export interface Interval {

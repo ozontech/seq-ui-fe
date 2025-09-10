@@ -22,8 +22,8 @@ export const addToQuery = (query: string, key: string, value: string) => {
 		return query
 	}
 
-	// TODO: rewrite logic, add check for "OR" to be not in braces
-	// TODO: if the key with different value exists we should add new value with OR
+	// TODO: доработать логику, добавить условие на то, что OR находится не в скобках
+	// TODO: если уже есть ключ с другим значением мб добавлять новое как OR ?
 	if (query.includes(' OR ') && !query.startsWith('(') && !query.endsWith(')')) {
 		return `(${query}) AND ${result}`
 	}

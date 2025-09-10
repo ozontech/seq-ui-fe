@@ -1,18 +1,25 @@
 import { defineComponent } from "vue";
 import { Play } from "lucide-vue-next";
 import { prop } from "@/lib/prop";
+
 import { Button } from "@/ui";
-import type { Duration } from '@/types/duration'
+import type { SeqapiV1AggregationFuncDto } from "@/api/generated/seq-ui-server";
+import type { AggregationsState } from "@/composables/use-aggregations";
+import type { HistogramState } from "@/composables/use-histogram";
+import type { IntervalState } from "@/composables/use-interval";
 
 import { ExpressionInput } from "../expression-input";
 import { DurationPicker } from "../duration-picker";
+import { AddWidget } from "../add-widget";
 
 const props = {
-  from: prop<Duration>().required(),
-  to: prop<Duration>().required(),
+  histogram: prop<HistogramState>().required(),
+  aggregations: prop<AggregationsState>().required(),
+  interval: prop<IntervalState>().required(),
   expression: prop<string>().required(),
+  fields: prop<string[]>().required(),
+  functions: prop<SeqapiV1AggregationFuncDto[]>().required(),
   whenExpressionChange: prop<(expression: string) => void>().required(),
-  whenIntervalChange: prop<(from: Duration, to: Duration) => void>().required(),
   whenSubmit: prop<(value: string) => void>().required(),
 }
 
@@ -20,26 +27,47 @@ export const LogControls = defineComponent({
   name: 'LogControls',
   props,
   setup(props) {
+    const renderExpressionInput = () => (
+      <ExpressionInput
+        placeholder="message:error"
+        value={props.expression}
+        whenChange={props.whenExpressionChange}
+        whenEnter={props.whenSubmit}
+      />
+    )
+
+    const renderMainControls = () => (
+      <div class="flex gap-[12px]">
+        <DurationPicker
+          from={props.interval.from.value}
+          to={props.interval.to.value}
+          whenChange={props.interval.setInterval}
+        />
+        <Button
+          whenClick={() => props.whenSubmit(props.expression)}
+        >
+          <Play size={16} /> Search
+        </Button>
+      </div>
+    )
+
+    const renderAdditionalControls = () => (
+      <div class="flex gap-[12px]">
+        <AddWidget
+          histogram={props.histogram}
+          aggregations={props.aggregations}
+          fields={props.fields}
+          functions={props.functions}
+        />
+      </div>
+    )
+
     return () => (
       <div class="flex flex-col gap-[16px]">
-        <ExpressionInput
-          placeholder="message:error"
-          value={props.expression}
-          whenChange={props.whenExpressionChange}
-          whenEnter={props.whenSubmit}
-        />
-        <div class="flex justify-end gap-[12px]">
-          <DurationPicker
-            from={props.from}
-            to={props.to}
-            whenChange={props.whenIntervalChange}
-          />
-          <Button
-            class="cursor-pointer"
-            whenClick={() => props.whenSubmit(props.expression)}
-          >
-            <Play size={16} /> Search
-          </Button>
+        {renderExpressionInput()}
+        <div class="flex justify-between gap-[12px]">
+          {renderAdditionalControls()}
+          {renderMainControls()}
         </div>
       </div>
     )

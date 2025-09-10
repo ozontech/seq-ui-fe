@@ -1,37 +1,35 @@
-import { defineComponent, computed } from 'vue'
-import { storeToRefs } from 'pinia'
-
-import { useTokensStore } from '@/stores/tokens'
+import { defineComponent } from 'vue'
 import { LogTable } from '@/components/log-table'
 import { LogControls } from '@/components/log-controls'
 import { useLogs } from '@/composables/use-logs'
 import { SonnerToaster } from '@/ui/sonner'
+import { LogWidgets } from '@/components/log-widgets/log-widgets'
 
 export const MessagesLayout = defineComponent({
   name: 'MessagesLayout',
   setup() {
-    const tokens = useTokensStore()
-    const { keywords } = storeToRefs(tokens)
-
     const logs = useLogs()
-
-    const keywordOptions = computed(() => {
-      return keywords.value.map(({ name }) => name || '')
-    })
 
     return () => (
       <div class="w-full h-[100dvh] flex flex-col gap-[20px] p-[20px]">
         <LogControls
-          from={logs.interval.from.value}
-          to={logs.interval.to.value}
+          histogram={logs.histogram}
+          aggregations={logs.aggregations}
+          interval={logs.interval}
+          fields={logs.keywords.value}
+          functions={logs.functions}
           expression={logs.query.value}
           whenExpressionChange={logs.setQuery}
-          whenIntervalChange={logs.interval.setInterval}
           whenSubmit={logs.submitSearch}
+        />
+        <LogWidgets
+          histogram={logs.histogram}
+          aggregations={logs.aggregations}
+          interval={logs.interval}
         />
         <LogTable
           data={logs.data.value}
-          keywords={keywordOptions.value}
+          keywords={logs.keywords.value}
           timeDirection={logs.timeDirection.value}
           setTimeDirection={logs.setTimeDirection}
           isLoading={logs.isLoading.value}

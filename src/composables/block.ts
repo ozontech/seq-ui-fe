@@ -28,7 +28,7 @@ export const useBlock = (_id = 0, opened = false) => {
 	const setName = (value?: string) => name.value = value
 	const toggleIsOpened = () => {
 		isOpened.value = !isOpened.value
-		// todo: this check is too naive, there will be excessive requests
+		// todo: слишком тупая проверка, будут лишние запросы
 		if (isOpened.value && messages.messages.value.length === 0) {
 			fetch()
 		}
