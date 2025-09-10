@@ -15,7 +15,8 @@ export default defineComponent({
 					<Button
             class={styles.backButton}
             whenClick={() => router.replace('/')}
-          >К поиску</Button>
+          >К поиску
+          </Button>
 				</div>
 			)
 		}
