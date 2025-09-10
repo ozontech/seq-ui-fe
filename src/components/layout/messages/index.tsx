@@ -6,6 +6,7 @@ import { LogTable } from '@/components/log-table'
 import { LogControls } from '@/components/log-controls'
 import { useLogs } from '@/composables/use-logs'
 import { SonnerToaster } from '@/ui/sonner'
+import { SeqapiV1AggregationFuncDto } from '@/api/generated/seq-ui-server'
 
 export const MessagesLayout = defineComponent({
   name: 'MessagesLayout',
@@ -24,6 +25,8 @@ export const MessagesLayout = defineComponent({
         <LogControls
           from={logs.interval.from.value}
           to={logs.interval.to.value}
+          fields={keywordOptions.value}
+          functions={Object.values(SeqapiV1AggregationFuncDto)}
           expression={logs.query.value}
           whenExpressionChange={logs.setQuery}
           whenIntervalChange={logs.interval.setInterval}
