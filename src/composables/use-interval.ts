@@ -35,6 +35,8 @@ const queryToValue = (arg: string | undefined): Duration => {
   return isValid(date) ? { date } : {}
 }
 
+export type IntervalState = ReturnType<typeof useInterval>
+
 export const useInterval = (
   initialFrom: Duration = defaultFrom(),
   initialTo: Duration = {},

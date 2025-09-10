@@ -1,23 +1,25 @@
 import { defineComponent } from "vue";
 import { Play } from "lucide-vue-next";
 import { prop } from "@/lib/prop";
+
 import { Button } from "@/ui";
-import type { Duration } from '@/types/duration'
+import type { SeqapiV1AggregationFuncDto } from "@/api/generated/seq-ui-server";
+import type { AggregationsState } from "@/composables/use-aggregations";
+import type { HistogramState } from "@/composables/use-histogram";
+import type { IntervalState } from "@/composables/use-interval";
 
 import { ExpressionInput } from "../expression-input";
 import { DurationPicker } from "../duration-picker";
 import { AddWidget } from "../add-widget";
-import type { SeqapiV1AggregationFuncDto } from "@/api/generated/seq-ui-server";
 
 const props = {
-  from: prop<Duration>().required(),
-  to: prop<Duration>().required(),
+  histogram: prop<HistogramState>().required(),
+  aggregations: prop<AggregationsState>().required(),
+  interval: prop<IntervalState>().required(),
   expression: prop<string>().required(),
   fields: prop<string[]>().required(),
   functions: prop<SeqapiV1AggregationFuncDto[]>().required(),
-  // toggleHistogram: prop<() => void>().required(),
   whenExpressionChange: prop<(expression: string) => void>().required(),
-  whenIntervalChange: prop<(from: Duration, to: Duration) => void>().required(),
   whenSubmit: prop<(value: string) => void>().required(),
 }
 
@@ -37,9 +39,9 @@ export const LogControls = defineComponent({
     const renderMainControls = () => (
       <div class="flex gap-[12px]">
         <DurationPicker
-          from={props.from}
-          to={props.to}
-          whenChange={props.whenIntervalChange}
+          from={props.interval.from.value}
+          to={props.interval.to.value}
+          whenChange={props.interval.setInterval}
         />
         <Button
           whenClick={() => props.whenSubmit(props.expression)}
@@ -52,9 +54,10 @@ export const LogControls = defineComponent({
     const renderAdditionalControls = () => (
       <div class="flex gap-[12px]">
         <AddWidget
+          histogram={props.histogram}
+          aggregations={props.aggregations}
           fields={props.fields}
           functions={props.functions}
-        // whenHistogramClick={props.toggleHistogram}
         />
       </div>
     )
