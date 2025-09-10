@@ -63,6 +63,6 @@ export default defineComponent({
       }
     }, null)
 
-    return () => (<MessagesLayout />)
+    return () => <MessagesLayout/>
   },
 })
