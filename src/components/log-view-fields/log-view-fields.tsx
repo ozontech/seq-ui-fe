@@ -1,6 +1,8 @@
 import { defineComponent } from "vue";
 import type { Log } from "@/types/messages";
 import { prop } from "@/lib/prop";
+import { LogField } from "@/components/log-field";
+import { keys } from "ramda";
 
 export const LogViewFields = defineComponent({
   name: 'LogViewFields',
@@ -11,10 +13,13 @@ export const LogViewFields = defineComponent({
     return () => (
       <div class="flex flex-col gap-[4px] whitespace-normal text-sm">
         {
-          Object.entries(props.log).map(([field, value]) => (
+          keys(props.log).map((field) => (
             <div key={field} class="grid grid-cols-[200px_1fr]">
               <span>{field}:</span>
-              <span>{value}</span>
+              <LogField
+                log={props.log}
+                name={field}
+              />
             </div>
           ))
         }

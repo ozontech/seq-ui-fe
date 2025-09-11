@@ -1,6 +1,7 @@
 import { computed, defineComponent } from "vue";
 import type { Log } from "@/types/messages";
 import { prop } from "@/lib/prop";
+import { LogField } from "@/components/log-field";
 
 import styles from './log-view-pins.module.css'
 
@@ -26,7 +27,10 @@ export const LogViewPins = defineComponent({
             return (
               <div class={styles.pin}>
                 <div class={styles.label}>{ field }</div>
-                <div>{ props.log[field] }</div>
+                <LogField
+                  log={props.log}
+                  name={field}
+                />
               </div>
             )
           })
