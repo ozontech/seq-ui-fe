@@ -1,0 +1,22 @@
+.page {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+  justify-content: center;
+  height: 100dvh;
+}
+
+.title {
+  font-size: 80px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 32px;
+}
+
+.backButton {
+	margin-top: 32px;
+  cursor: pointer;
+}
