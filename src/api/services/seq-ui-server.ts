@@ -17,7 +17,15 @@ export type ResponseType<T> = {
 }
 
 export class SeqUiServerService extends Api {
-  async fetchMessages({ offset = 0, query = '', limit = 100, from, to, interval = '', order }: {
+  async fetchMessages({
+    offset = 0,
+    query = '',
+    limit = 100,
+    from,
+    to,
+    interval = '',
+    order
+  }: {
     limit?: number
     offset?: number
     query?: string
@@ -53,7 +61,7 @@ export class SeqUiServerService extends Api {
         error,
       }
     } catch (e) {
-      // @ts-ignore fix later
+      // @ts-expect-error fix later
       toast.error((e as AxiosError).response?.data?.message, {
         id: 'search',
       })

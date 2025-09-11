@@ -1,4 +1,5 @@
 import { computed, defineComponent, onMounted, ref, type VNode } from "vue";
+import { ChevronDown, ChevronUp } from "lucide-vue-next";
 import type { ColumnDef, SortingState, Table } from "@tanstack/vue-table";
 import type { Message as Log } from "@/types/messages";
 import { prop } from "@fe/prop-types";
@@ -6,6 +7,8 @@ import { format } from "date-fns-tz";
 
 import { useDataGrid, useDataGridColumnSettings } from "../data-grid";
 import type { SortDirection } from "@/types/shared";
+import { LogView } from "@/components/log-view";
+
 
 const props = {
   data: prop<Log[]>().required(),
@@ -15,6 +18,8 @@ const props = {
   isLoading: prop<boolean>().optional(false),
   loadMore: prop<() => Promise<void>>().optional(),
   setTimeDirection: prop<(value: SortDirection) => void>().optional(),
+  query: prop<string>().optional(),
+  pinned: prop<string[]>().optional([]),
   renderCell: prop<(key: string, item: Log) => VNode>().optional(),
   renderExpanded: prop<(item: Log, tableApi: Table<Log>) => VNode>().optional(),
 }
@@ -115,7 +120,9 @@ export const LogTable = defineComponent({
             return view
           }
 
-          return <div />
+          return row.getIsExpanded()
+            ? <ChevronUp class="opacity-50"/>
+            : <ChevronDown class="opacity-50"/>
         }
       },
     ])
@@ -147,14 +154,11 @@ export const LogTable = defineComponent({
       }
 
       return (
-        <div class="flex flex-col gap-[4px] whitespace-normal">
-          {Object.entries(item).map(([field, value]) => (
-            <div key={field} class="grid grid-cols-[200px_1fr]">
-              <span>{field}:</span>
-              <span>{value}</span>
-            </div>
-          ))}
-        </div>
+        <LogView
+          log={item}
+          query={props.query}
+          pinned={props.pinned}
+        />
       )
     }
 

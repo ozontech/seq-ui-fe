@@ -1,0 +1,23 @@
+.pinned {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	padding: 16px;
+
+	background-color: var(--secondary);
+	border-radius: 6px;
+	row-gap: 16px;
+}
+
+.pin {
+	display: flex;
+	flex-basis: calc(100% / 3);
+	flex-direction: column;
+  gap: 4px;
+  font-size: var(--text-sm);
+}
+
+.label {
+  color: var(--color-neutral-500);
+  font-weight: 600;
+}

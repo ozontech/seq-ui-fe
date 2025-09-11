@@ -1,0 +1,16 @@
+.field {
+	display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.copy {
+  display: inline-flex;
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 200ms;
+}
+
+.field:hover .copy {
+  opacity: 1;
+}

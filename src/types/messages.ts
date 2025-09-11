@@ -9,6 +9,8 @@ export type Message = {
   message: string
 } & Record<string, unknown>
 
+export type Log = Message
+
 export type MessageKeys = keyof Omit<Message, 'rawTime'>
 
 export interface SearchWarning {
