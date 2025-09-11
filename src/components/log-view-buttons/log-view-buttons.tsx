@@ -1,7 +1,7 @@
 import { Link, Copy, ChevronDown } from "lucide-vue-next";
 import { computed, defineComponent } from "vue";
 import type { Log } from "@/types/messages";
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { Button, DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/ui";
 import router, { PAGES } from "@/router";
 import { copyObjectToClipboard, copyToClipboard } from "@/helpers/clipboard";

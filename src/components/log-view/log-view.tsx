@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import type { Log } from "@/types/messages";
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { LogViewButtons } from "@/components/log-view-buttons";
 import { LogViewFields } from "@/components/log-view-fields";
 import { LogViewPins } from "@/components/log-view-pins";

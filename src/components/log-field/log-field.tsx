@@ -3,7 +3,7 @@ import { is } from "ramda";
 import { computed, defineComponent } from "vue";
 import { toast } from "vue-sonner";
 import type { Log } from "@/types/messages";
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { copyToClipboard } from "@/helpers/clipboard";
 
 import styles from './log-field.module.css'
