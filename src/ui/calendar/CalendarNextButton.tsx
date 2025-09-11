@@ -1,4 +1,4 @@
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { CalendarNext, type CalendarNextProps } from "reka-ui";
 import { defineComponent, type HTMLAttributes } from "vue";
 import { cn } from "@/lib/utils"

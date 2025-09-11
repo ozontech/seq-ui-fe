@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import { TagsInputRoot, type TagsInputRootProps, type TagsInputRootEmits, type AcceptableInputValue } from "reka-ui"
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { cn } from "@/lib/utils"
 import { reactiveOmit } from "@vueuse/core"
 import { formFieldProps, primitiveProps } from "../common-props";

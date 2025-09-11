@@ -1,4 +1,4 @@
-import { prop } from "@/lib/prop"
+import { prop } from "@fe/prop-types"
 import type { DrawerTriggerProps } from "vaul-vue"
 import { DrawerTrigger as DT } from "vaul-vue"
 import { defineComponent } from "vue"

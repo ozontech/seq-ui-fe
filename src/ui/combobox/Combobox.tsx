@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
 import { ComboboxRoot, type ComboboxRootProps } from "reka-ui"
 import { reactiveOmit } from "@vueuse/core"
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { listboxRootProps } from "../common-props";
 
 const props = {

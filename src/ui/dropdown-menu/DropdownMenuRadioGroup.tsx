@@ -1,6 +1,6 @@
 import { defineComponent } from "vue"
 import { DropdownMenuRadioGroup as RekaDropdownMenuRadioGroup } from "reka-ui"
-import { prop } from "@/lib/prop"
+import { prop } from "@fe/prop-types"
 
 const props = {
   value: prop<string>().required(),

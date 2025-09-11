@@ -1,6 +1,6 @@
 import { DrawerRoot, type DrawerRootProps } from "vaul-vue"
 import { defineComponent } from "vue"
-import { prop } from "@/lib/prop"
+import { prop } from "@fe/prop-types"
 
 const props = {
   activeSnapPoint: prop<DrawerRootProps['activeSnapPoint']>().optional(),

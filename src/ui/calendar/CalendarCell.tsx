@@ -2,7 +2,7 @@ import { defineComponent, type HTMLAttributes } from "vue";
 import type { CalendarCellProps } from "reka-ui"
 import { CalendarCell as RekaCalendarCell } from "reka-ui"
 import { cn } from "@/lib/utils"
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 
 
 const props = {

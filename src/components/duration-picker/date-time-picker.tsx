@@ -1,4 +1,4 @@
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { Button, Calendar, Popover, PopoverContent, PopoverTrigger, TimeField } from "@/ui";
 import { formatInTimeZone } from "date-fns-tz";
 import { CalendarIcon } from "lucide-vue-next";

@@ -3,7 +3,7 @@ import type { LabelProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 import { Label as RekaLabel } from "reka-ui"
 import { cn } from "@/lib/utils"
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 
 const props = {
   as: prop<LabelProps['as']>().optional(),

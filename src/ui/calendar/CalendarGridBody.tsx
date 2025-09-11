@@ -3,7 +3,7 @@ import {
   CalendarGridBody as RekaCalendarGridBody,
   type CalendarGridBodyProps,
 } from "reka-ui"
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 
 const props = {
   as: prop<CalendarGridBodyProps['as']>().optional(),

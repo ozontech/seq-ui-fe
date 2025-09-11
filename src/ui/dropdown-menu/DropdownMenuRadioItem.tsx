@@ -6,7 +6,7 @@ import {
   DropdownMenuRadioItem as RekaDropdownMenuRadioItem,
 } from "reka-ui"
 import { cn } from "@/lib/utils"
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 
 const props = {
   value: prop<DropdownMenuRadioItemProps['value']>().required(),

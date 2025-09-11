@@ -1,4 +1,4 @@
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { Skeleton, TableBody, TableCell, TableRow } from "@/ui";
 import { FlexRender } from "@tanstack/vue-table";
 import type { Cell, Row, RowData, Table } from "@tanstack/vue-table";

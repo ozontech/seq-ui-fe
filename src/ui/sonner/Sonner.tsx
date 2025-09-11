@@ -1,4 +1,4 @@
-import { prop } from "@/lib/prop"
+import { prop } from "@fe/prop-types"
 import { defineComponent } from "vue"
 import type { ToasterProps } from "vue-sonner"
 import { Toaster } from "vue-sonner"

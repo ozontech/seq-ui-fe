@@ -1,7 +1,7 @@
 import { computed, defineComponent, onMounted, ref, type VNode } from "vue";
 import type { ColumnDef, SortingState, Table } from "@tanstack/vue-table";
 import type { Message as Log } from "@/types/messages";
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { format } from "date-fns-tz";
 
 import { useDataGrid, useDataGridColumnSettings } from "../data-grid";

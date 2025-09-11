@@ -4,7 +4,7 @@ import type { ButtonVariants } from "."
 import { Primitive } from "reka-ui"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "."
-import { prop } from "@/lib/prop"
+import { prop } from "@fe/prop-types"
 
 interface Props extends PrimitiveProps {
   variant?: ButtonVariants["variant"]

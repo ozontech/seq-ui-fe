@@ -1,5 +1,5 @@
 import { durationToMessage } from "@/helpers/duration-locale";
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import type { Duration } from "@/types/duration";
 import type { Timezone } from "@/types/timezone";
 import { Button } from "@/ui";

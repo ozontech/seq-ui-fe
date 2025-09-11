@@ -2,7 +2,7 @@ import { defineComponent } from "vue";
 import { cn } from "@/lib/utils"
 import { reactiveOmit } from "@vueuse/core"
 import { TagsInputItem as RekaTagsInputItem, type TagsInputItemProps } from "reka-ui"
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { primitiveProps } from "../common-props";
 
 const props = {

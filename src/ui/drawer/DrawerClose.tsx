@@ -1,4 +1,4 @@
-import { prop } from "@/lib/prop"
+import { prop } from "@fe/prop-types"
 import { DrawerClose as VaulDrawerClose, type DrawerCloseProps } from "vaul-vue"
 import { defineComponent } from "vue"
 

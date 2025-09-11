@@ -4,7 +4,7 @@ import {
   type TagsInputInputProps,
 } from "reka-ui"
 import { cn } from "@/lib/utils"
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { reactiveOmit } from "@vueuse/core"
 import { primitiveProps } from "../common-props";
 

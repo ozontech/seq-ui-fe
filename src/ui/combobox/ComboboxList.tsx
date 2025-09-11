@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import { ComboboxContent, ComboboxPortal, type ComboboxContentProps } from "reka-ui"
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { cn } from "@/lib/utils"
 import { reactiveOmit } from "@vueuse/core";
 import { dismissableLayerProps, popperContentProps } from "../common-props";

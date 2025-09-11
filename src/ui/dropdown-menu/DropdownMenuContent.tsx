@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { prop } from '@/lib/prop';
+import { prop } from '@fe/prop-types';
 import { reactiveOmit } from '@vueuse/core';
 import {
   DropdownMenuPortal,

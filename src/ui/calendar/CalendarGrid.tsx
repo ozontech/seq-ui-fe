@@ -1,7 +1,7 @@
 import { defineComponent, type HTMLAttributes } from "vue";
 import { CalendarGrid as RekaCalendarGrid, type CalendarGridProps } from "reka-ui"
 import { cn } from "@/lib/utils"
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 
 const props = {
   as: prop<CalendarGridProps['as']>().optional(),

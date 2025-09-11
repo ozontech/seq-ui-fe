@@ -15,6 +15,7 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
+    "@fe/prop-types": "file:src/lib/prop-types",
     "@tailwindcss/vite": "^4.1.12",
     "@tanstack/vue-table": "^8.21.3",
     "@vueuse/core": "^13.9.0",

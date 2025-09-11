@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import { Play } from "lucide-vue-next";
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 
 import { Button } from "@/ui";
 import type { SeqapiV1AggregationFuncDto } from "@/api/generated/seq-ui-server";

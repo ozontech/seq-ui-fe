@@ -1,5 +1,5 @@
 import { defineComponent, type HTMLAttributes } from "vue";
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import {
   CalendarGridHead as RekaCalendarGridHead,
   type CalendarGridHeadProps

@@ -1,4 +1,4 @@
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { cn } from "@/lib/utils"
 import {
   CalendarGridRow as RekaCalendarGridRow,

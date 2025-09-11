@@ -3,7 +3,7 @@ import { reactiveOmit } from "@vueuse/core"
 import { cn } from "@/lib/utils"
 import { TableCell } from "./TableCell"
 import { TableRow } from "./TableRow"
-import { prop } from "@/lib/prop"
+import { prop } from "@fe/prop-types"
 
 const props = {
   class: prop<HTMLAttributes["class"]>().optional(),

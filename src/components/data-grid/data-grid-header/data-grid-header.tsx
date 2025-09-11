@@ -1,4 +1,4 @@
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { TableHead, TableHeader, TableRow } from "@/ui";
 import { _getVisibleLeafColumns, FlexRender } from "@tanstack/vue-table";
 import type { Column, Header, RowData, Table } from "@tanstack/vue-table";

@@ -3,7 +3,7 @@ import {
   CalendarHeader as RekaCalendarHeader,
   type CalendarHeaderProps,
 } from "reka-ui"
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { cn } from "@/lib/utils"
 
 const props = {

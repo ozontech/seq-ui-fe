@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import { ComboboxItem as RekaComboboxItem, type ComboboxItemProps } from "reka-ui"
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { cn } from "@/lib/utils"
 import { reactiveOmit } from "@vueuse/core"
 import { listboxItemProps } from "../common-props";

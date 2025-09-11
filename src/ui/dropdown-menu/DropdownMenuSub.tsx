@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import { DropdownMenuSub as RekaDropdownMenuSub } from "reka-ui"
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 
 const props = {
   open: prop<boolean>().optional(),

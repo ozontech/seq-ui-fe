@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import { PopoverRoot } from "reka-ui"
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 
 const props = {
   defaultOpen: prop<boolean>().optional(),

@@ -1,6 +1,6 @@
 import { nextTick, defineComponent, computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import { prop } from '@/lib/prop'
+import { prop } from '@fe/prop-types'
 import { cn } from "@/lib/utils"
 
 import { useTokensStore } from '@/stores/tokens'

@@ -1,4 +1,4 @@
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { DropdownMenuSubTrigger as RekaDropdownMenuSubTrigger } from "reka-ui";
 import { defineComponent, type HTMLAttributes } from "vue";
 import type { DropdownMenuSubTriggerProps } from "reka-ui"

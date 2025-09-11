@@ -1,4 +1,4 @@
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { Checkbox, Label, Popover, PopoverContent } from "@/ui";
 import { Input } from "@/ui/input";
 import type { HeaderContext, RowData } from "@tanstack/vue-table";

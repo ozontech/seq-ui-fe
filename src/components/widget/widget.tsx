@@ -1,4 +1,4 @@
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/ui";
 import { EllipsisVertical, Pencil, Trash2 } from "lucide-vue-next";
 import { defineComponent, type VNode } from "vue";

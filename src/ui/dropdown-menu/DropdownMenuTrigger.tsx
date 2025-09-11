@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
 import type { DropdownMenuTriggerProps } from "reka-ui"
 import { DropdownMenuTrigger as RekaDropdownMenuTrigger } from "reka-ui"
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 
 const props = {
   as: prop<DropdownMenuTriggerProps['as']>().optional(),

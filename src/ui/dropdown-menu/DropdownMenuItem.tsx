@@ -1,4 +1,4 @@
-import { prop } from '@/lib/prop';
+import { prop } from '@fe/prop-types';
 import { DropdownMenuItem as DropdownItem } from 'reka-ui';
 import type { DropdownMenuItemProps } from 'reka-ui'
 import { defineComponent, type HTMLAttributes } from 'vue';

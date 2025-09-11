@@ -1,6 +1,6 @@
 import { getUnitFromDuration } from "@/helpers/duration";
 import { durationToMessage } from "@/helpers/duration-locale";
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import type { Duration } from "@/types/duration";
 import {
   FilterChipToggle,

@@ -58,6 +58,7 @@ export const useLogs = () => {
       query: query.value,
       offset: offset.value,
       limit: DEFAULT_LIMIT,
+      interval: '',
       order: timeDirection.value,
       from,
       to,

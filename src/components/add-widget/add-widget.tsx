@@ -1,5 +1,5 @@
 import { computed, defineComponent, ref } from "vue";
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { Plus } from "lucide-vue-next";
 
 import {

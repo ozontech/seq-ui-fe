@@ -2,7 +2,7 @@ import { defineComponent } from "vue";
 import { ComboboxInput as RekaComboboxInput, type ComboboxInputProps } from "reka-ui"
 import { cn } from "@/lib/utils"
 import { reactiveOmit } from "@vueuse/core"
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { listboxFilterProps } from "../common-props";
 
 const props = {

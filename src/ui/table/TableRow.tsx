@@ -1,6 +1,6 @@
 import { defineComponent, type HTMLAttributes, type Ref } from "vue"
 import { cn } from "@/lib/utils"
-import { prop } from "@/lib/prop"
+import { prop } from "@fe/prop-types"
 
 const props = {
   innerRef: prop<Ref<HTMLTableRowElement | undefined>>().optional(),

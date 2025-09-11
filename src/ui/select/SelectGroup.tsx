@@ -1,4 +1,4 @@
-import { prop } from "@/lib/prop";
+import { prop } from "@fe/prop-types";
 import { defineComponent, type HTMLAttributes } from "vue";
 import {
   SelectGroup as RekaSelectGroup,
