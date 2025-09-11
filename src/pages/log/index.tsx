@@ -1,11 +1,11 @@
 import { computed, defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
-// import { storeToRefs } from 'pinia'
+import { storeToRefs } from 'pinia'
 
 import { useAsyncState } from '@vueuse/core'
 import { LogView } from '@/components/log-view'
-// import { useTokensStore } from '@/stores/tokens'
-// import { useProfileStore } from '@/stores/profile'
+import { useTokensStore } from '@/stores/tokens'
+import { useProfileStore } from '@/stores/profile'
 import { useBlock } from '@/composables/block'
 import router from '@/router'
 
@@ -15,11 +15,11 @@ export default defineComponent({
 		const route = useRoute()
 		const block = useBlock()
 
-		// const tokens = useTokensStore()
-		// const { keywords, textFieldsMap } = storeToRefs(tokens)
+		const tokens = useTokensStore()
+		const { keywords } = storeToRefs(tokens)
 
-		// const profile = useProfileStore()
-		// const { pinned } = storeToRefs(profile)
+		const profile = useProfileStore()
+		const { pinned } = storeToRefs(profile)
 
     const { isLoading } = useAsyncState(async () => {
 			const id = route.params.id as string
@@ -32,10 +32,10 @@ export default defineComponent({
 			if (!block.messages.selectedMessage.value) {
 				router.replace('/404')
 			}
-			// profile.getPinned()
-			// if (keywords.value.length === 0) {
-			// 	await tokens.fetchKeywords()
-			// }
+			profile.getPinned()
+			if (keywords.value.length === 0) {
+				await tokens.fetchKeywords()
+			}
 		}, null)
 
 		const message = computed(() => {
@@ -50,6 +50,7 @@ export default defineComponent({
               <LogView
                 log={message.value}
                 query={block.queryParams.query.value}
+                pinned={pinned.value}
               />
             )
           }

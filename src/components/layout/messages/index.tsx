@@ -34,6 +34,7 @@ export const MessagesLayout = defineComponent({
           setTimeDirection={logs.setTimeDirection}
           isLoading={logs.isLoading.value}
           loadMore={logs.loadMore}
+          pinned={logs.pinned.value}
         />
       </div>
     )

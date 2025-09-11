@@ -112,7 +112,7 @@ export const LogViewButtons = defineComponent({
     }
 
     return () => (
-      <div class="flex gap-[8px]">
+      <div class="flex gap-[12px]">
         { renderOpenButton() }
         { renderCopyPermalinkButton() }
         { renderCopyJSONButton() }

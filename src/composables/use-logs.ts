@@ -13,12 +13,15 @@ import { SeqapiV1AggregationFuncDto } from "@/api/generated/seq-ui-server"
 import { useAggregations } from "./use-aggregations"
 import { useInterval } from "./use-interval"
 import { useHistogram } from "./use-histogram"
+import { useProfileStore } from "@/stores/profile"
 
 export type LogsState = ReturnType<typeof useLogs>
 
 export const useLogs = () => {
   const tokens = useTokensStore()
   const { keywords: keywordList } = storeToRefs(tokens)
+  const profileStore = useProfileStore()
+  const { pinned } = storeToRefs(profileStore)
 
   const api = getApi()
 
@@ -122,5 +125,6 @@ export const useLogs = () => {
     loadMore,
     aggregations,
     histogram,
+    pinned,
   }
 }
