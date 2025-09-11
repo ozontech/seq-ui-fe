@@ -14,6 +14,7 @@ import { useAggregations } from "./use-aggregations"
 import { useInterval } from "./use-interval"
 import { useHistogram } from "./use-histogram"
 import { useProfileStore } from "@/stores/profile"
+import { getClosestPrettyTime } from "@/helpers/closest-pretty-time"
 
 export type LogsState = ReturnType<typeof useLogs>
 
@@ -61,12 +62,17 @@ export const useLogs = () => {
       query: query.value,
       offset: offset.value,
       limit: DEFAULT_LIMIT,
-      interval: '',
+      interval: histogram.visible && getClosestPrettyTime({
+        from,
+        to,
+        count: 30,
+      })[1],
       order: timeDirection.value,
       from,
       to,
     })
     data.value = response.events
+    histogram.state.value = response.histogram
     hasMore.value = response.events.length === DEFAULT_LIMIT
     offset.value += DEFAULT_LIMIT
 

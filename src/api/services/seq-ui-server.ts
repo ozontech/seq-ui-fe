@@ -55,7 +55,7 @@ export class SeqUiServerService extends Api {
 
       return {
         total: Number(total),
-        histogram: histogram?.buckets || [],
+        histogram: normalizeBuckets(histogram?.buckets || []),
         events: (events ?? []).map(normalizeMessage),
         partialResponse,
         error,
@@ -67,7 +67,7 @@ export class SeqUiServerService extends Api {
       })
       return {
         total: 0,
-        histogram: [],
+        histogram: normalizeBuckets([]),
         events: []
       }
     }

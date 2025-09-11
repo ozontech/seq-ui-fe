@@ -12,7 +12,9 @@ const WIDTH_GAP_RATE = 1.2
 export const normalizeBuckets = (buckets: SeqapiV1HistogramBucketDto[], width?: number) => {
   const timezone = useTimezoneStore().timezone.name
 
-  return buckets.reduce((acc, cur) => {
+  const b = buckets.toSorted((a, b) => Number(a.key) - Number(b.key))
+
+  return b.reduce((acc, cur) => {
     try {
       const date = new Date(Number(cur.key))
       return {
@@ -21,10 +23,8 @@ export const normalizeBuckets = (buckets: SeqapiV1HistogramBucketDto[], width?: 
         // изначальный таймстемп для перевода в другие таймзоны
         _x: [...acc._x, date],
         y: [...acc.y, Number(cur.docCount)],
-        // длина бакета
-        width: typeof width === 'undefined' ? undefined : width / WIDTH_GAP_RATE,
       }
-    } catch {
+    } catch(e) {
       return acc
     }
   }, {
