@@ -41,8 +41,9 @@
 
 .linear-chart {
   flex-direction: column;
-  height: 600px;
-  min-height: 0;
+  height: 100%;
+  min-height: 320px;
+  max-height: 600px;
 }
 
 .pie-chart {

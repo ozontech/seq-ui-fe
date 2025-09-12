@@ -7,6 +7,7 @@ import styles from './list.module.css'
 import type { Aggregation, PickedAggregationKeys, SaveAggregationBody } from '@/types/aggregations'
 import type { EditToQueryOptions, Option } from '@/types/input'
 import { omit } from 'ramda'
+import type { Duration } from '@/types/duration'
 
 export const AggregationList = defineComponent({
   name: 'AggregationList',
@@ -14,6 +15,7 @@ export const AggregationList = defineComponent({
     aggregations: prop<Pick<Aggregation, PickedAggregationKeys>[]>().required(),
     data: prop<(Aggregation['data'] | null)[]>().required(),
     disable: prop<boolean>().optional(false),
+    intervalParams: prop<{ from: Duration; to: Duration }>().optional(),
     firstSearch: prop<boolean>().optional(),
     field: prop<string>().optional(),
     fn: prop<string>().optional(),
@@ -62,6 +64,7 @@ export const AggregationList = defineComponent({
               key={getKey(aggregation)}
               data={props.data[index]}
               index={index}
+              intervalParams={props.intervalParams}
               fn={aggregation.fn}
               field={aggregation.field}
               groupBy={aggregation.groupBy}

@@ -38,7 +38,7 @@ export const AggregationLinearChart = defineComponent({
     const interval = computed(() => {
       return {
         from: props.from ? durationToISOString(props.from) : null,
-        to: props.from ? durationToISOString(props.to) : null,
+        to: props.to ? durationToISOString(props.to) : null,
       }
     })
 

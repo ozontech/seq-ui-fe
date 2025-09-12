@@ -84,6 +84,10 @@ export const LogWidgets = defineComponent({
           data={props.aggregations.aggregationsData.value}
           options={options.value}
           fnOptions={fnOptions.value}
+					intervalParams={{
+						from: props.interval.from.value,
+						to: props.interval.to.value,
+					}}
           whenSetAggregationEditIndex={props.aggregations.setAggregationEditIndex}
           whenChangeOrder={props.aggregations.changeOrder}
           whenUpdate={props.aggregations.updateAggregation}
