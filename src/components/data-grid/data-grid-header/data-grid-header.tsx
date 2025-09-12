@@ -52,7 +52,19 @@ export const useDataGridHeader = <T extends RowData>() => {
 
         const Icon = sortIconsMap[String(column.getIsSorted())]
 
-        return <Icon size={16} class="inline-block ml-1" />
+        return (
+          <Icon
+            size={16}
+            class="cursor-pointer"
+            onClick={column.getToggleSortingHandler()}
+          />
+        )
+      }
+
+      const renderFilterIcon = (column: Column<T>) => {
+        if (column.getCanFilter() && column.columnDef.filter) {
+          return column.columnDef.filter(column)
+        }
       }
 
       const whenResize = (header: Header<T, unknown>) => (event: MouseEvent | TouchEvent) => {
@@ -98,7 +110,6 @@ export const useDataGridHeader = <T extends RowData>() => {
 
         const position = header.column.getIsPinned()
         const hasCenterColumns = props.tableApi.getCenterVisibleLeafColumns().length > 0
-        const canSort = header.column.getCanSort()
 
         const lastLeft = hasCenterColumns && position === 'left' && header.column.getIsLastColumn(position)
         const firstRight = hasCenterColumns && position === 'right' && header.column.getIsFirstColumn(position)
@@ -118,16 +129,14 @@ export const useDataGridHeader = <T extends RowData>() => {
               right: position === 'right' ? addPx(header.column.getAfter(position)) : undefined,
             }}
           >
-            <div
-              class={cn(canSort && 'select-none cursor-pointer')}
-              onClick={header.column.getToggleSortingHandler()}
-            >
+            <div class="flex items-center gap-[6px]">
               <FlexRender
                 class="inline-flex"
                 render={header.column.columnDef.header}
                 props={header.getContext()}
               />
               {renderSortIcon(header.column)}
+              {renderFilterIcon(header.column)}
             </div>
             {renderResizer(header)}
           </TableHead>

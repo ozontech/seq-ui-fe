@@ -1,0 +1,58 @@
+.tableRow {
+	display: grid;
+	gap: 10px;
+	padding: 8px 4px 7px 8px;
+
+	background-color: var(--background-color, #F6F7F9);
+	border-bottom: 1px solid #0F2D4B26;
+}
+
+.validQuantiles {
+	grid-template-columns: minmax(50px, 1fr) repeat(var(--quantiles), 40px) 48px minmax(auto, 120px);
+}
+
+.noValidQuantiles {
+	grid-template-columns: minmax(50px, 1fr) 48px 120px;
+}
+
+.tableHead {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0;
+
+  padding: 8px 8px 10px;
+
+	color: #001122A8;
+
+	background-color: var(--background-color, #6183A21A);
+	border-top: 1px solid #0F2D4B26;
+	border-bottom: 1px solid #0F2D4B26;
+}
+
+.textCell {
+	word-wrap: break-word;
+}
+
+.menu {
+	width: 16px;
+	min-width: 16px;
+	height: 16px;
+}
+
+.menu button {
+	width: 16px;
+	min-width: 16px;
+	height: 16px;
+
+	color: #071A2A4F;
+
+	background-color: transparent;
+	opacity: 0;
+
+	transition: opacity 0.2s ease;
+}
+
+.tableRow:hover .menu button {
+	opacity: 1;
+}

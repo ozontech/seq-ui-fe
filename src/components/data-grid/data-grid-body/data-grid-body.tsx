@@ -134,13 +134,21 @@ export const useDataGridBody = <T extends RowData>() => {
         )
       }
 
+      const renderRows = (rows: Row<T>[]) => {
+        if (props.isLoading) {
+          return renderSkeleton()
+        }
+
+        if (rows.length === 0) {
+          return renderEmpty()
+        }
+
+        return rows.map(renderRow)
+      }
+
       return () => (
         <TableBody>
-          {props.tableApi.getRowModel().rows?.length
-            ? props.tableApi.getRowModel().rows.map(renderRow)
-            : renderEmpty()
-          }
-          {props.isLoading && renderSkeleton()}
+          { renderRows(props.tableApi.getRowModel().rows) }
           <TableRow innerRef={lastRowRef} />
         </TableBody>
       )

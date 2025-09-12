@@ -4,7 +4,7 @@ import { prop } from "@fe/prop-types";
 
 import { Button } from "@/ui";
 import type { SeqapiV1AggregationFuncDto } from "@/api/generated/seq-ui-server";
-import type { AggregationsState } from "@/composables/use-aggregations";
+import type { AggregationsState } from "@/composables/aggregations";
 import type { HistogramState } from "@/composables/use-histogram";
 import type { IntervalState } from "@/composables/use-interval";
 
@@ -63,7 +63,7 @@ export const LogControls = defineComponent({
     )
 
     return () => (
-      <div class="flex flex-col gap-[16px]">
+      <div class="flex flex-col gap-[20px]">
         {renderExpressionInput()}
         <div class="flex justify-between gap-[12px]">
           {renderAdditionalControls()}

@@ -1,11 +1,13 @@
-export const formatNumber = (number: number, options: Intl.NumberFormatOptions = {
-	maximumFractionDigits: 2,
-}) => {
-	if (number === undefined) {
-		return ''
-	}
+export const formatNumber = new Intl.NumberFormat('en-US').format
 
-	const formatter = new Intl.NumberFormat('ru', options)
+export const compactFormatNumber = (value: number) => {
+	const formatter = Intl.NumberFormat('en', { notation: 'compact' })
 
-	return formatter.format(number)
+	return formatter.format(value).toLocaleLowerCase()
+}
+
+export const formatPercent = (value: number, decimals = 2) => {
+	const formattedNumber = parseFloat((value * 100).toFixed(decimals))
+
+	return `${formattedNumber}%`
 }

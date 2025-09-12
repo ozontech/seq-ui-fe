@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import axios, { AxiosError } from 'axios'
-import { Api, SeqapiV1AggregationFuncDto, SeqapiV1OrderDto, type SeqapiV1AggregationQueryDto } from '../generated/seq-ui-server'
+import { Api, SeqapiV1AggregationFuncDto, SeqapiV1OrderDto, type SeqapiV1AggregationQueryDto, type SeqapiV1AggregationTsQueryDto } from '../generated/seq-ui-server'
 import { normalizeEvent, normalizeMessage } from '@/normalizers/events'
 import type { NoDataAg } from '@/composables/aggregations'
-import { normalizeAggregation, type NormalizedAggregationType } from '@/normalizers/aggregations'
+import { normalizeAggregation, normalizeAggregationTS, type NormalizedAggregationTSType, type NormalizedAggregationType } from '@/normalizers/aggregations'
 import type { Order } from '@/types/messages'
 import { HandleErrorDecorator, ServiceHandleError } from '../base/error-handler'
 import { toast } from 'vue-sonner'
@@ -120,40 +120,54 @@ export class SeqUiServerService extends Api {
     return normalizeBuckets(data.histogram?.buckets ?? [], intervalMs)
   }
 
-  async fetchAggregation({ ...args }: {
+  async fetchAggregation({ timeseries, ...args }: {
     query: string
     from: string
     to: string
     index?: number
-    aggregations?: SeqapiV1AggregationQueryDto[]
+    aggregations?: SeqapiV1AggregationTsQueryDto[]
+		timeseries?: boolean
   }) {
-    let result: ResponseType<NormalizedAggregationType> | null = null
-    try {
-      const { data } = await this.seqapiV1GetAggregation({
-        ...args,
-      })
+		let result: ResponseType<NormalizedAggregationType | NormalizedAggregationTSType> | null = null
 
-      result = {
-        data: normalizeAggregation(data.aggregations?.[0]?.buckets),
-        error: null,
-      }
-    } catch (error) {
-      console.error(error)
+		try {
+			if (timeseries) {
+				const { data } = await this.seqapiV1GetAggregationTs({
+					...args,
+				})
 
-      if (axios.isAxiosError(error)) {
-        result = { error: error.response?.data.message || error.message }
-      }
-    }
-    return result
+				result = {
+					data: normalizeAggregationTS(data.aggregations?.[0]?.data?.result),
+					error: null,
+				}
+			} else {
+				const { data } = await this.seqapiV1GetAggregation({
+					...args,
+				})
+
+				result = {
+					data: normalizeAggregation(data.aggregations?.[0]?.buckets),
+					error: null,
+				}
+			}
+		} catch (error) {
+			console.error(error)
+
+			if (axios.isAxiosError(error)) {
+				result = { error: error.response?.data.message || error.message }
+			}
+		}
+		return result
   }
 
-  async fetchAggregationsChunk({ aggs, ...rest }: {
+  async fetchAggregationsChunk({ aggs, timeseries, ...rest }: {
     aggs: NoDataAg[]
     query: string
     from: string
     to: string
+		timeseries?: boolean
   }) {
-    let result: ResponseType<NormalizedAggregationType[]> | null = null
+    let result: ResponseType<NormalizedAggregationType[] | NormalizedAggregationTSType[]> | null = null
 
     const body = {
       ...rest,
@@ -167,12 +181,22 @@ export class SeqUiServerService extends Api {
     }
 
     try {
-      const { data } = await this.seqapiV1GetAggregation(body)
 
-      result = {
-        data: data.aggregations?.map(({ buckets }) => normalizeAggregation(buckets)) || [],
-        error: null,
-      }
+			if (timeseries) {
+				const { data } = await this.seqapiV1GetAggregationTs(body)
+
+				result = {
+					data: data.aggregations?.map(({ data }) => normalizeAggregationTS(data?.result)) || [],
+					error: null,
+				}
+			} else {
+				const { data } = await this.seqapiV1GetAggregation(body)
+
+				result = {
+					data: data.aggregations?.map(({ buckets }) => normalizeAggregation(buckets)) || [],
+					error: null,
+				}
+			}
     } catch (error) {
       console.error(error)
 

@@ -1,0 +1,29 @@
+.emptyMessage {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	gap: 8px;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
+
+.textWrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	align-items: center;
+}
+
+.emptyMessageTitle {
+  font-size: var(--text-sm);
+	color: var(--muted-foreground);
+}
+
+.emptyMessageIcon {
+	color: var(--muted-foreground);
+}
+
+.bold {
+	font-weight: 700;
+}

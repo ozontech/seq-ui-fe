@@ -34,7 +34,7 @@ export const LogField = defineComponent({
     const renderCopyButton = () => {
       const value = fieldValue.value
 
-      if (is(String, value)) {
+      if (value && is(String, value)) {
         return (
           <Copy
             size={14}

@@ -4,7 +4,6 @@ import { useRoute } from 'vue-router'
 
 import { useMessages } from './messages'
 import { useCounter } from './use-counter'
-import { useAggregations } from './aggregations'
 import { useRouteQuery } from './route-query'
 
 import { useSearchStore } from '@/stores/search'
@@ -15,14 +14,12 @@ export const useBlock = (_id = 0, opened = false) => {
 
 	const params = useSearchStore().getParams(id)
 	const messages = useMessages(id)
-	const aggregations = useAggregations(id)
 
 	const name = ref<string | undefined>('')
 	const isOpened = ref(opened)
 
 	const fetch = async () => {
 		messages.fetchMessages()
-		aggregations.fetchAggregations()
 	}
 
 	const setName = (value?: string) => name.value = value
@@ -60,7 +57,6 @@ export const useBlock = (_id = 0, opened = false) => {
 		queryParams: params.queryParams,
 		intervalParams: params.intervalParams,
 		messages,
-		aggregations,
 		isOpened,
 		toggleIsOpened,
 		fetch,

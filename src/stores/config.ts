@@ -47,7 +47,7 @@ export const useConfigStore = defineStore('config', () => {
 	const fetchLimits = async () => {
 		const limits = await getApi().seqUiServer.getLimits()
 		// TODO
-		//useAggregations().limit.value = limits.maxAggregationsPerRequest || 1
+		// useAggregations().limit.value = limits.maxAggregationsPerRequest || 1
 		exportLimit.value = limits.maxExportLimit || 100_000
 	}
 

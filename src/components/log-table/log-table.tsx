@@ -72,7 +72,7 @@ export const LogTable = defineComponent({
         enableSorting: false,
         enableResizing: true,
         enableHiding: false,
-        minSize: 300,
+        minSize: 500,
         size: messageWidth.value,
         maxSize: 1000,
         cell: ({ column, row }) => {
@@ -97,7 +97,6 @@ export const LogTable = defineComponent({
           const view = props.renderCell?.(column.id, row.original)
           if (view) {
             return view
-
           }
 
           return <>{row.getValue(column.id)}</>
