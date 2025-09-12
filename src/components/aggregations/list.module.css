@@ -1,0 +1,43 @@
+.container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+}
+
+.fullScreen {
+	display: block;
+	height: 100%;
+}
+
+.dragHandle {
+	cursor: grab;
+}
+
+.ghost {
+	opacity: 0;
+}
+
+.hideWidget {
+	display: none;
+}
+
+.chosen > div:nth-child(2) {
+	display: none;
+}
+
+.container.chosen:not(.drag)::after,
+.container.drag::after {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+
+	width: 100%;
+	height: 100%;
+
+	border-radius: 8px;
+	box-shadow: inset 0 0 0 3px var(--ozi-static-graphic-action-primary-on-dark);
+
+	content: '';
+	pointer-events: none;
+}

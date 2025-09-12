@@ -10,7 +10,7 @@ import type { SortDirection } from "@/types/shared"
 import { useTokensStore } from "@/stores/tokens"
 import { SeqapiV1AggregationFuncDto } from "@/api/generated/seq-ui-server"
 
-import { useAggregations } from "./use-aggregations"
+import { useAggregations } from "./aggregations"
 import { useInterval } from "./use-interval"
 import { useHistogram } from "./use-histogram"
 import { useProfileStore } from "@/stores/profile"
@@ -112,7 +112,7 @@ export const useLogs = () => {
 
     if (updated) {
       submitSearch()
-      aggregations.refetchAggregation()
+      aggregations.fetchAggregations()
     }
   }, {
     immediate: true

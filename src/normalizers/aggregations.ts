@@ -1,7 +1,8 @@
 import { toRaw } from 'vue'
 
-import type { SeqapiV1AggregationBucketDto } from '@/api/generated/seq-ui-server'
+import type { SeqapiV1AggregationBucketDto, SeqapiV1AggregationSeriesDto } from '@/api/generated/seq-ui-server'
 import { isEmptyDuration } from '@/helpers/duration'
+import { values } from 'ramda'
 
 export type NormalizedAggregationType = {
 	total: number
@@ -46,6 +47,37 @@ export const normalizeQuantiles = (quantiles: number[]) => {
 }
 
 export type AggregationData = ReturnType<typeof normalizeAggregation>['aggregation']
+
+export type NormalizedAggregationTSType = {
+	total: number
+	aggregation: {
+		name: string
+		result: { timestamp: number;value: number }[]
+	}[]
+}
+
+export const normalizeAggregationTS = (
+	series?: SeqapiV1AggregationSeriesDto[],
+): NormalizedAggregationTSType => {
+	const arr = (series ?? [])
+	const total = arr.length
+	const aggregation = arr.map(({ metric = {}, values: dataset = [] }) => {
+		const { quantile, ...rest } = metric
+		const fieldValue = values(rest)[0]
+
+		return {
+			name: quantile ? `${fieldValue} (${quantile})` : fieldValue,
+			result: dataset.map((datasetItem) => ({
+				timestamp: datasetItem.timestamp ?? 0,
+				value: datasetItem.value ?? 0,
+			})),
+		}
+	})
+
+	return { total, aggregation }
+}
+
+export type AggregationTSData = ReturnType<typeof normalizeAggregationTS>['aggregation']
 
 // ToDo!!!
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

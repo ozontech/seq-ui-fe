@@ -1,5 +1,5 @@
 import { prop } from "@fe/prop-types";
-import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/ui";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/ui";
 import { EllipsisVertical, Pencil, Trash2 } from "lucide-vue-next";
 import { defineComponent, type VNode } from "vue";
 
@@ -23,12 +23,10 @@ export const Widget = defineComponent({
 
       return (
         <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Button variant="ghost">
-              <EllipsisVertical size={16} />
-            </Button>
+          <DropdownMenuTrigger class="cursor-pointer">
+            <EllipsisVertical class="flex" size={16} />
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
+          <DropdownMenuContent align="end">
             {props.whenEdit && (
               <DropdownMenuItem whenClick={props.whenEdit}>
                 <Pencil size={16} /> Edit
@@ -44,13 +42,12 @@ export const Widget = defineComponent({
       )
     }
 
+    // todo: add error boundary
     return () => (
-      <div class="p-4 rounded-xl border bg-card text-card-foreground shadow w-full h-[350px] flex flex-col gap-[12px]">
+      <div class="p-4 rounded-xl border bg-card text-card-foreground shadow w-full flex flex-col gap-[12px]">
         <div class="flex justify-between gap-[12px]">
           {props.renderTitle?.() ?? <div />}
-          <div>
-            {renderActionsMenu()}
-          </div>
+          {renderActionsMenu()}
         </div>
         {slots.default?.()}
       </div>

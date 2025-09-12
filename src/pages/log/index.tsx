@@ -43,18 +43,16 @@ export default defineComponent({
 		})
 
     return () => (
-      <div class="p-4">
-        <div class="p-4 border-1 rounded-md">
-          {
-            isLoading.value ? 'loading...' : (
-              <LogView
-                log={message.value}
-                query={block.queryParams.query.value}
-                pinned={pinned.value}
-              />
-            )
-          }
-        </div>
+      <div class="p-4 border-1 rounded-md">
+        {
+          isLoading.value ? 'loading...' : (
+            <LogView
+              log={message.value}
+              query={block.queryParams.query.value}
+              pinned={pinned.value}
+            />
+          )
+        }
       </div>
     )
   },

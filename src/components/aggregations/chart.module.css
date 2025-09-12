@@ -1,0 +1,184 @@
+.container {
+	display: grid;
+	grid-template-columns: 240px 1fr;
+	align-items: center;
+	justify-content: center;
+	max-height: 240px;
+  margin: auto;
+
+	background-color: transparent;
+}
+
+.legend {
+	display: flex;
+	flex: 1 0 50%;
+	flex-direction: column;
+	align-items: start;
+	justify-self: start;
+	width: 100%;
+	max-height: 240px;
+	overflow-y: auto;
+}
+
+.legendItem {
+	display: flex;
+	flex-direction: row;
+	gap: 4px;
+	align-items: center;
+	justify-content: center;
+}
+
+.legendItemColor {
+	width: 12px;
+	height: 12px;
+
+	border-radius: 6px;
+}
+
+.legendItemText {
+	white-space: nowrap;
+}
+
+.container {
+	display: grid;
+	grid-template-columns: calc(2 * (var(--pie-radius) + 20px)) 1fr;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	max-height: calc(2 * (var(--pie-radius) + 20px));
+
+	background-color: transparent;
+}
+
+.tooltip {
+	font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0;
+
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	padding: 8px;
+
+	background-color: #FFFFFF;
+	border-radius: 8px;
+	box-shadow: 0 8px 16px -2px rgb(0 0 0 / 12%), 0 0 2px rgb(0 0 0 / 12%);
+}
+
+.tooltipLabel {
+	font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0;
+
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+
+.tooltipValue {
+	font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0;
+}
+
+.tooltipTime {
+	font-weight: 400;
+  font-size: 11px;
+  line-height: 12px;
+  letter-spacing: 0;
+
+	margin-top: 4px;
+
+	color: #001122A8;
+}
+
+.linearChart {
+  flex: 1;
+}
+
+.linearChartWrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 0;
+}
+
+.linearLegend {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+	overflow: hidden;
+	border-radius: 12px;
+}
+
+.linearLegendTable {
+	overflow: auto;
+}
+
+.linearLegend th {
+	padding: 4px 8px;
+}
+
+.linearLegend td {
+	padding: 4px 8px;
+}
+
+.linearLegend tr:hover td {
+	background-color: #F6F7F9;
+}
+
+.legendCheckbox {
+	margin: 2px 2px 1px;
+}
+
+.legendColor {
+	width: 24px;
+	padding: 4px;
+
+	text-align: center;
+	vertical-align: middle;
+}
+
+.copyButton {
+	color: #05162863;
+  cursor: pointer;
+}
+
+.copyColumn,
+.copyColumn svg {
+	width: 16px;
+	min-width: 16px;
+	height: 16px;
+}
+
+.linearLegend td .copyButton {
+	visibility: hidden;
+}
+
+.linearLegend tr:hover td .copyButton {
+	visibility: visible;
+}
+
+.headerContainer {
+	display: inline-flex;
+	gap: 4px;
+	align-items: center;
+}
+
+.legendFilter {
+	width: 300px;
+	padding: 8px;
+}
+
+.active {
+  color: #005BFF;
+}
+
+.legendFilterCaption {
+	padding: 6px 4px 10px;
+}

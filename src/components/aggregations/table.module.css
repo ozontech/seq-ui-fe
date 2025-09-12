@@ -1,0 +1,80 @@
+.error {
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 20px;
+
+	margin: 0;
+	padding: 8px;
+
+	color: #D3003D;
+}
+
+.alignRight {
+	display: flex;
+	flex-direction: row;
+	gap: 4px;
+	justify-self: end;
+}
+
+.textCell {
+	word-break: break-all;
+	overflow-wrap: break-word;
+}
+
+.numberCell {
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 20px;
+}
+
+.percentCell {
+	color: #0011218C;
+}
+
+.table {
+  height: 100%;
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 20px;
+
+	overflow-y: auto;
+	scrollbar-width: thin;
+
+	color: #001122A8;
+}
+
+.fullScreen {
+	height: 100%;
+	max-height: 500px;
+}
+
+.tableBody {
+	position: relative;
+
+	margin: unset;
+	padding: unset;
+
+	color: #02080FF2;
+
+	list-style: none;
+}
+
+.percentage {
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	width: 100%;
+
+	/* stylelint-disable-next-line @stylistic/max-line-length */
+	background-image: linear-gradient(90deg, #2F9BF91F, #2F9BF91F);
+	background-repeat: no-repeat;
+}
+
+.quantile {
+	overflow-x: auto;
+}
+
+.icon {
+	color: #0011218C;
+}

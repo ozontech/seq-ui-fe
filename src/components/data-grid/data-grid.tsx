@@ -2,6 +2,7 @@ import { prop } from "@fe/prop-types";
 import {
   getCoreRowModel,
   getExpandedRowModel,
+  getFilteredRowModel,
   getSortedRowModel,
   useVueTable,
 } from "@tanstack/vue-table";
@@ -54,13 +55,15 @@ export const useDataGrid = <T extends RowData>() => {
         props.whenSortingChange?.(sorting.value, (state) => sorting.value = state)
       }
       const data = toRef(props, 'data');
+      const columns = toRef(props, 'columns');
 
       const tableApi = useVueTable<T>({
         data,
-        columns: props.columns,
+        columns: columns.value,
         columnResizeMode: 'onChange',
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
         getExpandedRowModel: getExpandedRowModel(),
         onColumnSizingChange: updaterOrValue => valueUpdater(updaterOrValue, columnSizing),
         onColumnVisibilityChange: updaterOrValue => valueUpdater(updaterOrValue, columnVisibility),
@@ -76,7 +79,7 @@ export const useDataGrid = <T extends RowData>() => {
         }
       })
 
-      watch(() => props.columns, (columns) => {
+      watch(columns, (columns) => {
         const newVisibility = props.initialState?.columnVisibility
         if (newVisibility) {
           columnVisibility.value = newVisibility

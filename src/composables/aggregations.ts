@@ -1,25 +1,32 @@
-import { ref, computed, toRaw } from 'vue'
+import { ref, computed, toRaw, type Ref } from 'vue'
 import { chunk } from 'lodash'
 import { is } from 'ramda'
-import { sub } from 'date-fns'
 
 import type { Aggregation, GroupedAggregations, PickedAggregationKeys, SaveAggregationBody } from '@/types/aggregations'
 import { getApi } from '@/api/client'
 import { addRequestDelay } from '@/helpers/add-request-delay'
 import { SeqapiV1AggregationFuncDto } from '@/api/generated/seq-ui-server'
-import { useSearchStore } from '@/stores/search'
 import { durationToISOString, durationToSeconds, isEmptyDuration } from '@/helpers/duration'
+import type { IntervalState } from '@/composables/use-interval'
+import { getClosestPrettyTime } from '@/helpers/closest-pretty-time'
+import { LINEAR_CHART_POINTS_LIMIT } from '@/constants/search'
 
 const defaultFn = () => SeqapiV1AggregationFuncDto.AfCount
 export type NoDataAg = Omit<Aggregation, 'data'>
 type AgData = Aggregation['data']
 
-export const useAggregations = (id: number) => {
-	const { queryParams, intervalParams } = useSearchStore().getParams(id)
+export type AggregationsState = ReturnType<typeof useAggregations>
+
+export const useAggregations = (
+  interval: IntervalState,
+  query: Ref<string>
+) => {
 	const aggs: Pick<Aggregation, PickedAggregationKeys>[] = []
 	const aggregations = ref<NoDataAg[]>(aggs)
 
-	const filteredAggregations = computed(() => aggregations.value.filter((ag) => ag && ag.fn && (ag.field || ag.groupBy)))
+	const filteredAggregations = computed(() => {
+		return aggregations.value.filter((ag) => ag && ag.fn && (ag.field || ag.groupBy))
+	})
 
 	const error = ref<Record<number, string | undefined> | null>(null)
 
@@ -30,7 +37,11 @@ export const useAggregations = (id: number) => {
 	const aggregationEditIndex = ref(-1)
 	const blockIndex = ref(0)
 
-	const hasErrors = computed(() => !isErrorFromPreview.value && error.value !== null && Object.values(error.value).some((item) => is(String, item)))
+	const hasErrors = computed(() => (
+    !isErrorFromPreview.value &&
+    error.value !== null &&
+    Object.values(error.value).some((item) => is(String, item))
+  ))
 
 	function setAggregationEditIndex(index: number) {
 		aggregationEditIndex.value = index
@@ -57,7 +68,6 @@ export const useAggregations = (id: number) => {
 
 	function changeOrder(aggs: Aggregation[]) {
 		aggregations.value = aggs
-
 		aggregationsData.value = aggs.map((agg) => {
 			return agg?.data
 		})
@@ -142,12 +152,15 @@ export const useAggregations = (id: number) => {
 		fn,
 		groupBy,
 		quantiles,
+		showType,
 	}: Aggregation, index?: number) {
 		clearErrors(false, index)
 
-		const { from, to } = intervalParams.toDates()
+		const { from, to } = interval.toDates()
+		const prettyTimeInterval = getClosestPrettyTime({ from, to, count: LINEAR_CHART_POINTS_LIMIT })[0]
+
 		const result = await getApi().seqUiServer.fetchAggregation({
-			query: queryParams.query.value,
+			query: query.value,
 			from,
 			to,
 			index,
@@ -157,8 +170,10 @@ export const useAggregations = (id: number) => {
 					group_by: groupBy || undefined,
 					agg_func: fn || defaultFn(),
 					quantiles: fn === SeqapiV1AggregationFuncDto.AfQuantile ? quantiles : undefined,
+					interval: `${prettyTimeInterval}ms`,
 				},
 			],
+			timeseries: showType === 'linear-chart',
 		})
 
 		if (result?.error && is(String, result.error) && index !== undefined) {
@@ -171,24 +186,38 @@ export const useAggregations = (id: number) => {
 		return result?.data
 	}
 
-	async function fetchIndependentAggregation(aggregation: GroupedAggregations, index?: number) {
+	async function fetchIndependentAggregation(
+		aggregation: GroupedAggregations,
+		index?: number,
+	) {
 		clearErrors(false, index)
-		const { query, from, to, aggregations } = aggregation
-		const rawInterval = intervalParams.toDates()
-		const fromText = from?.date?.toISOString() || sub(new Date(), from || {}).toISOString()
-		const toText = to?.date?.toISOString() || sub(new Date(), to || {}).toISOString()
-		const result = await getApi().seqUiServer.fetchAggregation({
-			query: query || queryParams.query.value,
-			from: from ? fromText : rawInterval.from,
-			to: to ? toText : rawInterval.to,
+		const { from, to, aggregations, showType } = aggregation
+		const rawInterval = interval.toDates()
+		const requestFrom = isEmptyDuration(from) ? rawInterval.from : durationToISOString(from)
+		const requestTo = isEmptyDuration(to) ? rawInterval.to : durationToISOString(to)
+
+		const prettyTimeInterval = getClosestPrettyTime({
+			from: requestFrom,
+			to: requestTo,
+			count: LINEAR_CHART_POINTS_LIMIT,
+		})[0]
+
+		const body = {
+			query: aggregation.query || query.value,
+			from: requestFrom,
+			to: requestTo,
 			index,
 			aggregations: aggregations.map((agg) => ({
 				field: agg.field,
 				group_by: agg.groupBy || undefined,
 				agg_func: agg.fn || defaultFn(),
+				interval: `${prettyTimeInterval}ms`,
 				quantiles: agg.fn === SeqapiV1AggregationFuncDto.AfQuantile ? agg.quantiles : undefined,
 			})),
-		})
+			timeseries: showType === 'linear-chart',
+		}
+
+		const result = await getApi().seqUiServer.fetchAggregation(body)
 
 		if (result?.error && is(String, result.error) && index !== undefined) {
 			error.value = {
@@ -204,13 +233,22 @@ export const useAggregations = (id: number) => {
 	async function fetchChunk(aggs: GroupedAggregations, chunkIndex = 0, dataLength = 1) {
 		clearErrors(true)
 		isErrorFromPreview.value = false
-		const { from, to } = intervalParams.toDates()
+		const { from, to } = interval.toDates()
+		const requestFrom = isEmptyDuration(aggs.from) ? from : durationToISOString(aggs.from)
+		const requestTo = isEmptyDuration(aggs.to) ? to : durationToISOString(aggs.to)
+
+		const prettyTimeInterval = getClosestPrettyTime({
+			from: requestFrom,
+			to: requestTo,
+			count: LINEAR_CHART_POINTS_LIMIT,
+		})[0]
 
 		const result = await getApi().seqUiServer.fetchAggregationsChunk({
-			aggs: aggs.aggregations,
-			query: aggs.query || queryParams.query.value,
+			aggs: aggs.aggregations.map((agg) => ({ ...agg, interval: `${prettyTimeInterval}ms` })),
+			query: aggs.query || query.value,
 			from: isEmptyDuration(aggs.from) ? from : durationToISOString(aggs.from),
 			to: isEmptyDuration(aggs.to) ? to : durationToISOString(aggs.to),
+			timeseries: aggs.showType === 'linear-chart',
 		})
 
 		if (result?.error && is(String, result.error)) {
@@ -273,7 +311,8 @@ export const useAggregations = (id: number) => {
 		const finalList: GroupedAggregations[] = []
 
 		list.forEach((item) => {
-			const key = `${item.query}_${durationToSeconds(item.from)}_${durationToSeconds(item.to)}`
+			const timeseries = item.showType === 'linear-chart'
+			const key = `${item.query}_${durationToSeconds(item.from)}_${durationToSeconds(item.to)}_${timeseries}`
 			if (result[key]) {
 				result[key].aggregations?.push(toRaw(item))
 				return
@@ -284,6 +323,7 @@ export const useAggregations = (id: number) => {
 				to: toRaw(item.to),
 				field: item.field,
 				fn: item.fn,
+				showType: item.showType,
 
 				aggregations: [toRaw(item)],
 			}
@@ -365,7 +405,7 @@ export const useAggregations = (id: number) => {
 		fn: SeqapiV1AggregationFuncDto
 	}) {
 		aggregations.value.push(ag)
-		const data = await fetchAggregation(ag)
+		const data = await fetchAggregation(ag, aggregations.value.length - 1)
 		if (!data) return
 
 		aggregationsData.value.push(data.aggregation)

@@ -13,3 +13,5 @@ export const defaultFrom = (): Duration => ({
 export const QUERY_KEYS = ['q', 'from', 'to', 'rangetype', 'page']
 
 export const DEFAULT_CHART_WIDTH = 30
+
+export const LINEAR_CHART_POINTS_LIMIT = 200

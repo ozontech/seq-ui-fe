@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/ui";
 import type { SeqapiV1AggregationFuncDto } from "@/api/generated/seq-ui-server";
-import type { AggregationsState } from "@/composables/use-aggregations";
+import type { AggregationsState } from "@/composables/aggregations";
 import type { HistogramState } from "@/composables/use-histogram";
 
 import { AggregationDrawer } from "../aggregation-drawer";
@@ -31,7 +31,9 @@ export const AddWidget = defineComponent({
     const openAggregation = ref(false)
 
     const selectedAggregation = computed(() => {
-      return props.aggregations.list.value.find((_, i) => i === props.aggregations.selectedIndex.value)
+      return props.aggregations.aggregations.value.find((_, index) => {
+        return index === props.aggregations.aggregationEditIndex.value
+      })
     })
 
     const whenOpenAggregationChange = (value: boolean) => {
@@ -62,13 +64,13 @@ export const AddWidget = defineComponent({
           </DropdownMenuContent>
         </DropdownMenu>
         <AggregationDrawer
-          index={props.aggregations.selectedIndex.value}
+          index={props.aggregations.aggregationEditIndex.value}
           open={openAggregation.value}
           fields={props.fields}
           functions={props.functions}
           aggregation={selectedAggregation.value}
           whenOpenChange={whenOpenAggregationChange}
-          whenSave={props.aggregations.addAggregation}
+          whenSave={props.aggregations.pushAggregation}
         />
       </>
     )

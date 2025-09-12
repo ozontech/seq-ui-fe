@@ -22,6 +22,7 @@
     "@vueuse/core": "^13.9.0",
     "@vueuse/router": "^14.0.0-alpha.0",
     "axios": "^1.11.0",
+    "chart.js": "^4.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "codemirror": "^6.0.2",
@@ -37,6 +38,7 @@
     "utility-types": "^3.11.0",
     "vaul-vue": "^0.4.1",
     "vue": "^3.5.18",
+    "vue-chartjs": "^5.3.2",
     "vue-router": "^4.5.1",
     "vue-sonner": "^2.0.8"
   },
