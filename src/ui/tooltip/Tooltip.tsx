@@ -6,10 +6,10 @@ const props = {
   open: prop<boolean>().required(),
   disabled: prop<boolean>().required(),
   defaultOpen: prop<boolean>().required(),
-  delayDuration: prop<number>().optional(),
   disableClosingTrigger: prop<boolean>().required(),
   disableHoverableContent: prop<boolean>().required(),
   ignoreNonKeyboardFocus: prop<boolean>().required(),
+  delayDuration: prop<number>().optional(),
 }
 
 const emits = {

@@ -9,7 +9,6 @@ const props = {
   reference: prop<TooltipTriggerProps['reference']>().optional(),
 }
 
-
 export const TooltipTrigger = defineComponent({
   name: 'TooltipTrigger',
   props,
