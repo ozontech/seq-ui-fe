@@ -2,7 +2,7 @@ import { ref, computed, toRaw, type Ref } from 'vue'
 import { chunk } from 'lodash'
 import { is } from 'ramda'
 
-import type { Aggregation, GroupedAggregations, PickedAggregationKeys, SaveAggregationBody } from '~/types/aggregations'
+import type { Aggregation, GroupedAggregations, SaveAggregationBody } from '~/types/aggregations'
 import { getApi } from '~/api/client'
 import { addRequestDelay } from '~/helpers/add-request-delay'
 import { SeqapiV1AggregationFuncDto } from '~/api/generated/seq-ui-server'
@@ -10,6 +10,7 @@ import { durationToISOString, durationToSeconds, isEmptyDuration } from '~/helpe
 import type { IntervalState } from '~/composables/use-interval'
 import { getClosestPrettyTime } from '~/helpers/closest-pretty-time'
 import { LINEAR_CHART_POINTS_LIMIT } from '~/constants/search'
+import { useRouteQuery } from '@vueuse/router'
 
 const defaultFn = () => SeqapiV1AggregationFuncDto.AfCount
 export type NoDataAg = Omit<Aggregation, 'data'>
@@ -21,8 +22,30 @@ export const useAggregations = (
   interval: IntervalState,
   query: Ref<string>
 ) => {
-	const aggs: Pick<Aggregation, PickedAggregationKeys>[] = []
-	const aggregations = ref<NoDataAg[]>(aggs)
+  const aggregations = useRouteQuery<string[] | string | undefined | null, NoDataAg[]>('ag', [], {
+    transform: {
+      get: (query) => {
+        if (!query) {
+          return []
+        }
+        if (Array.isArray(query)) {
+          return query.map((q) => JSON.parse(q))
+        }
+        return [JSON.parse(query)]
+      },
+      set: (value) => {
+        return value.map((ag) => {
+          const entries = Object.entries(ag).filter(([key, value]) => {
+            if (Array.isArray(value)) {
+              return value.length !== 0
+            }
+            return Boolean(value)
+          })
+          return JSON.stringify(Object.fromEntries(entries))
+        })
+      }
+    },
+  })
 
 	const filteredAggregations = computed(() => {
 		return aggregations.value.filter((ag) => ag && ag.fn && (ag.field || ag.groupBy))
@@ -163,7 +186,6 @@ export const useAggregations = (
 			query: query.value,
 			from,
 			to,
-			index,
 			aggregations: [
 				{
 					field,
@@ -242,6 +264,8 @@ export const useAggregations = (
 			to: requestTo,
 			count: LINEAR_CHART_POINTS_LIMIT,
 		})[0]
+
+    console.log(prettyTimeInterval)
 
 		const result = await getApi().seqUiServer.fetchAggregationsChunk({
 			aggs: aggs.aggregations.map((agg) => ({ ...agg, interval: `${prettyTimeInterval}ms` })),
@@ -404,7 +428,7 @@ export const useAggregations = (
 		field: string
 		fn: SeqapiV1AggregationFuncDto
 	}) {
-		aggregations.value.push(ag)
+    aggregations.value = [...aggregations.value, ag]
 		const data = await fetchAggregation(ag, aggregations.value.length - 1)
 		if (!data) return
 

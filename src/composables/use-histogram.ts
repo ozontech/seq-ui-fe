@@ -1,9 +1,10 @@
-import { ref, type Ref } from "vue"
+import { type Ref } from "vue"
 import type { IntervalState } from "./use-interval"
 import { getClosestPrettyTime } from "~/helpers/closest-pretty-time"
 import type { Histogram } from "~/types/shared"
 import { useAsyncState } from "@vueuse/core"
 import { getApi } from "~/api/client"
+import { useRouteQuery } from "@vueuse/router"
 
 const defaultHistogram = (): Histogram => ({
   x: [],
@@ -21,7 +22,12 @@ export const useHistogram = (
 ) => {
   const api = getApi()
 
-  const visible = ref(false)
+  const visible = useRouteQuery<'true' | undefined, boolean>('histogram', undefined, {
+    transform: {
+      get: (query) => query === 'true',
+      set: (value) => value === false ? undefined: 'true'
+    }
+  })
 
   const changeVisibility = (state: boolean) => {
     visible.value = state
