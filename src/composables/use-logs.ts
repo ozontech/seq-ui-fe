@@ -56,17 +56,18 @@ export const useLogs = () => {
   const submitSearch = async () => {
     offset.value = 0
     isLoading.value = true
+    api.seqUiServer.fetchMessages
 
     const { from, to } = interval.toDates()
     const response = await api.seqUiServer.fetchMessages({
       query: query.value,
       offset: offset.value,
       limit: DEFAULT_LIMIT,
-      interval: histogram.visible && getClosestPrettyTime({
+      interval: histogram.visible.value ? getClosestPrettyTime({
         from,
         to,
         count: 30,
-      })[1],
+      })[1] : undefined,
       order: timeDirection.value,
       from,
       to,

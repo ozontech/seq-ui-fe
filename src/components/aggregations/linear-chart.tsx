@@ -76,13 +76,13 @@ export const AggregationLinearChart = defineComponent({
       }
 
       return (
-        <div class={styles.tooltip}>
+        <div class='font-normal text-[13px] leading-4 tracking-[0] flex flex-col gap-1 bg-white elevation p-2 rounded-lg'>
           <div class={styles.tooltipLabel}>
             <Minus style={{ color: active.color }}/>
             <span>{active.label}</span>
           </div>
-          <span class={styles.tooltipValue}>value: {active.value}</span>
-          <span class={styles.tooltipTime}>{formattedDate}</span>
+          <span class='font-semibold text-[13px] leading-4 tracking-[0]'>value: {active.value}</span>
+          <span class='font-normal text-[11px] leading-3 tracking-[0] mt-1;'>{formattedDate}</span>
         </div>
       )
     }

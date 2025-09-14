@@ -4,7 +4,7 @@ import { Api, SeqapiV1AggregationFuncDto, SeqapiV1OrderDto, type SeqapiV1Aggrega
 import { normalizeEvent, normalizeMessage } from '~/normalizers/events'
 import type { NoDataAg } from '~/composables/aggregations'
 import { normalizeAggregation, normalizeAggregationTS, type NormalizedAggregationTSType, type NormalizedAggregationType } from '~/normalizers/aggregations'
-import type { Order } from '~/types/messages'
+import type { Message, Order } from '~/types/messages'
 import { HandleErrorDecorator, ServiceHandleError } from '../base/error-handler'
 import { toast } from 'vue-sonner'
 import { normalizeBuckets } from '~/normalizers/bucket'
@@ -68,7 +68,7 @@ export class SeqUiServerService extends Api {
       return {
         total: 0,
         histogram: normalizeBuckets([]),
-        events: []
+        events: [] as Message[]
       }
     }
   }
@@ -109,7 +109,7 @@ export class SeqUiServerService extends Api {
     to?: string
     query?: string
     interval: string
-    intervalMs: number
+    intervalMs?: number
   }) {
     const { data } = await this.seqapiV1GetHistogram({
       query,
@@ -124,7 +124,6 @@ export class SeqUiServerService extends Api {
     query: string
     from: string
     to: string
-    index?: number
     aggregations?: SeqapiV1AggregationTsQueryDto[]
 		timeseries?: boolean
   }) {
@@ -171,9 +170,10 @@ export class SeqUiServerService extends Api {
 
     const body = {
       ...rest,
-      aggregations: aggs.map(({ field, quantiles, fn, groupBy }) => ({
+      aggregations: aggs.map(({ field, quantiles, fn, groupBy, interval }) => ({
         field,
         filter: '',
+        interval,
         quantiles: fn === SeqapiV1AggregationFuncDto.AfQuantile ? quantiles : undefined,
         agg_func: fn,
         group_by: groupBy,

@@ -1,7 +1,8 @@
 import { prop } from "@fe/prop-types";
 import { defineComponent } from "vue";
-import { HistogramChart, type HistogramChartProps } from '@ozon-o11y-ui/charts'
-import { formatDate, useDark } from "@vueuse/core";
+import { HistogramChart, type ChartRenderTooltip, type HistogramChartProps } from '@ozon-o11y-ui/charts'
+import { useDark } from "@vueuse/core";
+import { formatDate, secondsToMilliseconds } from 'date-fns'
 
 const props = {
   data: prop<HistogramChartProps['data']['dataset']>().required(),
@@ -21,6 +22,22 @@ export const Histogram = defineComponent({
 
     const isDark = useDark()
 
+    const renderTooltip: ChartRenderTooltip = (timestamp, points) => {
+      const active = points[0]
+      const formattedDate = formatDate(secondsToMilliseconds(timestamp), 'dd MMMM yyyy, HH:mm:ss')
+
+      if (!active) {
+        return null
+      }
+
+      return (
+        <div class='font-normal text-[13px] leading-4 tracking-[0] flex flex-col gap-1 bg-white elevation p-2 rounded-lg'>
+          <span class='font-semibold text-[13px] leading-4 tracking-[0]'>value: {active.value}</span>
+          <span class='font-normal text-[11px] leading-3 tracking-[0] mt-1;'>{formattedDate}</span>
+        </div>
+      )
+    }
+
     const renderHistogram = () => (
       <HistogramChart
         data={{
@@ -29,12 +46,7 @@ export const Histogram = defineComponent({
         timeParams={props.timeParams}
         height={300}
         colors={{ scaleLabel: isDark.value ? 'white' : 'black'}}
-        renderTooltip={(timestamp, points) => (
-          <div class={'flex flex-col background border bg-card text-card-foreground shadow p-2 rounded-l text-xs'}>
-            <span>{formatDate(new Date(timestamp * 1000), 'ddd DD MMM YYYY HH:mm:ss.SSS')}</span>
-            <span>{points[0].value}</span>
-          </div>
-        )}
+        renderTooltip={renderTooltip}
       />
     )
 
