@@ -7,6 +7,7 @@ COPY package*.json ./
 COPY ./vendors ./vendors
 RUN npm ci
 COPY . .
+RUN npm i --global vite
 RUN npm run build-only
 
 FROM nginx:alpine AS runner
