@@ -3,11 +3,9 @@ FROM node:20-alpine AS builder
 RUN apk add --no-cache git
 
 WORKDIR /app
-COPY package*.json ./
-COPY ./vendors ./vendors
-RUN npm ci
+COPY .env.default .env
 COPY . .
-RUN npm i --global vite
+RUN npm ci
 RUN npm run build-only
 
 FROM nginx:alpine AS runner
