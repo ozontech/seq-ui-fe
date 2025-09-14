@@ -8,7 +8,6 @@ import { computedWithControl } from '@vueuse/core'
 import { useTimezoneStore } from '~/stores/timezone'
 import { LS_COLUMNS_KEY, useConfigStore } from '~/stores/config'
 import { secondsToSingleUnitDuration, durationToSeconds, durationToISOString } from '~/helpers/duration'
-import type { SeqapiV1SearchResponseDto } from '~/api/generated/seq-ui-server'
 import type { Message, SearchWarning, GetRawIntervalOptions, Order } from '~/types/messages'
 import type { IntervalType } from '~/types/input'
 import type { Histogram } from '~/types/shared'
@@ -22,7 +21,6 @@ import { useSearchStore } from '~/stores/search'
 import { pickByIndex } from '~/helpers/search'
 import type { Duration } from '~/types/duration'
 
-const normalizeResponse = (data: Pick<SeqapiV1SearchResponseDto, 'events'>) => data.events?.map((event) => normalizeMessage(event)) || []
 type LastHistogram = {
 	query?: string
 	from?: string | number
@@ -234,10 +232,10 @@ export const useMessages = (id: number) => {
 				interval,
 			})
 			setHasMoreAndPartialResponseFromData(data)
-			const _messages = normalizeResponse(data)
+			const _messages = data.events
 			messages.value = _messages.length === limit.value ? _messages.slice(0, -1) : _messages
 			if (shouldFetchNewHistogram.value) {
-				histogram.value = normalizeBuckets(data.histogram, timezone.value, intervalMs)
+				histogram.value = data.histogram
 			}
 			if (isHistogramVisible.value) {
 				lastSearchFilters.value = ({
@@ -300,7 +298,7 @@ export const useMessages = (id: number) => {
 			limit: limit.value,
 			...searchInterval.value,
 		})
-		const _messages = normalizeResponse(data)
+		const _messages = data.events
 		messages.value.push(...(_messages.length === limit.value ? _messages.slice(0, -1) : _messages))
 		setHasMoreAndPartialResponseFromData(data)
 		isFetching.value = false
@@ -321,7 +319,7 @@ export const useMessages = (id: number) => {
 			...searchInterval.value,
 			from: extendedFrom,
 		})
-		const _messages = normalizeResponse(data)
+		const _messages = data.events
 		messages.value.push(...(_messages.length === limit.value ? _messages.slice(0, -1) : _messages))
 		setHasMoreAndPartialResponseFromData(data)
 		isFetching.value = false
@@ -342,7 +340,7 @@ export const useMessages = (id: number) => {
 				...searchInterval.value,
 				interval,
 			})
-			histogram.value = normalizeBuckets(data, timezone.value, intervalMs)
+			histogram.value = data
 			lastSearchFilters.value = {
 				query: query.value,
 				...toDates(),
