@@ -13,7 +13,7 @@ export const useTokensStore = defineStore('tokens', () => {
 	}
 
 	const setKeywords = (newKeywords: Keyword[]) => {
-		const sortedKeywords = [...newKeywords].sort((a, b) => a.name!.localeCompare(b.name!))
+		const sortedKeywords = newKeywords.filter((keyword) => keyword.type !== 'unknown').sort((a, b) => a.name!.localeCompare(b.name!))
 
 		keywords.value = sortedKeywords
 		textFieldsMap.value = sortedKeywords.reduce<TextFieldsMap>((acc, {

@@ -21,6 +21,7 @@ export const useDataGridHeader = <T extends RowData>() => {
     name: 'DataGridHeader',
     props: {
       tableApi: prop<Table<T>>().required(),
+      isLoading: prop<boolean>().optional(),
     },
     setup(props) {
       const resizingHeaderId = ref<string>()
@@ -145,7 +146,7 @@ export const useDataGridHeader = <T extends RowData>() => {
 
       return () => (
         <>
-          {getVisibleColumns().map((column) => (
+          {getVisibleColumns().map((column) => props.isLoading && column?.id === 'placeholder' ? null : (
             <col
               key={column ? column.id : 'placeholder'}
               style={{

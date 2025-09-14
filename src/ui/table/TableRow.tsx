@@ -16,8 +16,7 @@ export const TableRow = defineComponent({
       <tr
         ref={props.innerRef}
         data-slot="table-row"
-        // todo: add hover if props.whenClick exists
-        class={cn('hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors', props.class)}
+        class={cn('group data-[state=selected]:bg-muted border-b transition-colors', props.whenClick ? 'hover:cursor-pointer hover:bg-muted/50' : '', props.class)}
         onClick={props.whenClick}
       >
         {slots.default?.()}

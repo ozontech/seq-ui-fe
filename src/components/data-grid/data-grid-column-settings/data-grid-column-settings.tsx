@@ -17,7 +17,7 @@ export const useDataGridColumnSettings = <T extends RowData>() => {
 
       const columns = computed(() => {
         return props.headerContext.table.getAllColumns()
-          .filter(column => column.getCanHide())
+          .filter(column => column.getCanHide() && !['timestamp', 'message', 'actions'].includes(column.id))
           .filter(column => column.id.includes(search.value))
       })
 

@@ -1,6 +1,6 @@
-import { computed, defineComponent, onMounted, ref, type VNode } from "vue";
+import { computed, defineComponent, onMounted, ref, watch, type VNode } from "vue";
 import { ChevronDown, ChevronUp } from "lucide-vue-next";
-import type { ColumnDef, SortingState, Table } from "@tanstack/vue-table";
+import { ColumnVisibility, type ColumnDef, type SortingState, type Table } from "@tanstack/vue-table";
 import type { Message as Log } from "@/types/messages";
 import { prop } from "@fe/prop-types";
 import { format } from "date-fns-tz";
@@ -14,7 +14,6 @@ const props = {
   data: prop<Log[]>().required(),
   keywords: prop<string[]>().required(),
   timeDirection: prop<SortDirection>().optional(),
-  columns: prop<ColumnDef<Log>[]>().optional(),
   isLoading: prop<boolean>().optional(false),
   loadMore: prop<() => Promise<void>>().optional(),
   setTimeDirection: prop<(value: SortDirection) => void>().optional(),
@@ -38,6 +37,22 @@ export const LogTable = defineComponent({
     const messageWidth = ref(300)
     const DataGrid = useDataGrid<Log>()
     const DataGridColumnSettings = useDataGridColumnSettings<Log>()
+
+    const additionalColumns = computed(() => props.keywords.filter((keyword) => !['timestamp', 'message', 'actions'].includes(keyword)).map((column): ColumnDef<Log> => ({
+        accessorKey: column,
+        header: () => <div class='text-left'>{column}</div>,
+        enableSorting: false,
+        enableResizing: true,
+        cell: ({ column, row }) => {
+          const view = props.renderCell?.(column.id, row.original)
+          if (view) {
+            return view
+          }
+
+          return <>{row.getValue(column.id)}</>
+        }
+      }))
+    )
 
     const columns = computed((): ColumnDef<Log>[] => [
       {
@@ -88,20 +103,7 @@ export const LogTable = defineComponent({
           )
         },
       },
-      ...props.keywords.map((column): ColumnDef<Log> => ({
-        accessorKey: column,
-        header: () => <div class='text-left'>{column}</div>,
-        enableSorting: false,
-        enableResizing: true,
-        cell: ({ column, row }) => {
-          const view = props.renderCell?.(column.id, row.original)
-          if (view) {
-            return view
-          }
-
-          return <>{row.getValue(column.id)}</>
-        }
-      })),
+      ...additionalColumns.value,
       {
         accessorKey: 'actions',
         header: (headerContext) => (
@@ -120,10 +122,10 @@ export const LogTable = defineComponent({
           }
 
           return row.getIsExpanded()
-            ? <ChevronUp class="opacity-50"/>
-            : <ChevronDown class="opacity-50"/>
+            ? <ChevronUp class="transition-opacity group-hover:opacity-50 opacity-0"/>
+            : <ChevronDown class="transition-opacity group-hover:opacity-50 opacity-0"/>
         }
-      },
+      }
     ])
 
     // сортировка колонки timestamp должна быть активна всегда
@@ -141,7 +143,7 @@ export const LogTable = defineComponent({
       const restColumns = props.keywords.map(column => [column, false])
 
       return {
-        columnVisibility: Object.fromEntries([...defaultColumns, ...restColumns]),
+        columnVisibility: Object.fromEntries([...restColumns, ...defaultColumns]),
         sorting: [{ id: 'timestamp', desc: true }],
         columnPinning: { left: ['timestamp', 'message'], right: ['actions'] }
       }
@@ -170,7 +172,7 @@ export const LogTable = defineComponent({
     return () => (
       <div ref={wrapperRef}>
         <DataGrid
-          columns={props.columns ?? columns.value}
+          columns={columns.value}
           data={props.data}
           initialState={initialState.value}
           isLoading={props.isLoading}

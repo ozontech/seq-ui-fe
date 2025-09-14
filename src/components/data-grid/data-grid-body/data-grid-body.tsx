@@ -38,7 +38,7 @@ export const useDataGridBody = <T extends RowData>() => {
       })
 
       const renderSkeleton = () => {
-        return Array.from({ length: 20 }, (_, index) => (
+        return Array.from({ length: 50 }, (_, index) => (
           <TableRow key={`skeleton-${index}`}>
             {props.tableApi.getVisibleFlatColumns().map((column) => (
               <TableCell
@@ -135,10 +135,6 @@ export const useDataGridBody = <T extends RowData>() => {
       }
 
       const renderRows = (rows: Row<T>[]) => {
-        if (props.isLoading) {
-          return renderSkeleton()
-        }
-
         if (rows.length === 0) {
           return renderEmpty()
         }
@@ -149,6 +145,7 @@ export const useDataGridBody = <T extends RowData>() => {
       return () => (
         <TableBody>
           { renderRows(props.tableApi.getRowModel().rows) }
+          { props.isLoading ? renderSkeleton() : null}
           <TableRow innerRef={lastRowRef} />
         </TableBody>
       )

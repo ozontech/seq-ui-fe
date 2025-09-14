@@ -92,6 +92,7 @@ export const useDataGrid = <T extends RowData>() => {
         <Table class="table-fixed w-full border-separate border-spacing-0">
           <DataGridHeader
             tableApi={tableApi}
+            isLoading={props.isLoading}
           />
           <DataGridBody
             tableApi={tableApi}
