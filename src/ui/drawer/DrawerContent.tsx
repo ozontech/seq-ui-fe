@@ -2,7 +2,7 @@
 import type { DialogContentProps, FocusOutsideEvent, PointerDownOutsideEvent } from "reka-ui"
 import { defineComponent, type HTMLAttributes } from "vue"
 import { DrawerContent as DC, DrawerPortal } from "vaul-vue"
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 import { DrawerOverlay } from "./DrawerOverlay"
 import { prop } from "@fe/prop-types"
 

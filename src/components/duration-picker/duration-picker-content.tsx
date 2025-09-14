@@ -1,10 +1,10 @@
 import { prop } from "@fe/prop-types";
-import type { Duration } from "@/types/duration";
-import type { Timezone } from "@/types/timezone";
-import { Button } from "@/ui";
+import type { Duration } from "~/types/duration";
+import type { Timezone } from "~/types/timezone";
+import { Button } from "~/ui";
 import { computed, defineComponent, ref } from "vue";
 import { RelativeDuration } from "./relative-duration";
-import { getUnitFromDuration } from "@/helpers/duration";
+import { getUnitFromDuration } from "~/helpers/duration";
 import { AbsolutePicker } from "./absolute-duration";
 
 const props = {

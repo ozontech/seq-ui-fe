@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-import { timezoneNameToObject, timezonesToOptions } from '@/helpers/timezones'
+import { timezoneNameToObject, timezonesToOptions } from '~/helpers/timezones'
 
 const defaultTimezone = () => timezoneNameToObject(Intl?.DateTimeFormat?.().resolvedOptions().timeZone || 'Europe/Moscow')
 const LS_TIMEZONE_KEY = 'LOGGING_TIMEZONE'

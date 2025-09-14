@@ -1,14 +1,14 @@
 import { Link, Copy, ChevronDown } from "lucide-vue-next";
 import { computed, defineComponent } from "vue";
-import type { Log } from "@/types/messages";
+import type { Log } from "~/types/messages";
 import { prop } from "@fe/prop-types";
-import { Button, DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/ui";
-import router, { PAGES } from "@/router";
-import { copyObjectToClipboard, copyToClipboard } from "@/helpers/clipboard";
+import { Button, DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "~/ui";
+import router, { PAGES } from "~/router";
+import { copyObjectToClipboard, copyToClipboard } from "~/helpers/clipboard";
 import { toast } from "vue-sonner";
-import { denormalizeMessage } from "@/normalizers/events";
-import type { Option } from "@/types/input";
-import { openSurroundingMessages } from "@/helpers/open-surrounding-messages";
+import { denormalizeMessage } from "~/normalizers/events";
+import type { Option } from "~/types/input";
+import { openSurroundingMessages } from "~/helpers/open-surrounding-messages";
 
 const SURROUNDING_MESSAGES_OPTIONS: Option[] = [
 	{ label: '1 second', value: '1' },

@@ -1,8 +1,8 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
-import { getApi } from '@/api/client'
-import { useNuxtApp } from '@/composables/use-nuxt-app'
+import { getApi } from '~/api/client'
+import { useNuxtApp } from '~/composables/use-nuxt-app'
 
 export const useProfileStore = defineStore('profile', () => {
 	const app = useNuxtApp()

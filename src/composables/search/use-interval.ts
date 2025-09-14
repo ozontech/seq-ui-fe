@@ -1,10 +1,10 @@
 import { computed, ref } from 'vue'
 import { isDate, sub } from 'date-fns'
 
-import { defaultFrom } from '@/constants/search'
-import { durationToSeconds, getUnitFromDuration } from '@/helpers/duration'
-import type { Duration } from '@/types/duration'
-import type { IntervalType } from '@/types/input'
+import { defaultFrom } from '~/constants/search'
+import { durationToSeconds, getUnitFromDuration } from '~/helpers/duration'
+import type { Duration } from '~/types/duration'
+import type { IntervalType } from '~/types/input'
 
 const getType = (from?: Duration, to?: Duration): IntervalType => {
   if (from?.date && to?.date) {

@@ -4,7 +4,7 @@ import {
   type CalendarHeaderProps,
 } from "reka-ui"
 import { prop } from "@fe/prop-types";
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 
 const props = {
   as: prop<CalendarHeaderProps['as']>().optional(),

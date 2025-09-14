@@ -1,4 +1,4 @@
-import type { Duration } from '@/types/duration'
+import type { Duration } from '~/types/duration'
 import {
   getUnitFromDuration,
   SECONDS_IN_DAY,

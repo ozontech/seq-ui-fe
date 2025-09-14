@@ -1,4 +1,4 @@
-import type { Aggregation, SaveAggregationBody } from "@/types/aggregations"
+import type { Aggregation, SaveAggregationBody } from "~/types/aggregations"
 import { ref, type Ref } from "vue"
 import type { IntervalState } from "./use-interval"
 

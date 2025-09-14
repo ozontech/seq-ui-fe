@@ -1,5 +1,5 @@
 import { prop } from "@fe/prop-types";
-import type { Aggregation, SaveAggregationBody } from "@/types/aggregations";
+import type { Aggregation, SaveAggregationBody } from "~/types/aggregations";
 import {
   Button,
   Drawer,
@@ -8,7 +8,7 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "@/ui";
+} from "~/ui";
 import { computed, defineComponent, ref, watch } from "vue";
 import type { AggregationForm } from "./types";
 import {
@@ -17,7 +17,7 @@ import {
   isEqualAggregations,
   validateAggregationForm,
 } from "./helpers";
-import type { SeqapiV1AggregationFuncDto } from "@/api/generated/seq-ui-server";
+import type { SeqapiV1AggregationFuncDto } from "~/api/generated/seq-ui-server";
 import { AggregationDrawerContent } from "./aggregation-drawer-content";
 
 const props = {

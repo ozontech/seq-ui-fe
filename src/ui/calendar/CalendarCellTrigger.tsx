@@ -5,7 +5,7 @@ import {
 } from "reka-ui";
 import { defineComponent, type HTMLAttributes } from "vue";
 import { buttonVariants } from "../button";
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 
 const props = {
   month: prop<CalendarCellTriggerProps['month']>().required(),

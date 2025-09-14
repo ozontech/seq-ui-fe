@@ -1,15 +1,15 @@
 import { defineComponent } from 'vue'
 import { isEqual } from 'lodash'
 
-import { MessagesLayout } from '@/components/layout/messages'
+import { MessagesLayout } from '~/components/layout/messages'
 
-import { useTokensStore } from '@/stores/tokens'
-import { useProfileStore } from '@/stores/profile'
-import { useConfigStore } from '@/stores/config'
-import { useSearchStore } from '@/stores/search'
-import { pickByIndex } from '@/helpers/search'
+import { useTokensStore } from '~/stores/tokens'
+import { useProfileStore } from '~/stores/profile'
+import { useConfigStore } from '~/stores/config'
+import { useSearchStore } from '~/stores/search'
+import { pickByIndex } from '~/helpers/search'
 import { useAsyncState } from '@vueuse/core'
-import { useBlock } from '@/composables/block'
+import { useBlock } from '~/composables/block'
 
 export default defineComponent({
   name: 'SearchPage',

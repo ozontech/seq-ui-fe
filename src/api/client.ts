@@ -1,4 +1,4 @@
-import { SeqUiServerService } from "@/api/services/seq-ui-server"
+import { SeqUiServerService } from "~/api/services/seq-ui-server"
 import Axios from 'axios'
 
 export const getApi = () => {

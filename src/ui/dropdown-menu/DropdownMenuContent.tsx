@@ -7,7 +7,7 @@ import {
 } from 'reka-ui';
 import type { DropdownMenuContentProps, FocusOutsideEvent, PointerDownOutsideEvent } from 'reka-ui';
 import { defineComponent, type HTMLAttributes } from 'vue';
-import { cn } from '@/lib/utils'
+import { cn } from '~/lib/utils'
 
 const props = {
   align: prop<DropdownMenuContentProps['align']>().optional(),

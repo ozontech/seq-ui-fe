@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 import { reactiveOmit } from "@vueuse/core"
 import { TagsInputItem as RekaTagsInputItem, type TagsInputItemProps } from "reka-ui"
 import { prop } from "@fe/prop-types";

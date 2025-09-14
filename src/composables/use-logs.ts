@@ -3,18 +3,18 @@ import { computed, ref, watch } from "vue"
 import { equals } from "ramda"
 import { storeToRefs } from "pinia"
 
-import { getApi } from "@/api/client"
-import type { Message } from "@/types/messages"
-import { DEFAULT_LIMIT } from "@/constants/search"
-import type { SortDirection } from "@/types/shared"
-import { useTokensStore } from "@/stores/tokens"
-import { SeqapiV1AggregationFuncDto } from "@/api/generated/seq-ui-server"
+import { getApi } from "~/api/client"
+import type { Message } from "~/types/messages"
+import { DEFAULT_LIMIT } from "~/constants/search"
+import type { SortDirection } from "~/types/shared"
+import { useTokensStore } from "~/stores/tokens"
+import { SeqapiV1AggregationFuncDto } from "~/api/generated/seq-ui-server"
 
 import { useAggregations } from "./aggregations"
 import { useInterval } from "./use-interval"
 import { useHistogram } from "./use-histogram"
-import { useProfileStore } from "@/stores/profile"
-import { getClosestPrettyTime } from "@/helpers/closest-pretty-time"
+import { useProfileStore } from "~/stores/profile"
+import { getClosestPrettyTime } from "~/helpers/closest-pretty-time"
 
 export type LogsState = ReturnType<typeof useLogs>
 

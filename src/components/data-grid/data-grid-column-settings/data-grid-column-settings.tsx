@@ -1,6 +1,6 @@
 import { prop } from "@fe/prop-types";
-import { Checkbox, Label, Popover, PopoverContent } from "@/ui";
-import { Input } from "@/ui/input";
+import { Checkbox, Label, Popover, PopoverContent } from "~/ui";
+import { Input } from "~/ui/input";
 import type { HeaderContext, RowData } from "@tanstack/vue-table";
 import { Settings } from "lucide-vue-next";
 import { PopoverTrigger } from "reka-ui";

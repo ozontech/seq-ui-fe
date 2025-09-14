@@ -16,9 +16,9 @@ import {
 	RANDOM_OZI_COLORS,
 } from './chart-colors'
 
-import { LEVELS } from '@/constants/levels'
-import { getDecimalPercent } from '@/helpers/percents'
-import { formatNumber } from '@/helpers/format-number'
+import { LEVELS } from '~/constants/levels'
+import { getDecimalPercent } from '~/helpers/percents'
+import { formatNumber } from '~/helpers/format-number'
 
 
 const MIN_PERCENT = 1

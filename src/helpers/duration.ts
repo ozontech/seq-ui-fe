@@ -4,7 +4,7 @@ import type { LocationQueryValue } from 'vue-router'
 
 import { utcToZonedTime } from './date-fns-tz'
 import { pluralize } from './duration-locale'
-import type { Duration } from '@/types/duration'
+import type { Duration } from '~/types/duration'
 
 export const durationToSeconds = (duration: Duration | null | undefined) => {
 	if (!duration || duration.date) return 0

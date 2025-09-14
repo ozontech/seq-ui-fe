@@ -1,10 +1,10 @@
 import { prop } from "@fe/prop-types";
-import { Skeleton, TableBody, TableCell, TableRow } from "@/ui";
+import { Skeleton, TableBody, TableCell, TableRow } from "~/ui";
 import { FlexRender } from "@tanstack/vue-table";
 import type { Cell, Row, RowData, Table } from "@tanstack/vue-table";
 import { defineComponent, onBeforeUnmount, ref, type VNode, watch } from "vue";
 import { addPx } from "../utils";
-import { cn } from "@/lib/utils";
+import { cn } from "~/lib/utils";
 
 export const useDataGridBody = <T extends RowData>() => {
   const DataGridBody = defineComponent({

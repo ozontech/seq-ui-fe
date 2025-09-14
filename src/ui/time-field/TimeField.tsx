@@ -7,7 +7,7 @@ import {
   type TimeFieldInputProps,
 } from 'reka-ui'
 import { Time } from '@internationalized/date'
-import { cn } from '@/lib/utils'
+import { cn } from '~/lib/utils'
 import { prop } from '@fe/prop-types'
 import { Clock8 } from 'lucide-vue-next'
 

@@ -1,12 +1,12 @@
 import { prop } from "@fe/prop-types";
 import { computed, defineComponent, ref } from "vue";
-import type { Duration } from '@/types/duration'
-import type { Timezone } from "@/types/timezone";
-import { Button, Popover, PopoverContent, PopoverTrigger } from "@/ui";
+import type { Duration } from '~/types/duration'
+import type { Timezone } from "~/types/timezone";
+import { Button, Popover, PopoverContent, PopoverTrigger } from "~/ui";
 import { ChevronLeft, ChevronRight } from "lucide-vue-next";
-import { useTimezoneStore } from "@/stores/timezone";
+import { useTimezoneStore } from "~/stores/timezone";
 import { DurationPickerTrigger } from "./duration-picker-trigger";
-import { durationToAbsolute } from "@/helpers/duration";
+import { durationToAbsolute } from "~/helpers/duration";
 import { DurationPickerContent } from "./duration-picker-content";
 
 const props = {

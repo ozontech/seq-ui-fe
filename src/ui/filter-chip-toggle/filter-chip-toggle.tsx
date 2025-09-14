@@ -1,10 +1,10 @@
 import type { PrimitiveProps } from "reka-ui"
 import { defineComponent, type HTMLAttributes } from "vue"
 import { Primitive } from "reka-ui"
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 
 import { prop } from "@fe/prop-types"
-import { iconVariants, type IconVariants } from "@/ui/icon"
+import { iconVariants, type IconVariants } from "~/ui/icon"
 
 interface Props extends PrimitiveProps {
   variant?: IconVariants["variant"]

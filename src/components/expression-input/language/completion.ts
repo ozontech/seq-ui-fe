@@ -2,7 +2,7 @@ import type { Completion, CompletionContext, CompletionSource } from '@codemirro
 import { syntaxTree } from '@codemirror/language'
 import type { Ref } from 'vue'
 
-import { filterOptions, filterRecords } from '@/helpers/filter-options'
+import { filterOptions, filterRecords } from '~/helpers/filter-options'
 
 export type LoggingLanguageKeyword = {
   name: string

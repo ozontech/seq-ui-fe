@@ -1,10 +1,10 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { Notification } from '@/ui'
+import { Notification } from '~/ui'
 
-import { getApi } from '@/api/client'
-import type { SeqapiV1ExportRequestDto } from '@/api/generated/seq-ui-server'
-import { generateAndDownloadFile } from '@/helpers/download-file'
+import { getApi } from '~/api/client'
+import type { SeqapiV1ExportRequestDto } from '~/api/generated/seq-ui-server'
+import { generateAndDownloadFile } from '~/helpers/download-file'
 
 export const useDownloadStore = defineStore('download-file', () => {
 	const downloaded = ref(0)

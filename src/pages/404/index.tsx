@@ -1,8 +1,8 @@
 import { defineComponent } from 'vue'
 
 import styles from './index.module.css'
-import { Button } from '@/ui'
-import router from '@/router'
+import { Button } from '~/ui'
+import router from '~/router'
 
 export default defineComponent({
   name: 'Error404Page',

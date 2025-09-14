@@ -1,11 +1,11 @@
 import { prop } from "@fe/prop-types";
-import { TableHead, TableHeader, TableRow } from "@/ui";
+import { TableHead, TableHeader, TableRow } from "~/ui";
 import { _getVisibleLeafColumns, FlexRender } from "@tanstack/vue-table";
 import type { Column, Header, RowData, Table } from "@tanstack/vue-table";
 import { ArrowDown, ArrowUp, ArrowUpDown, type LucideProps } from "lucide-vue-next";
 import { defineComponent, ref, type FunctionalComponent } from "vue";
 import { addPx } from "../utils";
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 
 const sortIconsMap: Record<string, FunctionalComponent<LucideProps>> = {
   asc: ArrowDown,

@@ -1,13 +1,13 @@
 import { computed, defineComponent, onMounted, ref, watch, type VNode } from "vue";
 import { ChevronDown, ChevronUp } from "lucide-vue-next";
 import { ColumnVisibility, type ColumnDef, type SortingState, type Table } from "@tanstack/vue-table";
-import type { Message as Log } from "@/types/messages";
+import type { Message as Log } from "~/types/messages";
 import { prop } from "@fe/prop-types";
 import { format } from "date-fns-tz";
 
 import { useDataGrid, useDataGridColumnSettings } from "../data-grid";
-import type { SortDirection } from "@/types/shared";
-import { LogView } from "@/components/log-view";
+import type { SortDirection } from "~/types/shared";
+import { LogView } from "~/components/log-view";
 
 
 const props = {

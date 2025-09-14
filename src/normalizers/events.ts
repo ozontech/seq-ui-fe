@@ -1,7 +1,7 @@
-import { SeqapiV1ErrorCodeDto } from '@/api/generated/seq-ui-server'
-import type { SeqapiV1EventDto } from '@/api/generated/seq-ui-server'
-import type { FetchMessagesNormalizedData } from '@/api/services/seq-ui-server'
-import type { Message } from '@/types/messages'
+import { SeqapiV1ErrorCodeDto } from '~/api/generated/seq-ui-server'
+import type { SeqapiV1EventDto } from '~/api/generated/seq-ui-server'
+import type { FetchMessagesNormalizedData } from '~/api/services/seq-ui-server'
+import type { Message } from '~/types/messages'
 
 type Event = SeqapiV1EventDto
 

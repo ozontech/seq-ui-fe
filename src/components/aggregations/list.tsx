@@ -4,10 +4,10 @@ import { prop } from '@fe/prop-types'
 import { AggregationItem } from './aggregation'
 import styles from './list.module.css'
 
-import type { Aggregation, PickedAggregationKeys, SaveAggregationBody } from '@/types/aggregations'
-import type { EditToQueryOptions, Option } from '@/types/input'
+import type { Aggregation, PickedAggregationKeys, SaveAggregationBody } from '~/types/aggregations'
+import type { EditToQueryOptions, Option } from '~/types/input'
 import { omit } from 'ramda'
-import type { Duration } from '@/types/duration'
+import type { Duration } from '~/types/duration'
 
 export const AggregationList = defineComponent({
   name: 'AggregationList',

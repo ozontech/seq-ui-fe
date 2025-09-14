@@ -1,9 +1,9 @@
 import { ref, type Ref } from "vue"
 import type { IntervalState } from "./use-interval"
-import { getClosestPrettyTime } from "@/helpers/closest-pretty-time"
-import type { Histogram } from "@/types/shared"
+import { getClosestPrettyTime } from "~/helpers/closest-pretty-time"
+import type { Histogram } from "~/types/shared"
 import { useAsyncState } from "@vueuse/core"
-import { getApi } from "@/api/client"
+import { getApi } from "~/api/client"
 
 const defaultHistogram = (): Histogram => ({
   x: [],

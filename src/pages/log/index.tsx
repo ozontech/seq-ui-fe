@@ -3,11 +3,11 @@ import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 
 import { useAsyncState } from '@vueuse/core'
-import { LogView } from '@/components/log-view'
-import { useTokensStore } from '@/stores/tokens'
-import { useProfileStore } from '@/stores/profile'
-import { useBlock } from '@/composables/block'
-import router from '@/router'
+import { LogView } from '~/components/log-view'
+import { useTokensStore } from '~/stores/tokens'
+import { useProfileStore } from '~/stores/profile'
+import { useBlock } from '~/composables/block'
+import router from '~/router'
 
 export default defineComponent({
   name: 'LogPage',

@@ -1,9 +1,9 @@
 import { format } from 'date-fns-tz'
 
-import { utcToZonedTime } from '@/helpers/date-fns-tz'
-import type { ErrorgroupsV1BucketDto, SeqapiV1HistogramBucketDto } from '@/api/generated/seq-ui-server'
-import type { Histogram } from '@/types/shared'
-import { useTimezoneStore } from '@/stores/timezone'
+import { utcToZonedTime } from '~/helpers/date-fns-tz'
+import type { ErrorgroupsV1BucketDto, SeqapiV1HistogramBucketDto } from '~/api/generated/seq-ui-server'
+import type { Histogram } from '~/types/shared'
+import { useTimezoneStore } from '~/stores/timezone'
 
 export const formatHistogramDate = (date: Date, tz: string) => format(utcToZonedTime(date, tz), 'yyyy-MM-dd HH:mm:ss.SSS')
 

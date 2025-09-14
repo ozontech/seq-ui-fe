@@ -1,9 +1,9 @@
 import { equals, isNil, pick } from 'ramda'
 
 import type { AggregationForm } from './types'
-import type { Aggregation } from '@/types/aggregations'
-import { SeqapiV1AggregationFuncDto } from '@/api/generated/seq-ui-server'
-import { isEmptyDuration } from '@/helpers/duration'
+import type { Aggregation } from '~/types/aggregations'
+import { SeqapiV1AggregationFuncDto } from '~/api/generated/seq-ui-server'
+import { isEmptyDuration } from '~/helpers/duration'
 
 export const getAggregationForm = (aggregation?: Aggregation): AggregationForm => {
   const {

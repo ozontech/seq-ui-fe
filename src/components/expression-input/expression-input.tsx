@@ -1,9 +1,9 @@
 import { nextTick, defineComponent, computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { prop } from '@fe/prop-types'
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 
-import { useTokensStore } from '@/stores/tokens'
+import { useTokensStore } from '~/stores/tokens'
 import { useCodemirror } from './use-codemirror'
 import type { LoggingLanguageKeyword } from './language/completion'
 import { SuggestionsHint } from './suggestions-hint'

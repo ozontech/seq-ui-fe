@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import { ComboboxAnchor as RekaComboboxAnchor } from "reka-ui"
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 import { reactiveOmit } from "@vueuse/core"
 import { popperAnchorProps } from "../common-props";
 

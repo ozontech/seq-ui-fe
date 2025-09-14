@@ -1,5 +1,5 @@
 import { defineComponent, type HTMLAttributes } from "vue";
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 import { NumberFieldInput as RekaNumberFieldInput, type NumberFieldInputProps } from "reka-ui"
 import { prop } from "@fe/prop-types";
 

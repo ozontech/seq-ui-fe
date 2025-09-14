@@ -1,7 +1,7 @@
 import { addSeconds, subSeconds } from 'date-fns'
 
-import type { Message } from '@/types/messages'
-import router from '@/router'
+import type { Message } from '~/types/messages'
+import router from '~/router'
 
 export const openSurroundingMessages = (
 	message: Message,

@@ -1,4 +1,4 @@
-import { prop } from "@/lib/prop-types/dist"
+import { prop } from "~/lib/prop-types/dist"
 import type { TooltipProviderProps } from "reka-ui"
 import { TooltipProvider as TP } from "reka-ui"
 import { defineComponent } from "vue"

@@ -2,11 +2,11 @@ import { defineComponent } from "vue";
 import { Play } from "lucide-vue-next";
 import { prop } from "@fe/prop-types";
 
-import { Button } from "@/ui";
-import type { SeqapiV1AggregationFuncDto } from "@/api/generated/seq-ui-server";
-import type { AggregationsState } from "@/composables/aggregations";
-import type { HistogramState } from "@/composables/use-histogram";
-import type { IntervalState } from "@/composables/use-interval";
+import { Button } from "~/ui";
+import type { SeqapiV1AggregationFuncDto } from "~/api/generated/seq-ui-server";
+import type { AggregationsState } from "~/composables/aggregations";
+import type { HistogramState } from "~/composables/use-histogram";
+import type { IntervalState } from "~/composables/use-interval";
 
 import { ExpressionInput } from "../expression-input";
 import { DurationPicker } from "../duration-picker";

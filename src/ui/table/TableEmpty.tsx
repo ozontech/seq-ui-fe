@@ -1,6 +1,6 @@
 import { defineComponent, type HTMLAttributes } from "vue"
 import { reactiveOmit } from "@vueuse/core"
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 import { TableCell } from "./TableCell"
 import { TableRow } from "./TableRow"
 import { prop } from "@fe/prop-types"

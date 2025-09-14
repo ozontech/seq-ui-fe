@@ -2,14 +2,14 @@ import { ref, computed, toRaw, type Ref } from 'vue'
 import { chunk } from 'lodash'
 import { is } from 'ramda'
 
-import type { Aggregation, GroupedAggregations, PickedAggregationKeys, SaveAggregationBody } from '@/types/aggregations'
-import { getApi } from '@/api/client'
-import { addRequestDelay } from '@/helpers/add-request-delay'
-import { SeqapiV1AggregationFuncDto } from '@/api/generated/seq-ui-server'
-import { durationToISOString, durationToSeconds, isEmptyDuration } from '@/helpers/duration'
-import type { IntervalState } from '@/composables/use-interval'
-import { getClosestPrettyTime } from '@/helpers/closest-pretty-time'
-import { LINEAR_CHART_POINTS_LIMIT } from '@/constants/search'
+import type { Aggregation, GroupedAggregations, PickedAggregationKeys, SaveAggregationBody } from '~/types/aggregations'
+import { getApi } from '~/api/client'
+import { addRequestDelay } from '~/helpers/add-request-delay'
+import { SeqapiV1AggregationFuncDto } from '~/api/generated/seq-ui-server'
+import { durationToISOString, durationToSeconds, isEmptyDuration } from '~/helpers/duration'
+import type { IntervalState } from '~/composables/use-interval'
+import { getClosestPrettyTime } from '~/helpers/closest-pretty-time'
+import { LINEAR_CHART_POINTS_LIMIT } from '~/constants/search'
 
 const defaultFn = () => SeqapiV1AggregationFuncDto.AfCount
 export type NoDataAg = Omit<Aggregation, 'data'>

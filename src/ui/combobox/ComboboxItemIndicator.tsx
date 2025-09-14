@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import { ComboboxItemIndicator as RekaComboboxItemIndicator } from "reka-ui"
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 import { reactiveOmit } from "@vueuse/core"
 import { primitiveProps } from "../common-props";
 

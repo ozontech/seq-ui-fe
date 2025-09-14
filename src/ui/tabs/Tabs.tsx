@@ -1,7 +1,7 @@
 import { prop } from "@fe/prop-types";
 import { TabsRoot, type TabsRootProps } from "reka-ui";
 import { defineComponent, type HTMLAttributes } from "vue";
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 
 const props = {
   value: prop<string>().required(),

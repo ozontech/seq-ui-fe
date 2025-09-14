@@ -1,5 +1,5 @@
 import type { VNode } from 'vue'
-import type { Log } from '@/types/messages'
+import type { Log } from '~/types/messages'
 
 import { renderLogSizeDecorator } from './size'
 

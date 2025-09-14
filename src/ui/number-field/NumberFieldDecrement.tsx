@@ -5,7 +5,7 @@ import {
 } from "reka-ui";
 import { defineComponent, type HTMLAttributes } from "vue";
 import { Minus } from "lucide-vue-next"
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 
 const props = {
   disabled: prop<NumberFieldDecrementProps['disabled']>().optional(),

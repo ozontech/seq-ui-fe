@@ -4,7 +4,7 @@ import { useBlock } from './block'
 import { useCounter } from './use-counter'
 import { useRouteQuery } from './route-query'
 
-import { indexQueryKeys } from '@/helpers/search'
+import { indexQueryKeys } from '~/helpers/search'
 
 export type Block = ReturnType<typeof useBlock>
 

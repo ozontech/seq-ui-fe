@@ -1,6 +1,6 @@
 import { prop } from "@fe/prop-types";
-import type { Duration } from "@/types/duration";
-import type { Timezone } from "@/types/timezone";
+import type { Duration } from "~/types/duration";
+import type { Timezone } from "~/types/timezone";
 import { computed, defineComponent } from "vue";
 import { DateTimePicker } from "./date-time-picker";
 

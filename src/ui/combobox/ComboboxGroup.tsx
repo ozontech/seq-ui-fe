@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import { ComboboxLabel, ComboboxGroup as RekaComboboxGroup } from "reka-ui"
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 import { reactiveOmit } from "@vueuse/core"
 import { prop } from "@fe/prop-types";
 import { primitiveProps } from "../common-props";

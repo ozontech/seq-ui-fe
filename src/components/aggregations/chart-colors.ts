@@ -18,7 +18,7 @@ import {
 	COLOR_PRO_600,
 	COLOR_WREATH_GREEN,
 	COLOR_YELLOW_STAR,
-} from '@/constants/colors'
+} from '~/constants/colors'
 
 export {
 	COLOR_ACTION_400 as PIE_CHART_COLOR_INFO,
@@ -28,7 +28,7 @@ export {
 	COLOR_SUCCESS_400 as PIE_CHART_COLOR_SUCCESS,
 	COLOR_NEUTRAL_400 as PIE_CHART_COLOR_NEUTRAL,
 	COLOR_PRO_500 as PIE_CHART_COLOR_OTHER,
-} from '@/constants/colors'
+} from '~/constants/colors'
 
 export const RANDOM_OZI_COLORS = [
 	COLOR_NEUTRAL_600,

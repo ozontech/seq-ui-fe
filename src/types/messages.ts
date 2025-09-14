@@ -1,4 +1,4 @@
-import type { Duration } from '@/types/duration'
+import type { Duration } from '~/types/duration'
 import type { IntervalType } from './input'
 
 export type Order = 'asc' | 'desc'

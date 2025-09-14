@@ -1,6 +1,6 @@
 import { formatInTimeZone } from 'date-fns-tz'
 
-import type { Timezone } from '@/types/timezone'
+import type { Timezone } from '~/types/timezone'
 
 export const timezoneToText = ({ name, timezone }: Timezone) => `${name} (${timezone})`
 

@@ -2,9 +2,9 @@ import { Copy } from "lucide-vue-next";
 import { is } from "ramda";
 import { computed, defineComponent } from "vue";
 import { toast } from "vue-sonner";
-import type { Log } from "@/types/messages";
+import type { Log } from "~/types/messages";
 import { prop } from "@fe/prop-types";
-import { copyToClipboard } from "@/helpers/clipboard";
+import { copyToClipboard } from "~/helpers/clipboard";
 
 import styles from './log-field.module.css'
 import { decorators } from './decorators'

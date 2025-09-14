@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { subSeconds } from 'date-fns'
 
 import { durationToSeconds } from './duration'
-import type { Duration } from '@/types/duration'
+import type { Duration } from '~/types/duration'
 
 export const useLastRelative = () => {
 	const lastRelative = ref<Duration | null>(null)

@@ -3,7 +3,7 @@ import { mergeRight } from 'ramda'
 import { useDebounceFn } from '@vueuse/core'
 import type { LocationQueryRaw } from 'vue-router'
 import type { Optional } from 'utility-types'
-import router from '@/router'
+import router from '~/router'
 
 export type LocationQuery = Optional<LocationQueryRaw>
 

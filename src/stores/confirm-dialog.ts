@@ -1,4 +1,4 @@
-import type { ButtonProps } from '@/ui'
+import type { ButtonProps } from '~/ui'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { VNode } from 'vue'

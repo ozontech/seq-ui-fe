@@ -1,15 +1,15 @@
 import { prop } from "@fe/prop-types";
 import { computed, defineComponent } from "vue";
 
-import type { AggregationsState } from "@/composables/aggregations";
-import type { HistogramState } from "@/composables/use-histogram";
-import type { IntervalState } from "@/composables/use-interval";
+import type { AggregationsState } from "~/composables/aggregations";
+import type { HistogramState } from "~/composables/use-histogram";
+import type { IntervalState } from "~/composables/use-interval";
 
 import { Widget } from "../widget";
 import { Histogram } from "../histogram";
-import { getClosestPrettyTime } from "@/helpers/closest-pretty-time";
-import { AggregationList } from "@/components/aggregations";
-import { useTokensStore } from "@/stores/tokens";
+import { getClosestPrettyTime } from "~/helpers/closest-pretty-time";
+import { AggregationList } from "~/components/aggregations";
+import { useTokensStore } from "~/stores/tokens";
 import { storeToRefs } from "pinia";
 
 const props = {

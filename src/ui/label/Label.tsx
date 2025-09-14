@@ -2,7 +2,7 @@ import { defineComponent } from "vue";
 import type { LabelProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 import { Label as RekaLabel } from "reka-ui"
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 import { prop } from "@fe/prop-types";
 
 const props = {

@@ -2,7 +2,7 @@ import type { DrawerTitleProps } from "vaul-vue"
 import { defineComponent, type HTMLAttributes } from "vue"
 import { reactiveOmit } from "@vueuse/core"
 import { DrawerTitle as DT } from "vaul-vue"
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 import { prop } from "@fe/prop-types"
 
 const props = {

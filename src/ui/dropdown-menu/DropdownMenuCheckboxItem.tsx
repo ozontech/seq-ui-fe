@@ -4,7 +4,7 @@ import {
   DropdownMenuItemIndicator,
 } from 'reka-ui';
 import { defineComponent, type HTMLAttributes } from 'vue';
-import { cn } from '@/lib/utils';
+import { cn } from '~/lib/utils';
 import { Check } from 'lucide-vue-next';
 
 const props = {

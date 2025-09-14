@@ -8,7 +8,7 @@ import {
   type FocusOutsideEvent,
 } from 'reka-ui'
 import { reactiveOmit } from '@vueuse/core'
-import { cn } from '@/lib/utils'
+import { cn } from '~/lib/utils'
 import { prop } from '@fe/prop-types'
 
 const props = {

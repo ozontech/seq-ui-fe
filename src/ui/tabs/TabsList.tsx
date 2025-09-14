@@ -1,7 +1,7 @@
 import { prop } from "@fe/prop-types";
 import { TabsList as RekaTabsList, type TabsListProps } from "reka-ui";
 import { defineComponent, type HTMLAttributes } from "vue";
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 
 const props = {
   as: prop<TabsListProps['as']>().optional(),

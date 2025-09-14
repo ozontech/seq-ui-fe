@@ -1,6 +1,6 @@
 import { prop } from "@fe/prop-types";
 import { defineComponent, type HTMLAttributes } from "vue";
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 import { NumberFieldRoot, type NumberFieldRootProps } from "reka-ui"
 
 const props = {

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-import { getApi } from '@/api/client'
+import { getApi } from '~/api/client'
 
 export const LS_TOURS_KEY = 'LOGGING_TOURS'
 export const LS_COLUMNS_KEY = 'LOGGING_COLUMNS'

@@ -2,7 +2,7 @@ import type { DrawerDescriptionProps } from "vaul-vue"
 import { defineComponent, type HTMLAttributes } from "vue"
 import { reactiveOmit } from "@vueuse/core"
 import { DrawerDescription as DD } from "vaul-vue"
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 import { prop } from "@fe/prop-types"
 
 const props = {

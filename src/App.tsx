@@ -1,5 +1,5 @@
-import { DefaultLayout } from "@/layouts/default";
-import { SonnerToaster } from "@/ui/sonner";
+import { DefaultLayout } from "~/layouts/default";
+import { SonnerToaster } from "~/ui/sonner";
 import { defineComponent } from "vue";
 import { RouterView } from "vue-router";
 

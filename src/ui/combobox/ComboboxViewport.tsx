@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import { ComboboxViewport as RekaComboboxViewport, type ComboboxViewportProps } from "reka-ui"
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 import { prop } from "@fe/prop-types";
 import { reactiveOmit } from "@vueuse/core";
 import { primitiveProps } from "../common-props";

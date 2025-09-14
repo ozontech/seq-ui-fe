@@ -1,4 +1,4 @@
-import type { UserprofileV1FavoriteQueryDto } from '@/api/generated/seq-ui-server'
+import type { UserprofileV1FavoriteQueryDto } from '~/api/generated/seq-ui-server'
 
 export const normalizeFavoriteQuery = ({ id, name, query, relativeFrom }: UserprofileV1FavoriteQueryDto) => ({
 	id: id || '',

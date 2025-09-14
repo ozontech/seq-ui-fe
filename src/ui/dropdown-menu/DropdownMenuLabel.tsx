@@ -1,7 +1,7 @@
 import { prop } from "@fe/prop-types";
 import { defineComponent, type HTMLAttributes } from "vue";
 import { DropdownMenuLabel as DropdownLabel } from "reka-ui"
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 
 const props = {
   inset: prop<boolean>().optional(),

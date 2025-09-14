@@ -5,7 +5,7 @@ import {
   DropdownMenuTrigger,
   Input,
   Notification,
-} from '@/ui'
+} from '~/ui'
 import { prop } from '@fe/prop-types'
 import type { ChartPublicApi, ExtendedSeries } from '@ozon-o11y-ui/charts'
 import type { Cell, Column, ColumnDef } from '@tanstack/table-core'
@@ -14,13 +14,13 @@ import { debounce } from 'lodash'
 
 import styles from './chart.module.css'
 
-import type { AggregationTSData } from '@/normalizers/aggregations'
-import type { LinearChartType } from '@/constants/aggregation'
-import { copyToClipboard } from '@/helpers/clipboard'
-import { formatNumber } from '@/helpers/format-number'
-import { getDatasetStatistic } from '@/helpers/get-dataset-statistic'
+import type { AggregationTSData } from '~/normalizers/aggregations'
+import type { LinearChartType } from '~/constants/aggregation'
+import { copyToClipboard } from '~/helpers/clipboard'
+import { formatNumber } from '~/helpers/format-number'
+import { getDatasetStatistic } from '~/helpers/get-dataset-statistic'
 import { Copy, Funnel, Minus } from 'lucide-vue-next'
-import { useDataGrid } from '@/components/data-grid'
+import { useDataGrid } from '~/components/data-grid'
 
 type DataItem = AggregationTSData[0]
 type ColumnDataItem = ColumnDef<DataItem>

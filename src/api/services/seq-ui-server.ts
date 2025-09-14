@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import axios, { AxiosError } from 'axios'
 import { Api, SeqapiV1AggregationFuncDto, SeqapiV1OrderDto, type SeqapiV1AggregationQueryDto, type SeqapiV1AggregationTsQueryDto } from '../generated/seq-ui-server'
-import { normalizeEvent, normalizeMessage } from '@/normalizers/events'
-import type { NoDataAg } from '@/composables/aggregations'
-import { normalizeAggregation, normalizeAggregationTS, type NormalizedAggregationTSType, type NormalizedAggregationType } from '@/normalizers/aggregations'
-import type { Order } from '@/types/messages'
+import { normalizeEvent, normalizeMessage } from '~/normalizers/events'
+import type { NoDataAg } from '~/composables/aggregations'
+import { normalizeAggregation, normalizeAggregationTS, type NormalizedAggregationTSType, type NormalizedAggregationType } from '~/normalizers/aggregations'
+import type { Order } from '~/types/messages'
 import { HandleErrorDecorator, ServiceHandleError } from '../base/error-handler'
 import { toast } from 'vue-sonner'
-import { normalizeBuckets } from '@/normalizers/bucket'
+import { normalizeBuckets } from '~/normalizers/bucket'
 
 export type FetchMessagesNormalizedData = Awaited<ReturnType<InstanceType<typeof SeqUiServerService>['fetchMessages']>>
 

@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import { default as SearchPage } from '@/pages'
-import { default as LogPage } from '@/pages/log'
-import { default as NotFoundPage } from '@/pages/404'
+import { default as SearchPage } from '~/pages'
+import { default as LogPage } from '~/pages/log'
+import { default as NotFoundPage } from '~/pages/404'
 
 export const PAGES = {
   Search: 'Search',

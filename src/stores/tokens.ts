@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-import type { Keyword, TextFieldsMap } from '@/types/tokens'
-import { getApi } from '@/api/client'
+import type { Keyword, TextFieldsMap } from '~/types/tokens'
+import { getApi } from '~/api/client'
 
 export const useTokensStore = defineStore('tokens', () => {
 	const keywords = ref<Keyword[]>([])

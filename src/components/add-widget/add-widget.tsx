@@ -8,10 +8,10 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/ui";
-import type { SeqapiV1AggregationFuncDto } from "@/api/generated/seq-ui-server";
-import type { AggregationsState } from "@/composables/aggregations";
-import type { HistogramState } from "@/composables/use-histogram";
+} from "~/ui";
+import type { SeqapiV1AggregationFuncDto } from "~/api/generated/seq-ui-server";
+import type { AggregationsState } from "~/composables/aggregations";
+import type { HistogramState } from "~/composables/use-histogram";
 
 import { AggregationDrawer } from "../aggregation-drawer";
 

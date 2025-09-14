@@ -5,7 +5,7 @@ import {
   type SelectTriggerProps,
 } from "reka-ui";
 import { defineComponent, type HTMLAttributes } from "vue";
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 import { ChevronDown } from "lucide-vue-next";
 
 const props = {

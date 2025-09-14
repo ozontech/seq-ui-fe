@@ -1,9 +1,9 @@
-import type { Duration } from '@/types/duration'
+import type { Duration } from '~/types/duration'
 import type { Aggregation } from './aggregations'
 import type { Order } from './messages'
 
-import type { DashboardsV1GetAllRequestDto, DashboardsV1SearchRequestDto } from '@/api/generated/seq-ui-server'
-import type { useBlocks } from '@/composables/blocks'
+import type { DashboardsV1GetAllRequestDto, DashboardsV1SearchRequestDto } from '~/api/generated/seq-ui-server'
+import type { useBlocks } from '~/composables/blocks'
 
 export type Blocks = ReturnType<typeof useBlocks>
 

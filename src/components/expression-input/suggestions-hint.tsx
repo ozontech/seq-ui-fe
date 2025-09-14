@@ -1,7 +1,7 @@
 import { defineComponent, ref } from 'vue'
 import { prop } from '@fe/prop-types'
 import { Lightbulb } from 'lucide-vue-next'
-import { Popover, PopoverContent, PopoverTrigger } from '@/ui'
+import { Popover, PopoverContent, PopoverTrigger } from '~/ui'
 
 const suggestionsArray = [
   {

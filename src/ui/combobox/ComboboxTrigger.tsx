@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 import { ComboboxTrigger as RekaComboboxTrigger, type ComboboxTriggerProps } from "reka-ui"
 import { prop } from "@fe/prop-types";
 import { reactiveOmit } from "@vueuse/core";

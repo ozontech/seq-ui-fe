@@ -3,7 +3,7 @@ import type { CheckboxRootProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 import { Check } from "lucide-vue-next"
 import { CheckboxIndicator, CheckboxRoot } from "reka-ui"
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 import { prop } from "@fe/prop-types";
 
 

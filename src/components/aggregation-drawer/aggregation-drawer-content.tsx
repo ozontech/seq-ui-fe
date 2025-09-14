@@ -1,10 +1,10 @@
 import { prop } from "@fe/prop-types";
 import { computed, defineComponent, type VNode } from "vue";
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 
 import type { AggregationForm, AggregationFormErrors } from './types'
-import type { AggregationShowType } from "@/types/aggregations";
-import { SeqapiV1AggregationFuncDto } from "@/api/generated/seq-ui-server";
+import type { AggregationShowType } from "~/types/aggregations";
+import { SeqapiV1AggregationFuncDto } from "~/api/generated/seq-ui-server";
 import {
   Combobox,
   ComboboxAnchor,
@@ -29,8 +29,8 @@ import {
   TagsInputItem,
   TagsInputItemDelete,
   TagsInputItemText,
-} from "@/ui";
-import { AGGREGATION_TYPES } from "@/constants/aggregation";
+} from "~/ui";
+import { AGGREGATION_TYPES } from "~/constants/aggregation";
 import { Check, ChevronsUpDown } from "lucide-vue-next";
 import { validateQuantile } from "./helpers";
 

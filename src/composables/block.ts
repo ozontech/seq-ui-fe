@@ -6,7 +6,7 @@ import { useMessages } from './messages'
 import { useCounter } from './use-counter'
 import { useRouteQuery } from './route-query'
 
-import { useSearchStore } from '@/stores/search'
+import { useSearchStore } from '~/stores/search'
 
 export const useBlock = (_id = 0, opened = false) => {
   const route = useRoute()

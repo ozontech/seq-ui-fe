@@ -1,7 +1,7 @@
 import { prop } from "@fe/prop-types";
 import { CalendarNext, type CalendarNextProps } from "reka-ui";
 import { defineComponent, type HTMLAttributes } from "vue";
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 import { buttonVariants } from "../button";
 import { ChevronRight } from "lucide-vue-next";
 

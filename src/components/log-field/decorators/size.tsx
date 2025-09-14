@@ -1,8 +1,8 @@
 
 import { computed, defineComponent } from "vue";
-import type { Log } from "@/types/messages";
+import type { Log } from "~/types/messages";
 import { prop } from "@fe/prop-types";
-import { formatNumber } from "@/helpers/format-number";
+import { formatNumber } from "~/helpers/format-number";
 import { is } from "ramda";
 
 export const LogSizeDecorator = defineComponent({

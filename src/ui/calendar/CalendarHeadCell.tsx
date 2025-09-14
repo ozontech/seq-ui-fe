@@ -1,5 +1,5 @@
 import { prop } from "@fe/prop-types";
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 import {
   CalendarHeadCell as RekaCalendarHeadCell,
   type CalendarHeadCellProps,

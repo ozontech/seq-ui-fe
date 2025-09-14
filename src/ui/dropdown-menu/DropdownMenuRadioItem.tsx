@@ -5,7 +5,7 @@ import {
   DropdownMenuItemIndicator,
   DropdownMenuRadioItem as RekaDropdownMenuRadioItem,
 } from "reka-ui"
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 import { prop } from "@fe/prop-types";
 
 const props = {

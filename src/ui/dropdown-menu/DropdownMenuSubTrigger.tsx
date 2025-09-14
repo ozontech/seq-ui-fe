@@ -3,7 +3,7 @@ import { DropdownMenuSubTrigger as RekaDropdownMenuSubTrigger } from "reka-ui";
 import { defineComponent, type HTMLAttributes } from "vue";
 import type { DropdownMenuSubTriggerProps } from "reka-ui"
 import { ChevronRight } from "lucide-vue-next"
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 
 const props = {
   as: prop<DropdownMenuSubTriggerProps['as']>().optional(),

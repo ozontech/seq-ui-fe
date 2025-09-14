@@ -10,7 +10,7 @@ import type {
 import {
   DropdownMenuSubContent as RekaDropdownMenuSubContent,
 } from "reka-ui"
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 
 const props = {
   alignFlip: prop<DropdownMenuSubContentProps['alignFlip']>().optional(),

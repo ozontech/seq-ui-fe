@@ -2,7 +2,7 @@ import { prop } from '@fe/prop-types';
 import { DropdownMenuItem as DropdownItem } from 'reka-ui';
 import type { DropdownMenuItemProps } from 'reka-ui'
 import { defineComponent, type HTMLAttributes } from 'vue';
-import { cn } from '@/lib/utils';
+import { cn } from '~/lib/utils';
 
 const props = {
   disabled: prop<DropdownMenuItemProps['disabled']>().optional(),

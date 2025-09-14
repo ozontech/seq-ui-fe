@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
-import type { Log } from "@/types/messages";
+import type { Log } from "~/types/messages";
 import { prop } from "@fe/prop-types";
-import { LogField } from "@/components/log-field";
+import { LogField } from "~/components/log-field";
 import { keys } from "ramda";
 
 export const LogViewFields = defineComponent({

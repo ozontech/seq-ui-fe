@@ -1,8 +1,8 @@
 import type { TooltipContentProps } from "reka-ui"
 import { defineComponent } from "vue"
 import { TooltipArrow as TA, TooltipContent as TC, TooltipPortal as TP } from "reka-ui"
-import { cn } from "@/lib/utils"
-import { prop } from "@/lib/prop-types/dist"
+import { cn } from "~/lib/utils"
+import { prop } from "~/lib/prop-types/dist"
 import { primitiveProps } from "../common-props"
 
 const props = {

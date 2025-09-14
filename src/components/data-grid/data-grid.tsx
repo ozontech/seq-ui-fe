@@ -21,8 +21,8 @@ import type {
 import { defineComponent, ref, toRef, watch, type VNode } from "vue";
 import { useDataGridHeader } from "./data-grid-header";
 import { useDataGridBody } from "./data-grid-body";
-import { valueUpdater } from "@/ui/table/utils";
-import { Table } from "@/ui";
+import { valueUpdater } from "~/ui/table/utils";
+import { Table } from "~/ui";
 
 // TODO: add virtualization
 // https://tanstack.com/table/latest/docs/framework/react/examples/virtualized-infinite-scrolling

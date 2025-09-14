@@ -1,5 +1,5 @@
 import { defineComponent, type HTMLAttributes, type InputHTMLAttributes } from "vue"
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 import { prop } from "@fe/prop-types"
 
 const props = {

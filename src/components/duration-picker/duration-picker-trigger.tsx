@@ -1,8 +1,8 @@
-import { durationToMessage } from "@/helpers/duration-locale";
+import { durationToMessage } from "~/helpers/duration-locale";
 import { prop } from "@fe/prop-types";
-import type { Duration } from "@/types/duration";
-import type { Timezone } from "@/types/timezone";
-import { Button } from "@/ui";
+import type { Duration } from "~/types/duration";
+import type { Timezone } from "~/types/timezone";
+import { Button } from "~/ui";
 import { formatInTimeZone } from "date-fns-tz";
 import { defineComponent } from "vue";
 

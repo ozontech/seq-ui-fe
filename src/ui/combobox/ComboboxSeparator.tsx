@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import { ComboboxSeparator as RekaComboboxSeparator } from "reka-ui"
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 import { reactiveOmit } from "@vueuse/core";
 import { primitiveProps } from "../common-props";
 

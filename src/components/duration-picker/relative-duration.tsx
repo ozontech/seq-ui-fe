@@ -1,7 +1,7 @@
-import { getUnitFromDuration } from "@/helpers/duration";
-import { durationToMessage } from "@/helpers/duration-locale";
+import { getUnitFromDuration } from "~/helpers/duration";
+import { durationToMessage } from "~/helpers/duration-locale";
 import { prop } from "@fe/prop-types";
-import type { Duration } from "@/types/duration";
+import type { Duration } from "~/types/duration";
 import {
   FilterChipToggle,
   NumberField,
@@ -14,11 +14,11 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/ui";
+} from "~/ui";
 import { equals } from "ramda";
 import type { AcceptableValue } from "reka-ui";
 import { computed, defineComponent } from "vue";
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 
 export const relativeOptions: Duration[] = [
   { minutes: 15 },

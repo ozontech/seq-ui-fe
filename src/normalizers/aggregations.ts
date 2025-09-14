@@ -1,7 +1,7 @@
 import { toRaw } from 'vue'
 
-import type { SeqapiV1AggregationBucketDto, SeqapiV1AggregationSeriesDto } from '@/api/generated/seq-ui-server'
-import { isEmptyDuration } from '@/helpers/duration'
+import type { SeqapiV1AggregationBucketDto, SeqapiV1AggregationSeriesDto } from '~/api/generated/seq-ui-server'
+import { isEmptyDuration } from '~/helpers/duration'
 import { values } from 'ramda'
 
 export type NormalizedAggregationType = {

@@ -4,7 +4,7 @@ import {
   type CalendarHeadingProps,
 } from "reka-ui";
 import { defineComponent, type HTMLAttributes } from "vue";
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 
 const props = {
   as: prop<CalendarHeadingProps['as']>().optional(),

@@ -1,4 +1,4 @@
-import type { Duration } from "@/types/duration"
+import type { Duration } from "~/types/duration"
 
 export const DEFAULT_LIMIT = 100
 export const DEFAULT_DASHBOARDS_LIMIT = 10

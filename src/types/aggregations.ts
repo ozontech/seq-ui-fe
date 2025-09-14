@@ -1,6 +1,6 @@
-import type { Duration } from '@/types/duration'
-import type { SeqapiV1AggregationFuncDto } from '@/api/generated/seq-ui-server'
-import type { AggregationData, AggregationTSData } from '@/normalizers/aggregations'
+import type { Duration } from '~/types/duration'
+import type { SeqapiV1AggregationFuncDto } from '~/api/generated/seq-ui-server'
+import type { AggregationData, AggregationTSData } from '~/normalizers/aggregations'
 
 export type FunctionKeys = 'count' | 'max'
 export type RangeType = 'relative' | 'absolute'

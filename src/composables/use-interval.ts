@@ -1,10 +1,10 @@
-import type { Duration } from "@/types/duration";
+import type { Duration } from "~/types/duration";
 import { useRouteQuery } from '@vueuse/router'
-import { defaultFrom } from "@/constants/search";
+import { defaultFrom } from "~/constants/search";
 import { isValid, parseISO, sub } from "date-fns";
 import { isDate } from "lodash";
-import { durationToSeconds } from "@/helpers/duration";
-import { secondsToDuration } from "@/helpers/duration-locale";
+import { durationToSeconds } from "~/helpers/duration";
+import { secondsToDuration } from "~/helpers/duration-locale";
 
 const valueToQuery = (arg?: Duration) => {
   if (!arg) {

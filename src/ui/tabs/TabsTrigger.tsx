@@ -1,7 +1,7 @@
 import { prop } from "@fe/prop-types";
 import { TabsTrigger as RekaTabsTrigger, type TabsTriggerProps } from "reka-ui";
 import { defineComponent, type HTMLAttributes } from "vue";
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 
 const props = {
   value: prop<TabsTriggerProps['value']>().required(),

@@ -8,7 +8,7 @@ import {
   type AcceptableValue,
 } from "reka-ui"
 import { Check } from "lucide-vue-next"
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 
 const props = {
   value: prop<SelectItemProps['value']>().required(),

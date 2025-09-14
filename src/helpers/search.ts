@@ -1,5 +1,5 @@
 import { useRoute } from 'vue-router'
-import { QUERY_KEYS } from '@/constants/search'
+import { QUERY_KEYS } from '~/constants/search'
 
 export const addToQuery = (query: string, key: string, value: string) => {
 	const existsRegexpString = `${key}:\\s*"?${value}"?`

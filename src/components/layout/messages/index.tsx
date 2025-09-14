@@ -1,8 +1,8 @@
 import { defineComponent } from 'vue'
-import { LogTable } from '@/components/log-table'
-import { LogControls } from '@/components/log-controls'
-import { useLogs } from '@/composables/use-logs'
-import { LogWidgets } from '@/components/log-widgets/log-widgets'
+import { LogTable } from '~/components/log-table'
+import { LogControls } from '~/components/log-controls'
+import { useLogs } from '~/composables/use-logs'
+import { LogWidgets } from '~/components/log-widgets/log-widgets'
 
 export const MessagesLayout = defineComponent({
   name: 'MessagesLayout',

@@ -7,12 +7,12 @@ import { formatDate, secondsToMilliseconds } from 'date-fns'
 import styles from './chart.module.css'
 import { AggregationLinearChartLegend } from './linear-chart-legend'
 
-import type { AggregationTSData } from '@/normalizers/aggregations'
-import { LINEAR_CHART_POINTS_LIMIT } from '@/constants/search'
-import type { LinearChartType } from '@/constants/aggregation'
-import type { Duration } from '@/types/duration'
-import { durationToISOString } from '@/helpers/duration'
-import { getClosestPrettyTime } from '@/helpers/closest-pretty-time'
+import type { AggregationTSData } from '~/normalizers/aggregations'
+import { LINEAR_CHART_POINTS_LIMIT } from '~/constants/search'
+import type { LinearChartType } from '~/constants/aggregation'
+import type { Duration } from '~/types/duration'
+import { durationToISOString } from '~/helpers/duration'
+import { getClosestPrettyTime } from '~/helpers/closest-pretty-time'
 import { Minus } from 'lucide-vue-next'
 
 const props = {

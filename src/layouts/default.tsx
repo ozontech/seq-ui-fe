@@ -1,7 +1,7 @@
 import { MoonIcon, SunMedium } from 'lucide-vue-next'
 import { defineComponent } from "vue"
 import { useDark, useToggle } from "@vueuse/core"
-import { Button } from '@/ui'
+import { Button } from '~/ui'
 import { RouterLink } from 'vue-router'
 
 export const DefaultLayout = defineComponent({

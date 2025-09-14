@@ -1,9 +1,9 @@
 import { prop } from "@fe/prop-types";
-import { Button, Calendar, Popover, PopoverContent, PopoverTrigger, TimeField } from "@/ui";
+import { Button, Calendar, Popover, PopoverContent, PopoverTrigger, TimeField } from "~/ui";
 import { formatInTimeZone } from "date-fns-tz";
 import { CalendarIcon } from "lucide-vue-next";
 import { computed, defineComponent, ref } from "vue";
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 
 const props = {
   value: prop<Date>().optional(),

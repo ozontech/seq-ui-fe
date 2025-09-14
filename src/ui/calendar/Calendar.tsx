@@ -4,7 +4,7 @@ import {
   type CalendarRootProps,
   type DateValue,
 } from "reka-ui"
-import { cn } from "@/lib/utils"
+import { cn } from "~/lib/utils"
 import { CalendarCell } from "./CalendarCell";
 import { CalendarCellTrigger } from './CalendarCellTrigger'
 import { prop } from "@fe/prop-types";
